@@ -1,10 +1,10 @@
 const { User } = require("../../../server/db/models/User");
-const { db, initDB } = require("../../../server/db/index");
+const { initDB } = require("../../../server/db/index");
 
 let user;
 
 beforeEach(async () => {
-  initDB();
+  await initDB();
   user = await User.create({
     email: "blabal@yahoo.com",
     password: "bcrypt",
