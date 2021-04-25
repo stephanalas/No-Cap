@@ -14,7 +14,7 @@ beforeEach(async () => {
   });
 });
 
-afterEach(() => {
+afterAll(() => {
   db.close();
 });
 
