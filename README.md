@@ -1,6 +1,8 @@
 ### Process before editing code
+- In github roadmap, write "(YOUR NAME HERE) is working on this" and sendout slack in group (potentially asking for partner)"
 - git pull request from master
 - git checkout -b ("new_branch_name_here")
+
 ### Process before trying to submit any code:
 - npm run lint (on filename with full path from root directory you are editing)
 - npm run format
@@ -23,3 +25,12 @@
 - confirm merge
 - After merge is complete, check Travis again to see if code passes tests
 - delete checked out branch
+
+### If there is a merge conflict
+- Assign Reviewer and Assignee as normal
+- Go over code to make sure it passes and looks okay
+- With Reviewer, go over merge conflict and resolve conflict
+- Merge
+- Wait for Travis to complete again with reviewer
+- After passing, merge pull request and confirm merge
+- delete that branch
