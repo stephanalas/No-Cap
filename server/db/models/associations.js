@@ -28,5 +28,7 @@ User.hasMany(Order);
 Review.belongsTo(User);
 
 module.exports = {
-  models: { Order, OrderLineItem, User, Product, Review },
+  models: {
+    Order, OrderLineItem, User, Product, Review,
+  },
 };
