@@ -1,7 +1,7 @@
-const { db } = require("../index");
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize');
+const { db } = require('../index');
 
-const User = db.define("user", {
+const User = db.define('user', {
   email: {
     type: DataTypes.STRING,
     unique: true,
