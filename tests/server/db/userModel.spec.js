@@ -3,7 +3,7 @@ const { db, initDB } = require("../../../server/db/index");
 
 let user;
 
-beforeEach(async () => {
+beforeAll(async () => {
   await initDB();
   user = await User.create({
     email: "blabal@yahoo.com",
