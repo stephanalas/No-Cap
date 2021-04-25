@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: 'off' */
+
 const Sequelize = require('sequelize');
 const { db } = require('../index');
 
