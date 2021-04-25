@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:dev": "npm run test -- --watch",
     "lint": "./node_modules/.bin/eslint client server tests",
     "format:client": "prettier-eslint --write --single-quote --semi \"$PWD/client/**/*.js\"",
