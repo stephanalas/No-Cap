@@ -1,6 +1,5 @@
-const Sequelize = require('sequelize');
 const { db } = require('../index');
 
-const Cart=db.define('cart')
+const Cart = db.define('cart');
 
-module.exports=Cart
+module.exports = Cart;
