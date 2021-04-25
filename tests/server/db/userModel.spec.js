@@ -1,5 +1,5 @@
 const { User } = require("../../../server/db/models/User");
-const { initDB } = require("../../../server/db/index");
+const { db, initDB } = require("../../../server/db/index");
 
 let user;
 
@@ -12,6 +12,10 @@ beforeEach(async () => {
     lastName: "Doe",
     address: "1234 Cherry St",
   });
+});
+
+afterEach(() => {
+  db.close();
 });
 
 it("User model exists", () => {
