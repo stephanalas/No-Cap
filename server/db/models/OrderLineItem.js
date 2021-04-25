@@ -3,7 +3,7 @@ const { db } = require('../index');
 
 const OrderLineItem = db.define('order_line_item', {
   unitPrice: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.DECIMAL(10,2),
     allowNull: false,
   },
   quantity: {
@@ -11,11 +11,11 @@ const OrderLineItem = db.define('order_line_item', {
     allowNull: false,
   },
   totalPrice: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.DECIMAL(10,2),
   },
 });
 
-OrderLineItem.addHook('beforeCreate', (order, options)=>{
+OrderLineItem.addHook('beforeCreate', (order)=>{
     const total = order.unitPrice * order.quantity;
     order.totalPrice = total;
 });
