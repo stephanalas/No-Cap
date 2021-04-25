@@ -63,14 +63,7 @@ const Product = db.define('product', {
 Product.addHook('beforeCreate', async (hat) => {
   try {
     if (!hat.photo) {
-      const url = path.join(
-        __dirname,
-        '..',
-        '..',
-        '..',
-        'public',
-        'defaulthat.jpeg'
-      );
+      const url = path.join(__dirname, '..', '..', '..', 'public', 'defaulthat.jpeg');
       hat.photo = url;
     }
   } catch (err) {
