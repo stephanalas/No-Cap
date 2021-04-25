@@ -1,4 +1,4 @@
-const a = 4;
+const a = 4; 
+const b = 7;
 
 
-// I'm also working here
