@@ -1,7 +1,9 @@
 /* eslint no-undef: 'off' */
 /* eslint no-console: 'off' */
-const Review = require('../../../server/db/models/Review');
-const { db, initDB } = require('../../../server/db/index');
+const {
+  models: { Review },
+} = require("../../../server/db/models/associations");
+const { db, initDB } = require("../../../server/db/index");
 
 let review;
 
@@ -13,7 +15,7 @@ afterAll(() => {
   db.close();
 });
 
-it('Review model exists', async () => {
+it("Review model exists", async () => {
   review = await Review.create({
     stars: 4,
   });
