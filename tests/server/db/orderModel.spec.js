@@ -9,6 +9,10 @@ beforeAll(async()=>{
     await initDB();
 });
 
+afterAll(async()=>{
+    db.close();
+});
+
 it('Order Model exists', async ()=>{
     try {
         const order = await Order.create({
