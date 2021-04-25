@@ -1,3 +1,7 @@
+
+/* eslint no-console: 'off' */
+/* eslint comma-dangle: 'off' */
+
 const Sequelize = require("sequelize");
 
 const db = new Sequelize(
