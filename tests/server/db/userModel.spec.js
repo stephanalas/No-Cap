@@ -4,7 +4,7 @@ const { db, initDB } = require("../../../server/db/index");
 let user;
 
 beforeEach(async () => {
-  await initDB();
+  initDB();
   user = await User.create({
     email: "blabal@yahoo.com",
     password: "bcrypt",
@@ -14,13 +14,8 @@ beforeEach(async () => {
   });
 });
 
-it("User model exists", async () => {
-  try {
-    expect(user.email).toEqual("blabal@yahoo.com");
-  } catch (error) {
-    console.log("there was an error in User Model test");
-    console.error(error);
-  }
+it("User model exists", () => {
+  expect(user.email).toEqual("blabal@yahoo.com");
 });
 it("User email is valid email", async () => {
   try {
