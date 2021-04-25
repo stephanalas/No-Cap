@@ -11,3 +11,4 @@ const initDB = () => {
 };
 
 module.exports = { db, initDB };
+
