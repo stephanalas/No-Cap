@@ -54,4 +54,4 @@ User.addHook('afterCreate', async (user) => {
   await user.save();
 });
 
-module.exports = { User };
+module.exports = User;

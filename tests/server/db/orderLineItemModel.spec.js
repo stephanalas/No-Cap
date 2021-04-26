@@ -15,9 +15,9 @@ afterAll(async () => {
 });
 
 it('Order Line Item model exists', async () => {
-  const line_item = await OrderLineItem.create({
+  const lineItem = await OrderLineItem.create({
     unitPrice: 40.5,
     quantity: 3,
   });
-  expect(line_item.totalPrice).toBe('121.50');
+  expect(lineItem.totalPrice).toBe('121.50');
 });
