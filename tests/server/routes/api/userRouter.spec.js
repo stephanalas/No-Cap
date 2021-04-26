@@ -10,9 +10,10 @@ const {
   models: { User, Order },
 } = require('../../../../server/db/models/associations');
 
-describe('Order Routes', () => {
+describe('User Routes', () => {
   beforeAll(async () => {
     await User.sync({ force: true });
+    await Order.sync({ force: true });
     await User.bulkCreate([
       {
         firstName: 'Joe',
