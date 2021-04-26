@@ -71,4 +71,4 @@ Product.addHook('beforeCreate', async (hat) => {
   }
 });
 
-module.exports = { Product };
+module.exports = Product;
