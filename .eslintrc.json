@@ -13,6 +13,8 @@
   },
   "plugins": ["react"],
   "rules": {
-    "linebreak-style": ["off"]
+    "linebreak-style": ["off"],
+      "react/prefer-stateless-function": "off"
+  
   }
 }
