@@ -36,4 +36,7 @@ describe('Product Routes', () => {
     expect(hat[0].name).toBe('Black Fedora');
     done();
   });
+  afterAll(async () => {
+    await db.close();
+  });
 });
