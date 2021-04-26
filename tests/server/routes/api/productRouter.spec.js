@@ -11,8 +11,8 @@ const {
 } = require('../../../../server/db/models/associations');
 
 describe('Product Routes', () => {
-  beforeEach(async () => {
-    await db.sync({ force: true });
+  beforeAll(async () => {
+    await Product.sync({ force: true });
     await Product.bulkCreate([
       {
         name: 'Black Fedora',
