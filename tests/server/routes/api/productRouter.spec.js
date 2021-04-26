@@ -36,6 +36,12 @@ describe('Product Routes', () => {
     expect(hat[0].name).toBe('Black Fedora');
     done();
   });
+  test('GET /api/products/:id find', async (done) => {
+    let response = await request.get('/api/products/2');
+    response = JSON.parse(response.text);
+    expect(response.name).toBe('Red Beanie');
+    done();
+  });
   afterAll(async () => {
     await db.close();
   });
