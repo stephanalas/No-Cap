@@ -15,4 +15,18 @@ productRouter.get('/', async (req, res, next) => {
   }
 });
 
+productRouter.get('/:id', async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const product = await Product.findOne({
+      where: {
+        id: productId,
+      },
+    });
+    res.status(200).send(product);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = productRouter;
