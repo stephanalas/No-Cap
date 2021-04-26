@@ -7,13 +7,14 @@ const request = supertest(app);
 const { db } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order },
+  models: { User, Order, Cart },
 } = require('../../../../server/db/models/associations');
 
 describe('User Routes', () => {
   beforeAll(async () => {
-    await User.sync({ force: true });
     await Order.sync({ force: true });
+    await Cart.sync({ force: true });
+    await User.sync({ force: true });
     await User.bulkCreate([
       {
         firstName: 'Joe',
@@ -28,6 +29,7 @@ describe('User Routes', () => {
         password: 'password',
       },
     ]);
+
     await Order.bulkCreate([{ userId: 2 }, { userId: 2 }]);
   });
   test('GET /api/user length', async (done) => {
@@ -48,7 +50,7 @@ describe('User Routes', () => {
     expect(response.firstName).toBe('Connie');
     done();
   });
-  test('GET /api/users/:id find', async (done) => {
+  test('GET /api/users/:id order find', async (done) => {
     let response = await request.get('/api/users/2');
     response = JSON.parse(response.text);
     expect(response.orders.length).toBe(2);
