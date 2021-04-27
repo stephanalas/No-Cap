@@ -42,6 +42,17 @@ describe('Product Routes', () => {
     expect(response.name).toBe('Red Beanie');
     done();
   });
+
+  test('POST /api/products creates a new product', async (done) => {
+    const productData = {
+      name: 'Conductor hat',
+      price: 29.99,
+    };
+    let response = await await request.post('/api/products').send(productData);
+    response = JSON.parse(response.text);
+    expect(response.name).toBe(productData.name);
+    done();
+  });
   afterAll(async () => {
     await db.close();
   });

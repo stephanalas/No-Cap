@@ -15,6 +15,17 @@ productRouter.get('/', async (req, res, next) => {
   }
 });
 
+productRouter.post('/', async (req, res, next) => {
+  try {
+    const { name, price } = req.body;
+    if (!req.body) res.sendStatus(400);
+    const newProduct = await Product.create({ name, price });
+    res.status(201).send(newProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
 productRouter.get('/:id', async (req, res, next) => {
   try {
     const productId = req.params.id;
