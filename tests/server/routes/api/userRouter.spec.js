@@ -32,7 +32,7 @@ describe('User Routes', () => {
 
     await Order.bulkCreate([{ userId: 2 }, { userId: 2 }]);
   });
-  test('GET /api/user length', async (done) => {
+  test('GET /api/users length', async (done) => {
     const response = await request.get('/api/users');
     expect(JSON.parse(response.text).length).toBe(2);
     done();
@@ -54,6 +54,19 @@ describe('User Routes', () => {
     let response = await request.get('/api/users/2');
     response = JSON.parse(response.text);
     expect(response.orders.length).toBe(2);
+    done();
+  });
+
+  test('POST /api/users creates a new user', async (done) => {
+    const userData = {
+      firstName: 'Michael',
+      lastName: 'Jordan',
+      email: 'mjordan@hotmail.com',
+      password: 'password',
+    };
+    let response = await await request.post('/api/users').send(userData);
+    response = JSON.parse(response.text);
+    expect(response.email).toBe(userData.email);
     done();
   });
   afterAll(async () => {
