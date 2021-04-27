@@ -1,0 +1,11 @@
+body {
+  background-color: #282c34;
+  color: white;
+  padding: 1rem;
+  font-family: Arial;
+  text-align: center;
+}
+
+#welcome-message {
+  color: white;
+}

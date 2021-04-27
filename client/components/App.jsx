@@ -1,14 +1,15 @@
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 import NavBar from './NavBar';
+import './styles/App.css';
 
 class App extends React.Component {
   render() {
     return (
       <HashRouter>
-        <Route path="/">
+        <Route path='/'>
           <NavBar />
-          <div style={{ display: 'flex', justifyContent: 'center' }}>Welcome To Box Jumpers</div>
+          <div id='welcome-message'>Welcome To Box Jumpers</div>
         </Route>
       </HashRouter>
     );
