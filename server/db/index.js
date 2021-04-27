@@ -3,12 +3,9 @@
 
 const Sequelize = require('sequelize');
 
-const db = new Sequelize(
-  process.env.DATABASE_URL || 'postgres://localhost/box_jumpers_db',
-  {
-    logging: false,
-  }
-);
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/box_jumpers_db', {
+  logging: false,
+});
 
 const initDB = async () => {
   try {

@@ -7,13 +7,12 @@ const request = supertest(app);
 const { db } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order, Cart },
+  models: { User, Order },
 } = require('../../../../server/db/models/associations');
 
 describe('User Routes', () => {
   beforeAll(async () => {
     // await Order.sync({ force: true });
-    // await Cart.sync({ force: true });
     // await User.sync({ force: true });
     await db.sync({ force: true });
     await User.bulkCreate([
