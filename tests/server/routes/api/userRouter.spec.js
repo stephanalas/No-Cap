@@ -13,7 +13,6 @@ const {
 describe('User Routes', () => {
   beforeAll(async () => {
     // await Order.sync({ force: true });
-    // await Cart.sync({ force: true });
     // await User.sync({ force: true });
     await db.sync({ force: true });
     await User.bulkCreate([
