@@ -1,3 +1,5 @@
+/* eslint jsx-quotes: "off" */
+
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 import NavBar from './NavBar';
