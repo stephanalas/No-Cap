@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint jsx-quotes: "off" */
 
 import React from 'react';
