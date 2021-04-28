@@ -40,4 +40,33 @@ productRouter.get('/:id', async (req, res, next) => {
   }
 });
 
+productRouter.put('/:id', async (req, res, next) => {
+  if (!req.body) {
+    res.sendStatus(400);
+  }
+  // will need to update this with appropriate fields
+  const { name, price } = req.body;
+
+  try {
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
+    const updatedProduct = await product.update({ name, price });
+
+    res.status(200).send(updatedProduct);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+productRouter.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
+    await product.destroy();
+    res.sendStatus(204);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = productRouter;
