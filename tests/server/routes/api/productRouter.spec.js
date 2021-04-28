@@ -48,9 +48,42 @@ describe('Product Routes', () => {
       name: 'Conductor hat',
       price: 29.99,
     };
-    let response = await await request.post('/api/products').send(productData);
+    let response = await request.post('/api/products').send(productData);
     response = JSON.parse(response.text);
     expect(response.name).toBe(productData.name);
+    done();
+  });
+
+  test('PUT /api/products/:id updates a product with id', async (done) => {
+    // requires post route to work
+    const productData = {
+      name: 'Lit Hat',
+      price: '999.9',
+    };
+    let response = await request.post('/api/products').send(productData);
+    const product = JSON.parse(response.text);
+    const newName = 'Lame Hat';
+    const newPrice = '0.01';
+    productData.name = newName;
+    productData.price = newPrice;
+
+    response = await request.put(`/api/products/${product.id}`).send(productData);
+    response = JSON.parse(response.text);
+    const { name, price } = response;
+    expect(name).toBe(productData.name);
+    expect(price).toBe(productData.price);
+    done();
+  });
+
+  test('DELETE /api/products/:id deletes a product', async (done) => {
+    const productData = {
+      name: 'A short-lived hat',
+      price: 9999.99,
+    };
+    let response = await request.post('/api/products').send(productData);
+    product = JSON.parse(response.text);
+    response = (await request.delete(`/api/products/${product.id}`)).status;
+    expect(response).toEqual(204);
     done();
   });
   afterAll(async () => {

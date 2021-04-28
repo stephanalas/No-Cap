@@ -64,11 +64,49 @@ describe('User Routes', () => {
       email: 'mjordan@hotmail.com',
       password: 'password',
     };
-    let response = await await request.post('/api/users').send(userData);
+    let response = await request.post('/api/users').send(userData);
     response = JSON.parse(response.text);
     expect(response.email).toBe(userData.email);
     done();
   });
+
+  test('PUT /api/users/:id updates a user with id', async (done) => {
+    // requires post route to work
+    const userData = {
+      firstName: 'Michael',
+      lastName: 'Jordan',
+      email: 'mjordan2@hotmail.com',
+      password: 'password',
+    };
+    let response = await request.post('/api/users').send(userData);
+    const user = JSON.parse(response.text);
+    const newFirstName = 'Mike';
+    const newEmail = 'mjordan3@hotmail.com';
+    userData.firstName = newFirstName;
+    userData.email = newEmail;
+
+    response = await request.put(`/api/users/${user.id}`).send(userData);
+    response = JSON.parse(response.text);
+    const { firstName, email } = response;
+    expect(firstName).toBe(userData.firstName);
+    expect(email).toBe(userData.email);
+    done();
+  });
+
+  test('DELETE /api/users/:id deletes a user', async (done) => {
+    const userData = {
+      firstName: 'Michael',
+      lastName: 'Jordan',
+      email: 'mjordan4@hotmail.com',
+      password: 'password',
+    };
+    let response = await request.post('/api/users').send(userData);
+    user = JSON.parse(response.text);
+    response = (await request.delete(`/api/users/${user.id}`)).status;
+    expect(response).toEqual(204);
+    done();
+  });
+
   afterAll(async () => {
     await db.close();
   });
