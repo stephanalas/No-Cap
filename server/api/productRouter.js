@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  models: { Product },
+  models: { Product, Review },
 } = require('../db/models/associations');
 
 const productRouter = express.Router();
@@ -30,6 +30,7 @@ productRouter.get('/:id', async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await Product.findOne({
+      include: [Review],
       where: {
         id: productId,
       },
