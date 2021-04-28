@@ -6,7 +6,7 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: '',
+      email: '',
       password: '',
     };
     this.onChange = this.onChange.bind(this);
@@ -17,19 +17,16 @@ class Login extends React.Component {
   }
   onSubmit(ev) {
     ev.preventDefault();
-    const { username, password } = this.state;
-    this.props.signIn({
-      username,
-      password,
-    });
+    const { email, password } = this.state;
+    // thunk needed for submit
   }
   render() {
     const { onChange, onSubmit } = this;
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     return (
       <form onSubmit={onSubmit}>
-        <label htmlFor="username">Username</label>
-        <input value={username} onChange={onChange} name="username" />
+        <label htmlFor="email">Email</label>
+        <input value={email} onChange={onChange} name="username" />
         <label htmlFor="password">Password</label>
         <input value={password} onChange={onChange} name="password" />
         <button>Login In</button>
