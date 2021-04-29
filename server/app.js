@@ -1,24 +1,33 @@
 /* eslint no-console: 'off' */
 
+// allows use to use the environment variables in the .env file
 require('dotenv').config();
+
 const express = require('express');
 // morgan for development only!!
 const morgan = require('morgan');
+
 const path = require('path');
 const router = require('./api/router');
+
 const session = require('express-session');
 const passport = require('passport');
-const pgSession = require('connect-pg-simple')(session);
 
 const app = express();
+
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const { db } = require('./db');
+
+// basic setup for passport
 require('./config/passport');
+
 app.use(
   session({
-    store: new pgSession({
-      conString: process.env.DB_STRING || 'postgres://localhost/box_jumpers_db',
+    store: new SequelizeStore({
+      db,
     }),
     saveUninitialized: true,
-    secret: process.env.SECRET || 'SHH',
+    secret: 'secretKey',
     resave: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,

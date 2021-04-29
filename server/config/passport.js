@@ -5,8 +5,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const { db } = require('../db/');
-
+// local strategy
 passport.use(
   new LocalStrategy((email, password, done) => {
     User.findOne({ email: email }, function (err, user) {
@@ -24,6 +23,7 @@ passport.use(
   })
 );
 
+// these are necessary, I'm not sure why though
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });

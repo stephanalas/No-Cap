@@ -67,7 +67,9 @@ describe('Product Routes', () => {
     productData.name = newName;
     productData.price = newPrice;
 
-    response = await request.put(`/api/products/${product.id}`).send(productData);
+    response = await request
+      .put(`/api/products/${product.id}`)
+      .send(productData);
     response = JSON.parse(response.text);
     const { name, price } = response;
     expect(name).toBe(productData.name);

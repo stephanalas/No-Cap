@@ -5,7 +5,6 @@ const {
 } = require('../db/models/associations');
 
 const passport = require('passport'),
-  LocalStrategy = require('passport-local').Strategy;
 
 const loginRouter = express.Router();
 
@@ -19,6 +18,8 @@ loginRouter.post(
 
   async (req, res, next) => {
     try {
+      // More needed
+
     } catch (error) {
       next(error);
     }
