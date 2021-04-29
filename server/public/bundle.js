@@ -210,7 +210,6 @@ class Login extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 const mapDispatchToProps = dispatch => {
   return {
     createUser: user => {
-      console.log(user);
       dispatch(Object(_store_storeComponents_createUser__WEBPACK_IMPORTED_MODULE_2__["createUser"])(user));
     }
   };
@@ -385,7 +384,6 @@ __webpack_require__.r(__webpack_exports__);
 
 const userReducer = (state = [], action) => {
   if (action.type === _storeComponents_createUser__WEBPACK_IMPORTED_MODULE_0__["CREATE_USER"]) {
-    console.log(action);
     return [...state, action.user];
   }
 
@@ -444,11 +442,13 @@ const _createUser = user => ({
 
 
 const createUser = user => async dispatch => {
-  const {
-    data
-  } = axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/login', user); //might need await here. putting in await gets rid of action console log though
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/login', user); //might need await here. putting in await gets rid of action console log though
 
-  dispatch(_createUser(data));
+    dispatch(_createUser(response.data));
+  } catch (err) {
+    console.log(err.response);
+  }
 };
 
 

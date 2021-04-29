@@ -44,7 +44,6 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     createUser: (user) => {
-      console.log(user)
       dispatch(createUser(user));
     }
   }

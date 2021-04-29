@@ -28,11 +28,15 @@ passport.use(
 
 const loginRouter = express.Router();
 
-app.post('/login', passport.authenticate('local'), (req, res) => {
+loginRouter.post('/', passport.authenticate('local'), (req, res) => {
   // If this function gets called, authentication was successful.
   // `req.user` contains the authenticated user.
   console.log('hello world');
   res.redirect(`/${req.user.email}`);
 });
+
+// loginRouter.get('/', async (req, res) => {
+//   await res.send('hello world');
+// });
 
 module.exports = loginRouter;
