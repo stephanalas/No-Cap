@@ -13,9 +13,9 @@ registerRouter.post('/', async (req, res, next) => {
     const hashPassword = await bcrypt.hash(password, 10);
     await User.create({ firstName, lastName, email, password: hashPassword });
 
-    res.redirect('/login');
+    res.redirect('/api/login');
   } catch (error) {
-    res.redirect('/register');
+    // res.redirect('/register');
     next(error);
   }
 });
