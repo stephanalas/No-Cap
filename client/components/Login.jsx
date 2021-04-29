@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint jsx-quotes: "off" */
-
 import React from 'react';
+import {connect} from 'react-redux'
+import createUser from '../store/storeComponents/createUser'
+
 
 class Login extends React.Component {
   constructor() {
@@ -21,7 +23,11 @@ class Login extends React.Component {
   onSubmit(ev) {
     ev.preventDefault();
     const { email, password } = this.state;
+    console.log('something is getting clicked')
+    console.log(email,password)
+    console.log(this.props.createUser)
     // thunk needed for submit
+    this.props.createUser(this.state) 
   }
 
   render() {
@@ -30,7 +36,7 @@ class Login extends React.Component {
     return (
       <form onSubmit={onSubmit}>
         <label htmlFor="email">Email</label>
-        <input value={email} onChange={onChange} name="username" />
+        <input value={email} onChange={onChange} name="email" />
         <label htmlFor="password">Password</label>
         <input value={password} onChange={onChange} name="password" />
         <button type="submit">Login In</button>
@@ -38,4 +44,14 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+
+const mapDispatchToProps = (dispatch) =>{
+  return {
+    createUser:(user)=>{
+      console.log('dispatch function ran',user)
+      dispatch(createUser(user))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Login)

@@ -9,9 +9,16 @@ const registerRouter = express.Router();
 
 registerRouter.post('/', async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const {
+      firstName, lastName, email, password,
+    } = req.body;
     const hashPassword = await bcrypt.hash(password, 10);
-    await User.create({ firstName, lastName, email, password: hashPassword });
+    await User.create({
+      firstName,
+      lastName,
+      email,
+      password: hashPassword,
+    });
 
     res.redirect('/login');
   } catch (error) {
