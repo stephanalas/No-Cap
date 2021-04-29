@@ -1,8 +1,11 @@
+const { response } = require('express');
 const express = require('express');
 
 const {
   models: { User, Order },
 } = require('../db/models/associations');
+const CartLineItem = require('../db/models/CartLineItem');
+const OrderLineItem = require('../db/models/OrderLineItem');
 
 const userRouter = express.Router();
 
@@ -94,5 +97,60 @@ userRouter.get('/:id/cart', async (req, res, next) => {
     next(ex);
   }
 });
+
+userRouter.post('/:id/orders', async (req, res, next) => {
+  try {
+    if (!req.body) res.sendStatus(400);
+
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+    //get the users cart line items
+    const cart = await user.getCart();
+    const cartItems = await CartLineItem.findAll({
+      where: {
+        cartId: cart.id
+      }
+    });
+    
+    //if cart is empty throw bad request error
+    if(cartItems.length < 1) res.sendStatus(400);
+
+  
+
+    //create order line items from the users cart
+    const orderLineItems = [];
+    cartItems.map(async cartItem =>{
+      const orderLineItem = await OrderLineItem.create({
+        //orderId: order.id,
+        unitPrice: cartItem.unitPrice,
+        productId: cartItem.productId,
+        quantity: cartItem.quantity,
+        totalPrice: cartItem.totalPrice
+      })
+      orderLineItems.push(orderLineItem);
+    });
+      
+    //create an order
+    let order = await Order.create({
+      userId: user.id
+    });
+
+    res.status(201).send({...order, orderLineItems: orderLineItems});
+  } catch (error) {
+    next(error);
+  }
+}); 
+
+userRouter.get('/:id/orders', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+
+    res.send(await user.getOrders());
+  } catch (ex) {
+    next(ex);
+  }
+}); 
 
 module.exports = userRouter;
