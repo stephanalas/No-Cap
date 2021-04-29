@@ -1,6 +1,6 @@
 const express = require('express');
 
-const app = express();
+const loginRouter = express.Router();
 const bcrypt = require('bcrypt');
 
 const passport = require('passport');
@@ -26,17 +26,26 @@ passport.use(
   }),
 );
 
-const loginRouter = express.Router();
-
-loginRouter.post('/', passport.authenticate('local'), (req, res) => {
+loginRouter.post('/', passport.authenticate('local'), async(req, res, next) => {
   // If this function gets called, authentication was successful.
   // `req.user` contains the authenticated user.
-  console.log('hello world');
-  res.redirect(`/${req.user.email}`);
+  try{
+    await res.send(req.body);
+    res.redirect(`/${req.user.email}`);
+  }
+  catch(err) {
+    next(err);
+  }
 });
 
-// loginRouter.get('/', async (req, res) => {
-//   await res.send('hello world');
+// loginRouter.post('/', async (req, res, next) => {
+//   try {
+//     console.log(req.body);
+//     await res.send(req.body);
+//   }
+//   catch (err) {
+//     next(err);
+//   }
 // });
 
 module.exports = loginRouter;

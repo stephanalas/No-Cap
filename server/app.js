@@ -22,9 +22,9 @@ app.get('/', (req, res, next) => {
 
 app.use('/api', router);
 
-// app.use((err, req, res) => {
-//   console.log(err);
-//   res.status(err.statusCode || 500).send({ error: err.message });
-// });
+app.use((err, req, res) => {
+  console.log(err);
+  res.status(err.statusCode || 500).send({ error: err.message });
+});
 
 module.exports = app;
