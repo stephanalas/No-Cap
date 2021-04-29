@@ -4,7 +4,7 @@ const {
   models: { User },
 } = require('../db/models/associations');
 
-const passport = require('passport'),
+const passport = require('passport');
 
 const loginRouter = express.Router();
 
@@ -19,7 +19,6 @@ loginRouter.post(
   async (req, res, next) => {
     try {
       // More needed
-
     } catch (error) {
       next(error);
     }
