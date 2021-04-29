@@ -19,7 +19,9 @@ userRouter.post('/', async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
     // will need to update this with appropriate fields
-    const { firstName, lastName, email, password } = req.body;
+    const {
+      firstName, lastName, email, password,
+    } = req.body;
 
     const newUser = await User.create({
       firstName,
@@ -55,7 +57,9 @@ userRouter.put('/:id', async (req, res, next) => {
     res.sendStatus(400);
   }
   // will need to update this with appropriate fields
-  const { firstName, lastName, email, password } = req.body;
+  const {
+    firstName, lastName, email, password,
+  } = req.body;
 
   try {
     const { id } = req.params;
