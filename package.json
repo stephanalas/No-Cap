@@ -29,6 +29,7 @@
   "homepage": "https://github.com/box-jumpers-grace-shopper/box-jumpers-grace-shopper#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "html-template-tag": "^4.0.0",
     "morgan": "^1.10.0",

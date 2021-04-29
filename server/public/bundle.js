@@ -100,7 +100,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NavBar */ "./client/components/NavBar.jsx");
 /* harmony import */ var _styles_App_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles/App.css */ "./client/components/styles/App.css");
+/* harmony import */ var _Login__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Login */ "./client/components/Login.jsx");
 /* eslint jsx-quotes: "off" */
+
 
 
 
@@ -112,12 +114,91 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       path: "/"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       id: "welcome-message"
-    }, "Welcome To Box Jumpers")));
+    }, "Welcome To Box Jumpers")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      path: "/login",
+      component: _Login__WEBPACK_IMPORTED_MODULE_4__["default"],
+      exact: true
+    }));
   }
 
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
+
+/***/ }),
+
+/***/ "./client/components/Login.jsx":
+/*!*************************************!*\
+  !*** ./client/components/Login.jsx ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* eslint jsx-quotes: "off" */
+
+
+class Login extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      password: ''
+    };
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onChange(ev) {
+    this.setState({
+      [ev.target.name]: ev.target.value
+    });
+  }
+
+  onSubmit(ev) {
+    ev.preventDefault();
+    const {
+      username,
+      password
+    } = this.state;
+    this.props.signIn({
+      username,
+      password
+    });
+  }
+
+  render() {
+    const {
+      onChange,
+      onSubmit
+    } = this;
+    const {
+      username,
+      password
+    } = this.state;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      onSubmit: onSubmit
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "username"
+    }, "Username"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      value: username,
+      onChange: onChange,
+      name: "username"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "password"
+    }, "Password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      value: password,
+      onChange: onChange,
+      name: "password"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Login In"));
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Login);
 
 /***/ }),
 
