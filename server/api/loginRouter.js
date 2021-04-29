@@ -2,12 +2,12 @@ const express = require('express');
 
 const app = express();
 const bcrypt = require('bcrypt');
-const {
-  models: { User },
-} = require('../db/models/associations');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const {
+  models: { User },
+} = require('../db/models/associations');
 
 passport.use(
   new LocalStrategy((email, password, done) => {
@@ -31,6 +31,7 @@ const loginRouter = express.Router();
 app.post('/login', passport.authenticate('local'), (req, res) => {
   // If this function gets called, authentication was successful.
   // `req.user` contains the authenticated user.
+  console.log('hello world');
   res.redirect(`/${req.user.email}`);
 });
 

@@ -169,12 +169,12 @@ class Login extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     const {
       email,
       password
-    } = this.state;
-    console.log('something is getting clicked');
-    console.log(email, password);
-    console.log(this.props.createUser); // thunk needed for submit
+    } = this.state; // thunk needed for submit
 
-    this.props.createUser(this.state);
+    this.props.createUser({
+      email,
+      password
+    });
   }
 
   render() {
@@ -210,8 +210,8 @@ class Login extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 const mapDispatchToProps = dispatch => {
   return {
     createUser: user => {
-      console.log('dispatch function ran', user);
-      dispatch(Object(_store_storeComponents_createUser__WEBPACK_IMPORTED_MODULE_2__["default"])(user));
+      console.log(user);
+      dispatch(Object(_store_storeComponents_createUser__WEBPACK_IMPORTED_MODULE_2__["createUser"])(user));
     }
   };
 };
@@ -385,6 +385,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const userReducer = (state = [], action) => {
   if (action.type === _storeComponents_createUser__WEBPACK_IMPORTED_MODULE_0__["CREATE_USER"]) {
+    console.log(action);
     return [...state, action.user];
   }
 
@@ -430,10 +431,8 @@ const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducer
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createUser", function() { return createUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATE_USER", function() { return CREATE_USER; });
-/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
  // action type
 
 const CREATE_USER = 'CREATE_USER'; // action creator
@@ -447,9 +446,9 @@ const _createUser = user => ({
 const createUser = user => async dispatch => {
   const {
     data
-  } = axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/login', user);
+  } = axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/login', user); //might need await here. putting in await gets rid of action console log though
+
   dispatch(_createUser(data));
-  console.log(data);
 };
 
 
