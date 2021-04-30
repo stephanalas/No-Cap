@@ -12,14 +12,19 @@ const OrderLineItem = db.define('order_line_item', {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  totalPrice: {
+  subTotal: {
     type: Sequelize.DECIMAL(10, 2),
   },
 });
 
-OrderLineItem.addHook('beforeCreate', (order) => {
-  const total = order.unitPrice * order.quantity;
-  order.totalPrice = total;
+OrderLineItem.addHook('beforeCreate', (orderLineItem) => {
+  const total = orderLineItem.unitPrice * orderLineItem.quantity;
+  orderLineItem.subTotal = total;
+});
+
+OrderLineItem.addHook('beforeUpdate', (orderLineItem) => {
+  const total = orderLineItem.unitPrice * orderLineItem.quantity;
+  orderLineItem.subTotal = total;
 });
 
 module.exports = OrderLineItem;
