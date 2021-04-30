@@ -14,7 +14,9 @@
   "plugins": ["react"],
   "rules": {
     "linebreak-style": ["off"],
-      "react/prefer-stateless-function": "off"
-  
+    "react/prefer-stateless-function": "off",
+    "react/prop-types": "off",
+    "react/destructuring-assignment": ["off"],
+    "arrow-body-style": ["off"]  
   }
 }

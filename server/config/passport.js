@@ -5,40 +5,36 @@ const {
 } = require('../db/models/associations');
 
 const initPassport = (passport) => {
-  console.log('helllo');
   const authenticateUser = async (email, password, done) => {
-    console.log('Hellloooooooo');
     const user = await User.findOne({
       where: {
         email,
       },
     });
     if (!user) {
-      console.log('No user!');
       return done(null, false, { message: 'Incorrect email.' });
     }
     if (await !bcrypt.compare(user.password, password)) {
-      console.log('Password did not match!');
       return done(null, false, { message: 'Incorrect password.' });
     }
-    console.log('you made it!');
     return done(null, user);
   };
   passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser));
 
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    // console.log(user);
+    done(null, user);
   });
 
-  passport.deserializeUser(async (userId, done) => {
+  passport.deserializeUser(async (user, done) => {
     try {
-      const user = await User.findOne({
+      const foundUser = await User.findOne({
         where: {
-          id: userId,
+          id: user.Id,
         },
       });
-      if (!user) throw Error('No user available');
-      else done(null, user);
+      if (!foundUser) throw Error('No user available');
+      else done(null, foundUser);
     } catch (error) {
       done(error);
     }

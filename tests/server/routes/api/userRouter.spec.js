@@ -7,7 +7,9 @@ const request = supertest(app);
 const { db, initDB } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order, Product },
+  models: {
+    User, Order, OrderLineItem, Product, CartLineItem,
+  },
 } = require('../../../../server/db/models/associations');
 
 describe('User Routes', () => {
@@ -90,12 +92,14 @@ describe('User Routes', () => {
     const newEmail = 'mjordan3@hotmail.com';
     userData.firstName = newFirstName;
     userData.email = newEmail;
+    userData.isAdmin = true;
 
     response = await request.put(`/api/users/${user.id}`).send(userData);
     response = JSON.parse(response.text);
-    const { firstName, email } = response;
+    const { firstName, email, isAdmin} = response;
     expect(firstName).toBe(userData.firstName);
     expect(email).toBe(userData.email);
+    expect(isAdmin).toBe(userData.isAdmin);
     done();
   });
 
@@ -113,6 +117,141 @@ describe('User Routes', () => {
     done();
   });
 
+  test('POST /api/users/:id/orders posts a users order', async (done) => {
+    const user = await User.findByPk(1);
+
+    const lineItem = await CartLineItem.create({
+      cartId: user.cartId,
+      unitPrice: 12.5,
+      productId: 1,
+      quantity: 3,
+    });
+
+    const lineItem2 = await CartLineItem.create({
+      cartId: user.cartId,
+      unitPrice: 5.0,
+      productId: 1,
+      quantity: 4,
+    });
+
+    let response = await request.post(`/api/users/${user.id}/orders`).send({ total: 57.5 });
+    response = JSON.parse(response.text);
+
+    expect(response.orderLineItems.length).toBe(2);
+    done();
+  });
+
+  test('GET /api/users/:id/orders gets all of a users order', async (done) => {
+    const user = await User.create({
+      firstName: 'Steve',
+      lastName: 'Rogers',
+      email: 'TheCaptain@aol.com',
+      password: 'america',
+    });
+
+    await Product.create({
+      name: 'other hat',
+      category: 'Fez',
+      price: 10.0,
+      inventory: 20,
+      color: 'Black',
+    });
+    await Order.bulkCreate([
+      {
+        userId: user.id,
+        total: 19.95,
+      },
+      {
+        userId: user.id,
+        total: 99.75,
+      },
+    ]);
+    const lineItem = await OrderLineItem.create({
+      orderId: 1,
+      unitPrice: 19.95,
+      productId: 1,
+      quantity: 1,
+      subTotal: 19.95,
+    });
+
+    const lineItem2 = await OrderLineItem.create({
+      orderId: 2,
+      unitPrice: 19.95,
+      productId: 1,
+      quantity: 2,
+      subTotal: 39.9,
+    });
+    const lineItem3 = await OrderLineItem.create({
+      orderId: 2,
+      unitPrice: 10.0,
+      productId: 2,
+      quantity: 2,
+      subTotal: 20.0,
+    });
+
+    let response = await request.get(`/api/users/${user.id}/orders`);
+    response = JSON.parse(response.text);
+
+    // console.log(response);
+    expect(response.length).toBe(2);
+    done();
+  });
+
+  test('PUT /api/users/:id/updateCart updates a users cart', async (done) => {
+    const cart = [
+      {
+        id: 1,
+        price: 15.0,
+        inventory: 5,
+        quantity: 1,
+      },
+      {
+        id: 2,
+        price: 30.0,
+        inventory: 10,
+        quantity: 2,
+      },
+    ];
+
+    let response = await request.put('/api/users/1/updateCart').send({ cart });
+    response = JSON.parse(response.text);
+
+    expect(response.cart.length).toBe(2);
+    done();
+  });
+
+  // Not Passing- needs to be revised
+  // test('PUT /api/users/:id/orders/:id updates a users order by orderID', async (done) => {
+  //   const user = await User.create({
+  //     firstName: 'Bucky',
+  //     lastName: 'Barnes',
+  //     email: 'WinterSolder@aol.com',
+  //     password: 'sadness',
+  //   });
+
+  //   const order = await Order.create({
+  //     userId: user.id,
+  //     total: 99.75,
+  //   });
+
+  //   const lineItem = await OrderLineItem.create({
+  //     orderId: order.id,
+  //     unitPrice: 19.95,
+  //     productId: 1,
+  //     quantity: 5,
+  //     subTotal: 99.75,
+  //   });
+
+  //   let response = await request
+  //     .put(`/api/users/${user.id}/orders/${order.id}`)
+  //     .send({ unitPrice: 20.95, productId: 1, quantity: 5, subTotal: 99.75 });
+  //   response = JSON.parse(response.text);
+
+  //   console.log(response.text);
+  //   expect(response.length).toBe(2);
+  //   done();
+  // });
+
   //  users cart routes
 
   test('GET /api/users/:id/cart', async (done) => {
@@ -124,6 +263,26 @@ describe('User Routes', () => {
     expect(data.id).toBe(cart.id);
     done();
   });
+
+  test('POST /api/users/:id/products/:id/reviews', async (done) => {
+    const user = await User.findByPk(1);
+    const product = await Product.findByPk(1);
+    const stars = 5;
+    const body = 'What an amazing hat!';
+    const response = await request
+      .post(`/api/users/${user.id}/products/${product.id}/reviews`)
+      .send({
+        productId: product.id,
+        userId: user.id,
+        stars,
+        body,
+      });
+    const data = JSON.parse(response.text);
+    expect(data.stars).toBe(5);
+    expect(data.body).toBe(body);
+    done();
+  });
+
   afterAll(async () => {
     await db.close();
   });
