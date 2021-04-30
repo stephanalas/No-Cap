@@ -19,8 +19,7 @@ const syncAndSeed = async () => {
         category: 'Beanie',
         price: 15.99,
         inventory: 4,
-        photo:
-          'https://cdn-images.farfetch-contents.com/14/30/61/67/14306167_21200338_600.jpg',
+        photo: 'https://cdn-images.farfetch-contents.com/14/30/61/67/14306167_21200338_600.jpg',
         color: 'Black',
         description: 'Black Beanie with a Supreme logo on it.',
         rating: 4.2,
@@ -85,8 +84,7 @@ const syncAndSeed = async () => {
         category: 'Beret',
         price: 350.0,
         inventory: 1,
-        photo:
-          'https://i.pinimg.com/originals/73/e8/39/73e839d8981a276b0f594fcbd14609b8.png',
+        photo: 'https://i.pinimg.com/originals/73/e8/39/73e839d8981a276b0f594fcbd14609b8.png',
         color: 'Red',
         description: 'Red Versace tartan Beret.',
         rating: 4.0,
@@ -107,8 +105,7 @@ const syncAndSeed = async () => {
         category: 'Beret',
         price: 35.99,
         inventory: 6,
-        photo:
-          'https://img.hatshopping.com/Leather-Beret-by-Barascon-black.56630_rf4.jpg',
+        photo: 'https://img.hatshopping.com/Leather-Beret-by-Barascon-black.56630_rf4.jpg',
         color: 'Black',
         description: 'Black leather beret.',
         rating: 4.5,
@@ -129,8 +126,7 @@ const syncAndSeed = async () => {
         category: 'Beret',
         price: 15.99,
         inventory: 4,
-        photo:
-          'https://m.media-amazon.com/images/I/51ZvKBhAVEL._AC_SX679._SX._UX._SY._UY_.jpg',
+        photo: 'https://m.media-amazon.com/images/I/51ZvKBhAVEL._AC_SX679._SX._UX._SY._UY_.jpg',
         color: 'Brown',
         description: 'Brown beret that looks like a cat.',
         rating: 4.0,
@@ -151,8 +147,7 @@ const syncAndSeed = async () => {
         category: 'Baseball Hat',
         price: 19.99,
         inventory: 12,
-        photo:
-          'https://m.media-amazon.com/images/I/31f4tcIbc4L._AC._SX._UX._SY._UY_.jpg',
+        photo: 'https://m.media-amazon.com/images/I/31f4tcIbc4L._AC._SX._UX._SY._UY_.jpg',
         color: 'Blue',
         description: 'Blue Baseball hat with a fanny pack on it.',
         rating: 4.3,
@@ -195,8 +190,7 @@ const syncAndSeed = async () => {
         category: 'Fedora',
         price: 42.99,
         inventory: 1,
-        photo:
-          'https://i.pinimg.com/originals/80/a1/69/80a169616f70f6ebba623ed5572e1e2f.png',
+        photo: 'https://i.pinimg.com/originals/80/a1/69/80a169616f70f6ebba623ed5572e1e2f.png',
         color: 'Brown',
         description: 'Brown Fedora with a wooden brim on it.',
         rating: 1,
@@ -206,8 +200,7 @@ const syncAndSeed = async () => {
         category: 'Fedora',
         price: 82.0,
         inventory: 13,
-        photo:
-          'https://www.villagehatshop.com/photos/product/giant/4511390S162242/alt/162242.jpg',
+        photo: 'https://www.villagehatshop.com/photos/product/giant/4511390S162242/alt/162242.jpg',
         color: 'Brown',
         description: 'Fedora made from a fair trade coffee sack.',
         rating: 4.3,
@@ -217,8 +210,7 @@ const syncAndSeed = async () => {
         category: 'Fedora',
         price: 52.5,
         inventory: 9,
-        photo:
-          'https://images-na.ssl-images-amazon.com/images/I/71VNYZGXWSL._AC_UX342_.jpg',
+        photo: 'https://images-na.ssl-images-amazon.com/images/I/71VNYZGXWSL._AC_UX342_.jpg',
         color: 'Blue',
         description: 'Fedora made out of denim.',
         rating: 3,
@@ -249,8 +241,7 @@ const syncAndSeed = async () => {
         category: 'Cowboy Hat',
         price: 32.99,
         inventory: 3,
-        photo:
-          'https://images-na.ssl-images-amazon.com/images/I/81vcQH9JodL._AC_UL1500_.jpg',
+        photo: 'https://images-na.ssl-images-amazon.com/images/I/81vcQH9JodL._AC_UL1500_.jpg',
         color: 'Other',
         description: 'Patriotic Cowboy Hat with American flag on it.',
         rating: 4.5,
@@ -314,8 +305,7 @@ const syncAndSeed = async () => {
         category: 'Top Hat',
         price: 125.0,
         inventory: 2,
-        photo:
-          'https://images-na.ssl-images-amazon.com/images/I/71cH-cOdYOL._AC_UY445_.jpg',
+        photo: 'https://images-na.ssl-images-amazon.com/images/I/71cH-cOdYOL._AC_UY445_.jpg',
         color: 'Black',
         description: "It's like a regular top hat, but taller.",
         rating: 1.1,
@@ -325,8 +315,7 @@ const syncAndSeed = async () => {
         category: 'Top Hat',
         price: 79.99,
         inventory: 6,
-        photo:
-          'https://www.medievalcollectibles.com/wp-content/uploads/2020/05/MCI-6031.jpg',
+        photo: 'https://www.medievalcollectibles.com/wp-content/uploads/2020/05/MCI-6031.jpg',
         color: 'Brown',
         description: 'Steampunk top hat.',
         rating: 4.2,
@@ -336,8 +325,7 @@ const syncAndSeed = async () => {
         category: 'Top Hat',
         price: 14.99,
         inventory: 8,
-        photo:
-          'https://images-na.ssl-images-amazon.com/images/I/81qS0LKUYJL._AC_UX679_.jpg',
+        photo: 'https://images-na.ssl-images-amazon.com/images/I/81qS0LKUYJL._AC_UX679_.jpg',
         color: 'Red',
         description: 'Red gothic costume Top Hat.',
         rating: 4.2,
@@ -358,8 +346,7 @@ const syncAndSeed = async () => {
         category: 'Other',
         price: 16.99,
         inventory: 17,
-        photo:
-          'https://images-na.ssl-images-amazon.com/images/I/81YzaOf56PL._AC_UX679_.jpg',
+        photo: 'https://images-na.ssl-images-amazon.com/images/I/81YzaOf56PL._AC_UX679_.jpg',
         color: 'Blue',
         description: 'A bucket hat made from Ikea bag material.',
         rating: 5.0,
@@ -369,8 +356,7 @@ const syncAndSeed = async () => {
         category: 'Other',
         price: 687.0,
         inventory: 1,
-        photo:
-          'https://www.nme.com/wp-content/uploads/2016/12/spider-sorting-hat.jpg',
+        photo: 'https://www.nme.com/wp-content/uploads/2016/12/spider-sorting-hat.jpg',
         color: 'Brown',
         description: 'The Sorting Hat from Hogwarts.',
         rating: 4.6,

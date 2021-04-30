@@ -3,10 +3,13 @@
 
 import React from 'react';
 import axios from 'axios';
-class Login extends React.Component {
+
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     };
@@ -19,31 +22,28 @@ class Login extends React.Component {
   }
 
   async onSubmit(ev) {
-    try {
-      ev.preventDefault();
-      const { email, password } = this.state;
-      //comment
-      // thunk needed for submit
-      const message = (await axios.post('/api/login', this.state)).data;
-      console.log(message);
-      this.props.history.push('/');
-    } catch (error) {
-      console.log(error);
-    }
+    ev.preventDefault();
+    // thunk needed for submit
+    await axios.post('/api/register', this.state);
+    this.props.history.push('/login');
   }
 
   render() {
     const { onChange, onSubmit } = this;
-    const { email, password } = this.state;
+    const { email, password, firstName, lastName } = this.state;
     return (
-      <form onSubmit={onSubmit}>
+      <form method="POST" onSubmit={onSubmit}>
+        <label htmlFor="firstName">First Name</label>
+        <input value={firstName} onChange={onChange} name="firstName" />
+        <label htmlFor="lastname">Last Name</label>
+        <input value={lastName} onChange={onChange} name="lastName" />
         <label htmlFor="email">Email</label>
         <input value={email} onChange={onChange} name="email" />
         <label htmlFor="password">Password</label>
         <input value={password} onChange={onChange} name="password" />
-        <button type="submit">Login In</button>
+        <button type="submit">Register</button>
       </form>
     );
   }
 }
-export default Login;
+export default Register;
