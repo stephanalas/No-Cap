@@ -135,10 +135,108 @@ describe('User Routes', () => {
     let response = await request.post(`/api/users/${user.id}/orders`).send({ total: 57.5 });
     response = JSON.parse(response.text);
 
-    console.log(response);
     expect(response.orderLineItems.length).toBe(2);
     done();
   });
+
+  test('GET /api/users/:id/orders gets all of a users order', async (done) => {
+    const user = await User.create({
+      firstName: 'Steve',
+      lastName: 'Rogers',
+      email: 'TheCaptain@aol.com',
+      password: 'america',
+    });
+
+    await Product.create({
+      name: 'other hat',
+      category: 'Fez',
+      price: 10.00,
+      inventory: 20,
+      color: 'Black',
+    });
+    await Order.bulkCreate([
+      {
+          userId: user.id,
+          total: 19.95
+      },
+      {
+          userId: user.id,
+          total: 99.75
+      },
+    ]);
+    const lineItem = await OrderLineItem.create({
+      orderId: 1,
+      unitPrice: 19.95,
+      productId: 1,
+      quantity: 1,
+      subTotal: 19.95,
+    });
+
+    const lineItem2 = await OrderLineItem.create({
+      orderId: 2,
+      unitPrice: 19.95,
+      productId: 1,
+      quantity: 2,
+      subTotal: 39.90,
+    });
+    const lineItem3 = await OrderLineItem.create({
+      orderId: 2,
+      unitPrice: 10.00,
+      productId: 2,
+      quantity: 2,
+      subTotal: 20.00,
+    });
+
+    let response = await request.get(`/api/users/${user.id}/orders`);
+    response = JSON.parse(response.text);
+
+    console.log(response);
+    expect(response.length).toBe(2);
+    done();
+  });
+  
+  /*
+  ///Not Passing- needs to be revised
+  test('PUT /api/users/:id/orders/:id updates a users order by orderID', async (done) => {
+    const user = await User.create({
+      firstName: 'Bucky',
+      lastName: 'Barnes',
+      email: 'WinterSolder@aol.com',
+      password: 'sadness',
+    });
+
+    let order = await Order.bulkCreate([
+      {
+          userId: user.id,
+          total: 99.75
+      },
+    ]);
+    
+    const lineItem = await OrderLineItem.create({
+      orderId: order.id,
+      unitPrice: 19.95,
+      productId: 1,
+      quantity: 5,
+      subTotal: 99.75,
+    }); 
+    
+    //may need to adjust the post orders route?
+    let response = await request.post(`/api/users/${user.id}/orders`).send({total: 99.75});
+    response = JSON.parse(response.text);
+    const returnedOrder = JSON.parse(response.text);
+    lineItem.unitPrice = 10.00;
+    lineItem.quantity = 4;
+    lineItem.subTotal = 40.00;
+    
+
+    response = await request.put(`/api/users/${user.id}/orders/${returnedOrder.id}`).send(lineItem);
+    response = JSON.parse(response.text);
+
+    console.log(response.text);
+    expect(response.length).toBe(2);
+    done();
+  });
+  */
 
   //  users cart routes
 
