@@ -1,7 +1,7 @@
 /* eslint no-console: 'off' */
 
 // allows use to use the environment variables in the .env file
-require('dotenv').config();
+// require('dotenv').config();
 
 const express = require('express');
 // morgan for development only!!
@@ -9,17 +9,21 @@ const morgan = require('morgan');
 
 const path = require('path');
 const router = require('./api/router');
+require('./config/passport');
+
+const app = express();
 
 const session = require('express-session');
 const passport = require('passport');
-
-const app = express();
+const flash = require('connect-flash');
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const { db } = require('./db');
 
 // basic setup for passport
-require('./config/passport');
+const initPassport = require('./config/passport');
+
+initPassport(passport);
 
 app.use(
   session({
@@ -35,25 +39,25 @@ app.use(
   })
 );
 
+app.use(flash());
 // refresh passport middleware everytime we load a route
 app.use(passport.initialize());
 
 app.use(passport.session());
-
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
+app.use('/api', router);
+
 app.get('/', (req, res, next) => {
   try {
+    console.log('Hey');
     res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'));
   } catch (err) {
     next(err);
   }
 });
-
-app.use('/api', router);
 
 app.use((err, req, res, next) => {
   console.log(err);

@@ -5,8 +5,8 @@ import React from 'react';
 import axios from 'axios';
 
 class Register extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       firstName: '',
       lastName: '',
@@ -25,13 +25,14 @@ class Register extends React.Component {
     ev.preventDefault();
     // thunk needed for submit
     await axios.post('/api/register', this.state);
+    this.props.history.push('/login');
   }
 
   render() {
     const { onChange, onSubmit } = this;
     const { email, password, firstName, lastName } = this.state;
     return (
-      <form onSubmit={onSubmit}>
+      <form method="POST" onSubmit={onSubmit}>
         <label htmlFor="firstName">First Name</label>
         <input value={firstName} onChange={onChange} name="firstName" />
         <label htmlFor="lastname">Last Name</label>

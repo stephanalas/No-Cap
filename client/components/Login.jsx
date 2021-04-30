@@ -2,10 +2,10 @@
 /* eslint jsx-quotes: "off" */
 
 import React from 'react';
-
+import axios from 'axios';
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
       password: '',
@@ -18,10 +18,17 @@ class Login extends React.Component {
     this.setState({ [ev.target.name]: ev.target.value });
   }
 
-  onSubmit(ev) {
-    ev.preventDefault();
-    const { email, password } = this.state;
-    // thunk needed for submit
+  async onSubmit(ev) {
+    try {
+      ev.preventDefault();
+      const { email, password } = this.state;
+      // thunk needed for submit
+      const message = (await axios.post('/api/login', this.state)).data;
+      console.log(message);
+      this.props.history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -30,7 +37,7 @@ class Login extends React.Component {
     return (
       <form onSubmit={onSubmit}>
         <label htmlFor="email">Email</label>
-        <input value={email} onChange={onChange} name="username" />
+        <input value={email} onChange={onChange} name="email" />
         <label htmlFor="password">Password</label>
         <input value={password} onChange={onChange} name="password" />
         <button type="submit">Login In</button>

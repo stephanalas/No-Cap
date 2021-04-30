@@ -11,10 +11,7 @@ class App extends React.Component {
   render() {
     return (
       <HashRouter>
-        <Route path="/">
-          <NavBar />
-          <div id="welcome-message">Welcome To Box Jumpers</div>
-        </Route>
+        <Route component={NavBar} />
         <Route path="/register" component={Register} exact />
         <Route path="/login" component={Login} exact />
       </HashRouter>

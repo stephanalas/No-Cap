@@ -1,6 +1,5 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-
 const {
   models: { User },
 } = require('../db/models/associations');
@@ -12,10 +11,10 @@ registerRouter.post('/', async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
     const hashPassword = await bcrypt.hash(password, 10);
     await User.create({ firstName, lastName, email, password: hashPassword });
-
-    res.redirect('/api/login');
+    req.flash('success_msg', 'Successfully registered');
+    res.sendStatus(200);
   } catch (error) {
-    // res.redirect('/register');
+    res.redirect('/register');
     next(error);
   }
 });
