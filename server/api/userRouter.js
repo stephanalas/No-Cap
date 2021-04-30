@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  models: { User, Order },
+  models: { User, Order, Review },
 } = require('../db/models/associations');
 const CartLineItem = require('../db/models/CartLineItem');
 const OrderLineItem = require('../db/models/OrderLineItem');
@@ -246,6 +246,25 @@ userRouter.get('/:id/orders/:orderId', async (req, res, next) => {
     });
 
     res.send(order);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.post('/:userId/products/:productId/reviews', async (req, res, next) => {
+  // create a product review from a user
+  if (!req.body) res.sendStatus(400);
+
+  try {
+    const { userId, productId } = req.params;
+    const { stars, body } = req.body;
+    const review = await Review.create({
+      userId,
+      productId,
+      body,
+      stars,
+    });
+    res.status(201).send(review);
   } catch (ex) {
     next(ex);
   }
