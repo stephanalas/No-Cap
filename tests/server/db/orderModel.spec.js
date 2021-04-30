@@ -16,7 +16,7 @@ afterAll(async () => {
 
 it('Order Model exists', async () => {
   const order = await Order.create({
-    order_total: 45.5,
+    total: 45.5,
   });
-  expect(order.order_total).toBe('45.50');
+  expect(order.total).toBe('45.50');
 });

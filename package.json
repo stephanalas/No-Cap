@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/box-jumpers-grace-shopper/box-jumpers-grace-shopper#readme",
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "html-template-tag": "^4.0.0",

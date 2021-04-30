@@ -13,28 +13,22 @@ const CartLineItem = db.define('cart_line_item', {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  totalPrice: {
+  subTotal: {
     type: Sequelize.DECIMAL(10, 2),
     defaultValue: 0,
     allowNull: false,
   },
 });
 
-//add a new line item to cart, calculate the subtotal and update the cart
+// add a new line item to cart, calculate the subtotal and update the cart
 CartLineItem.addHook('beforeCreate', (cartLineItem) => {
   const total = cartLineItem.unitPrice * cartLineItem.quantity;
-  cartLineItem.totalPrice = total;
-  const cart = await Cart.findByPk(cartLineItem.cartId);
-  cart.total += total;
+  cartLineItem.subTotal = total;
 });
 
 CartLineItem.addHook('beforeUpdate', (cartLineItem) => {
   const total = cartLineItem.unitPrice * cartLineItem.quantity;
-  cartLineItem.totalPrice = total;
-  const cart = await Cart.findByPk(cartLineItem.cartId);
-  //check cart total against previous total
-  
+  cartLineItem.subTotal = total;
 });
-
 
 module.exports = CartLineItem;
