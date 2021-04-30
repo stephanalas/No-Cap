@@ -22,6 +22,7 @@ class Login extends React.Component {
     try {
       ev.preventDefault();
       const { email, password } = this.state;
+      //comment
       // thunk needed for submit
       const message = (await axios.post('/api/login', this.state)).data;
       console.log(message);
