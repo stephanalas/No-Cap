@@ -88,4 +88,15 @@ userRouter.delete('/:id', async (req, res, next) => {
   }
 });
 
+userRouter.get('/:id/cart', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+
+    res.send(await user.getCart());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = userRouter;

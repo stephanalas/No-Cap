@@ -4,17 +4,17 @@ const supertest = require('supertest');
 const app = require('../../../../server/app');
 
 const request = supertest(app);
-const { db } = require('../../../../server/db/index');
+const { db, initDB } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order },
+  models: { User, Order, Product },
 } = require('../../../../server/db/models/associations');
 
 describe('User Routes', () => {
   beforeAll(async () => {
     // await Order.sync({ force: true });
     // await User.sync({ force: true });
-    await db.sync({ force: true });
+    await initDB();
     await User.bulkCreate([
       {
         firstName: 'Joe',
@@ -29,7 +29,13 @@ describe('User Routes', () => {
         password: 'password',
       },
     ]);
-
+    await Product.create({
+      name: 'basic hat',
+      category: 'Beanie',
+      price: 19.95,
+      inventory: 20,
+      color: 'Black',
+    });
     await Order.bulkCreate([{ userId: 2 }, { userId: 2 }]);
   });
   test('GET /api/users length', async (done) => {
@@ -107,6 +113,17 @@ describe('User Routes', () => {
     done();
   });
 
+  //  users cart routes
+
+  test('GET /api/users/:id/cart', async (done) => {
+    const user = await User.findByPk(1);
+    const cart = await user.getCart();
+
+    const response = await request.get(`/api/users/${user.id}/cart`);
+    const data = JSON.parse(response.text);
+    expect(data.id).toBe(cart.id);
+    done();
+  });
   afterAll(async () => {
     await db.close();
   });
