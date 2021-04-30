@@ -43,9 +43,11 @@ userRouter.get('/:id', async (req, res, next) => {
     const user = await User.findOne({
       include: {
         model: Order,
-        include: [{
-          model: OrderLineItem,
-        }]
+        include: [
+          {
+            model: OrderLineItem,
+          },
+        ],
       },
       where: {
         id: userId,
@@ -159,46 +161,70 @@ userRouter.get('/:id/orders', async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(await user.getOrders({
-      include: [{
-        model: OrderLineItem,
-      }]
-    }));
+    res.send(
+      await user.getOrders({
+        include: [
+          {
+            model: OrderLineItem,
+          },
+        ],
+      }),
+    );
   } catch (ex) {
     next(ex);
   }
 });
 
-///Hit a roadblock - needs to be revised
-userRouter.put('/:id/orders/:orderId', async (req, res, next) => {
+// update a users cart
+userRouter.put('/:id/updateCart', async (req, res, next) => {
   if (!req.body) {
     res.sendStatus(400);
   }
-  
-  const {
-    unitPrice, quantity, subTotal
-  } = req.body;
+  /* cart object sent in request body expected to be in the form of
+   cart: [
+     {
+       id: 1,
+       price: 15.00,
+       inventory: 5,
+       quantity: 1
+    },
+     {
+       id: 2,
+       price: 30.00,
+       inventory: 10,
+       quantity: 2
+     },
+     ...
+    ]
+    essentially 'cart' is an array of product objects with an additional quantity key
+    which represents the user's cart in the frontend
+   */
 
   try {
-    const { id, orderId } = req.params;
+    // deleting everything in the users cart and overwriting is probably not the best solution
+    // but it is easier to implement quickly
+    const { cart } = req.body;
+    const { id } = req.params;
     const user = await User.findByPk(id);
-    const order = await user.getOrders({
-      where:{
-        id: orderId
-      },
-      include: [{
-        model: OrderLineItem,
-      }]
-    })
-    const updatedOrder = await order.update({
-      total
+    const userCart = await user.getCart();
+
+    // delete all the users cartLineItems if they exist
+    await CartLineItem.destroy({
+      where: { cartId: userCart.id },
     });
-    const updatedLineOrder = await OrderLineItem.update({
-      unitPrice,
-      quantity,
-      subTotal
-    });
-    res.status(200).send(updatedOrder);
+    const updatedCart = [];
+    await Promise.all(
+      cart.map(async (cartItem) => {
+        const cartLineItem = await CartLineItem.create({
+          cartId: userCart.id,
+          unitPrice: cartItem.price,
+          productId: cartItem.id,
+          quantity: cartItem.quantity,
+        });
+        updatedCart.push(cartLineItem);
+      }),
+    );
+    res.status(201).send({ ...userCart, cart: updatedCart });
   } catch (ex) {
     next(ex);
   }
@@ -209,14 +235,16 @@ userRouter.get('/:id/orders/:orderId', async (req, res, next) => {
     const { id, orderId } = req.params;
     const user = await User.findByPk(id);
     const order = await user.getOrders({
-      where:{
-        id: orderId
+      where: {
+        id: orderId,
       },
-      include: [{
-        model: OrderLineItem,
-      }]
-    })
-    
+      include: [
+        {
+          model: OrderLineItem,
+        },
+      ],
+    });
+
     res.send(order);
   } catch (ex) {
     next(ex);
