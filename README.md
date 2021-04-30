@@ -7,7 +7,7 @@
 #### Process before trying to submit any code:
 - `npm run format` (auto format your code before pushing up)
 - `npm run lint` (fix your lint errors)
-- `npm run test` (make sure your code passes the test -- can be run on whole repo or individual ...spec.js files)
+- `npm run test <yourNewFile.spec.js>` (make sure your code passes the test your wrote)
 - `npm run test` (check to see if nothing else is broken)
 - `git add .`
 - `git commit -m "<your message here with what you added/changed>"`
@@ -28,7 +28,7 @@
 - After merge is complete, check Travis again to see if code passes tests
 - delete checked out branch
 
-### If there is a merge conflict
+#### If there is a merge conflict
 
 - Assign Reviewer and Assignee as normal
 - Go over code to make sure it passes and looks okay
