@@ -92,12 +92,14 @@ describe('User Routes', () => {
     const newEmail = 'mjordan3@hotmail.com';
     userData.firstName = newFirstName;
     userData.email = newEmail;
+    userData.isAdmin = true;
 
     response = await request.put(`/api/users/${user.id}`).send(userData);
     response = JSON.parse(response.text);
-    const { firstName, email } = response;
+    const { firstName, email, isAdmin} = response;
     expect(firstName).toBe(userData.firstName);
     expect(email).toBe(userData.email);
+    expect(isAdmin).toBe(userData.isAdmin);
     done();
   });
 
@@ -280,6 +282,7 @@ describe('User Routes', () => {
     expect(data.body).toBe(body);
     done();
   });
+
   afterAll(async () => {
     await db.close();
   });
