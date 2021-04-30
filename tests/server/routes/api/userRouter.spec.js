@@ -261,6 +261,25 @@ describe('User Routes', () => {
     expect(data.id).toBe(cart.id);
     done();
   });
+
+  test('POST /api/users/:id/products/:id/reviews', async (done) => {
+    const user = await User.findByPk(1);
+    const product = await Product.findByPk(1);
+    const stars = 5;
+    const body = 'What an amazing hat!';
+    const response = await request
+      .post(`/api/users/${user.id}/products/${product.id}/reviews`)
+      .send({
+        productId: product.id,
+        userId: user.id,
+        stars,
+        body,
+      });
+    const data = JSON.parse(response.text);
+    expect(data.stars).toBe(5);
+    expect(data.body).toBe(body);
+    done();
+  });
   afterAll(async () => {
     await db.close();
   });
