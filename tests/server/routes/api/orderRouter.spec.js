@@ -115,10 +115,17 @@ describe('Orders Routes', () => {
     done();
   });
 
-  test('GET /api/orders/:id Gets all orders from a user', async (done) => {
+  test('GET /api/orders/:userId Gets all orders from a user', async (done) => {
     const response = await request.get('/api/orders/2');
-    // console.log(response.text);
+
     expect(JSON.parse(response.text).length).toBe(2);
+    done();
+  });
+
+  test('PUT /api/orders/:id Updates an order to be fulfilled', async (done) => {
+    const response = await request.put('/api/orders/2').send({ status: 'Fulfilled' });
+
+    expect(JSON.parse(response.text).status).toBe('Fulfilled');
     done();
   });
 
