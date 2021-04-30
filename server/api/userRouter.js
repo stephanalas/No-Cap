@@ -43,6 +43,9 @@ userRouter.get('/:id', async (req, res, next) => {
     const user = await User.findOne({
       include: {
         model: Order,
+        include: [{
+          model: OrderLineItem,
+        }]
       },
       where: {
         id: userId,
@@ -156,7 +159,65 @@ userRouter.get('/:id/orders', async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(await user.getOrders());
+    res.send(await user.getOrders({
+      include: [{
+        model: OrderLineItem,
+      }]
+    }));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+///Hit a roadblock - needs to be revised
+userRouter.put('/:id/orders/:orderId', async (req, res, next) => {
+  if (!req.body) {
+    res.sendStatus(400);
+  }
+  
+  const {
+    unitPrice, quantity, subTotal
+  } = req.body;
+
+  try {
+    const { id, orderId } = req.params;
+    const user = await User.findByPk(id);
+    const order = await user.getOrders({
+      where:{
+        id: orderId
+      },
+      include: [{
+        model: OrderLineItem,
+      }]
+    })
+    const updatedOrder = await order.update({
+      total
+    });
+    const updatedLineOrder = await OrderLineItem.update({
+      unitPrice,
+      quantity,
+      subTotal
+    });
+    res.status(200).send(updatedOrder);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.get('/:id/orders/:orderId', async (req, res, next) => {
+  try {
+    const { id, orderId } = req.params;
+    const user = await User.findByPk(id);
+    const order = await user.getOrders({
+      where:{
+        id: orderId
+      },
+      include: [{
+        model: OrderLineItem,
+      }]
+    })
+    
+    res.send(order);
   } catch (ex) {
     next(ex);
   }
