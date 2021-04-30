@@ -2,7 +2,8 @@
 /* eslint jsx-quotes: "off" */
 
 import React from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { createUser } from '../store/storeComponents/createUser';
 
 class Register extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Register extends React.Component {
   async onSubmit(ev) {
     ev.preventDefault();
     // thunk needed for submit
-    await axios.post('/api/register', this.state);
+    this.props.createUser(this.state);
     this.props.history.push('/login');
   }
 
@@ -46,4 +47,13 @@ class Register extends React.Component {
     );
   }
 }
-export default Register;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createUser: (user) => {
+      dispatch(createUser(user));
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Register);
