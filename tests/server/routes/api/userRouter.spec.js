@@ -7,7 +7,9 @@ const request = supertest(app);
 const { db, initDB } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order, Product },
+  models: {
+    User, Order, OrderLineItem, Product, CartLineItem,
+  },
 } = require('../../../../server/db/models/associations');
 
 describe('User Routes', () => {
@@ -110,6 +112,31 @@ describe('User Routes', () => {
     user = JSON.parse(response.text);
     response = (await request.delete(`/api/users/${user.id}`)).status;
     expect(response).toEqual(204);
+    done();
+  });
+
+  test('POST /api/users/:id/orders posts a users order', async (done) => {
+    const user = await User.findByPk(1);
+
+    const lineItem = await CartLineItem.create({
+      cartId: user.cartId,
+      unitPrice: 12.5,
+      productId: 1,
+      quantity: 3,
+    });
+
+    const lineItem2 = await CartLineItem.create({
+      cartId: user.cartId,
+      unitPrice: 5.0,
+      productId: 1,
+      quantity: 4,
+    });
+
+    let response = await request.post(`/api/users/${user.id}/orders`).send({ total: 57.5 });
+    response = JSON.parse(response.text);
+
+    console.log(response);
+    expect(response.orderLineItems.length).toBe(2);
     done();
   });
 

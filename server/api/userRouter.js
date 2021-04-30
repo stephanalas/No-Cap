@@ -3,6 +3,8 @@ const express = require('express');
 const {
   models: { User, Order },
 } = require('../db/models/associations');
+const CartLineItem = require('../db/models/CartLineItem');
+const OrderLineItem = require('../db/models/OrderLineItem');
 
 const userRouter = express.Router();
 
@@ -94,6 +96,67 @@ userRouter.get('/:id/cart', async (req, res, next) => {
     const user = await User.findByPk(id);
 
     res.send(await user.getCart());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.post('/:id/orders', async (req, res, next) => {
+  try {
+    if (!req.body) res.sendStatus(400);
+
+    // to revise after authentication
+    const { id } = req.params;
+
+    if (!req.body.total) res.sendStatus(400);
+    const { total } = req.body;
+    const user = await User.findByPk(id);
+
+    // get the users cart line items
+    const cart = await user.getCart();
+    const cartItems = await CartLineItem.findAll({
+      where: {
+        cartId: cart.id,
+      },
+    });
+
+    // if cart is empty throw bad request error
+    if (cartItems.length < 1) res.sendStatus(400);
+
+    // create an order
+    const order = await Order.create({
+      userId: user.id,
+      total,
+    });
+
+    // create order line items from the users cart
+    const orderLineItems = [];
+
+    await Promise.all(
+      cartItems.map(async (cartItem) => {
+        const orderLineItem = await OrderLineItem.create({
+          orderId: order.id,
+          unitPrice: cartItem.unitPrice,
+          productId: cartItem.productId,
+          quantity: cartItem.quantity,
+          subTotal: cartItem.subTotal,
+        });
+        orderLineItems.push(orderLineItem);
+      }),
+    );
+
+    res.status(201).send({ ...order, orderLineItems });
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.get('/:id/orders', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+
+    res.send(await user.getOrders());
   } catch (ex) {
     next(ex);
   }

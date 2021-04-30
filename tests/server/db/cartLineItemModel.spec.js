@@ -19,5 +19,5 @@ it('Cart Line Item model exists', async () => {
     unitPrice: 40.5,
     quantity: 3,
   });
-  expect(lineItem.totalPrice).toBe('121.50');
+  expect(lineItem.subTotal).toBe('121.50');
 });
