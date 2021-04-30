@@ -8,7 +8,6 @@ const express = require('express');
 const morgan = require('morgan');
 
 const path = require('path');
-const router = require('./api/router');
 require('./config/passport');
 
 const app = express();
@@ -18,6 +17,7 @@ const passport = require('passport');
 const flash = require('connect-flash');
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const router = require('./api/router');
 const { db } = require('./db');
 
 // basic setup for passport
@@ -36,7 +36,7 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
     },
-  })
+  }),
 );
 
 app.use(flash());
@@ -59,7 +59,7 @@ app.get('/', (req, res, next) => {
   }
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.log(err);
   res.status(err.statusCode || 500).send({ error: err.message });
 });
