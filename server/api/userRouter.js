@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  models: { User, Order, Review },
+  models: { User, Order, Review, Cart },
 } = require('../db/models/associations');
 const CartLineItem = require('../db/models/CartLineItem');
 const OrderLineItem = require('../db/models/OrderLineItem');
@@ -41,7 +41,7 @@ userRouter.get('/:id', async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await User.findOne({
-      include: {
+      include: [{
         model: Order,
         include: [
           {
@@ -49,6 +49,15 @@ userRouter.get('/:id', async (req, res, next) => {
           },
         ],
       },
+      {
+        model: Cart,
+        include: [
+          {
+            model: CartLineItem,
+          },
+        ],
+      },
+    ],
       where: {
         id: userId,
       },
@@ -101,7 +110,11 @@ userRouter.get('/:id/cart', async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(await user.getCart());
+    res.send(await user.getCart({
+      include:{
+        model: CartLineItem
+      }
+    }));
   } catch (ex) {
     next(ex);
   }
