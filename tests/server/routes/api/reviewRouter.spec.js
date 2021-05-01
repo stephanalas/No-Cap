@@ -15,6 +15,7 @@ const {
 describe('Review Routes', () => {
   beforeAll(async () => {
     await initDB();
+
     await User.bulkCreate([
       {
         firstName: 'Joe',
@@ -43,6 +44,10 @@ describe('Review Routes', () => {
       stars: 5,
       body: 'What a great hat!',
     });
+  });
+
+  afterAll(async () => {
+    await db.close();
   });
 
   test('GET /api/reviews/:id', async (done) => {
@@ -83,9 +88,5 @@ describe('Review Routes', () => {
     expect(response).toBe(204);
 
     done();
-  });
-
-  afterAll(async () => {
-    await db.close();
   });
 });

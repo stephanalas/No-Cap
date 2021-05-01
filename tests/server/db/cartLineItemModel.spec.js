@@ -14,10 +14,11 @@ afterAll(async () => {
   db.close();
 });
 
-it('Cart Line Item model exists', async () => {
+it('Cart Line Item model exists', async (done) => {
   const lineItem = await CartLineItem.create({
     unitPrice: 40.5,
     quantity: 3,
   });
   expect(lineItem.subTotal).toBe('121.50');
+  done();
 });
