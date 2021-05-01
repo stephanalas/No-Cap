@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { createUser } from '../store/storeComponents/createUser';
+import { registerUser } from '../store/storeComponents/registerUser';
 
 class Register extends React.Component {
   constructor(props) {
@@ -24,8 +24,10 @@ class Register extends React.Component {
 
   async onSubmit(ev) {
     ev.preventDefault();
-    // thunk needed for submit
-    this.props.createUser(this.state);
+    this.props.registerUser({
+      ...this.state,
+      anonUser: this.props.user.id,
+    });
     this.props.history.push('/login');
   }
 
@@ -41,7 +43,13 @@ class Register extends React.Component {
         <label htmlFor="email">Email</label>
         <input value={email} onChange={onChange} name="email" />
         <label htmlFor="password">Password</label>
-        <input value={password} onChange={onChange} name="password" />
+        <input
+          title="Password cannot contain special character '$'"
+          value={password}
+          pattern="^[^$]\d+"
+          onChange={onChange}
+          name="password"
+        />
         <button type="submit">Register</button>
       </form>
     );
@@ -50,10 +58,14 @@ class Register extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUser: (user) => {
-      dispatch(createUser(user));
-    }
-  }
-}
+    registerUser: (user) => {
+      dispatch(registerUser(user));
+    },
+  };
+};
 
-export default connect(null, mapDispatchToProps)(Register);
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
