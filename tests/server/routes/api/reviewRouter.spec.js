@@ -7,7 +7,9 @@ const request = supertest(app);
 const { db, initDB } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order, Product, Review },
+  models: {
+    User, Order, Product, Review,
+  },
 } = require('../../../../server/db/models/associations');
 
 describe('Review Routes', () => {

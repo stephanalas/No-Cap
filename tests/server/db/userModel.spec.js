@@ -40,9 +40,7 @@ it('User email is valid email', async (done) => {
 
     newUser.validate();
   } catch (error) {
-    expect(error.message).toBe(
-      'Validation error: Validation isEmail on email failed'
-    );
+    expect(error.message).toBe('Validation error: Validation isEmail on email failed');
   }
   done();
 });

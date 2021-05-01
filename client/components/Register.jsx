@@ -35,22 +35,22 @@ class Register extends React.Component {
     const { onChange, onSubmit } = this;
     const { email, password, firstName, lastName } = this.state;
     return (
-      <form method="POST" onSubmit={onSubmit}>
-        <label htmlFor="firstName">First Name</label>
-        <input value={firstName} onChange={onChange} name="firstName" />
-        <label htmlFor="lastname">Last Name</label>
-        <input value={lastName} onChange={onChange} name="lastName" />
-        <label htmlFor="email">Email</label>
-        <input value={email} onChange={onChange} name="email" />
-        <label htmlFor="password">Password</label>
+      <form method='POST' onSubmit={onSubmit}>
+        <label htmlFor='firstName'>First Name</label>
+        <input value={firstName} onChange={onChange} name='firstName' />
+        <label htmlFor='lastname'>Last Name</label>
+        <input value={lastName} onChange={onChange} name='lastName' />
+        <label htmlFor='email'>Email</label>
+        <input value={email} onChange={onChange} name='email' />
+        <label htmlFor='password'>Password</label>
         <input
           title="Password cannot contain special character '$'"
           value={password}
-          pattern="^[^$]\d+"
+          pattern='^[^$]\d+'
           onChange={onChange}
-          name="password"
+          name='password'
         />
-        <button type="submit">Register</button>
+        <button type='submit'>Register</button>
       </form>
     );
   }

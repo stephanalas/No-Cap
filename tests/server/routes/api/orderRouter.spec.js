@@ -7,7 +7,9 @@ const request = supertest(app);
 const { db, initDB } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order, OrderLineItem, Product },
+  models: {
+    User, Order, OrderLineItem, Product,
+  },
 } = require('../../../../server/db/models/associations');
 
 describe('Orders Routes', () => {
@@ -135,9 +137,7 @@ describe('Orders Routes', () => {
   });
 
   test('PUT /api/orders/:id Updates an order to be fulfilled', async (done) => {
-    const response = await request
-      .put('/api/orders/2')
-      .send({ status: 'Fulfilled' });
+    const response = await request.put('/api/orders/2').send({ status: 'Fulfilled' });
 
     expect(JSON.parse(response.text).status).toBe('Fulfilled');
     done();

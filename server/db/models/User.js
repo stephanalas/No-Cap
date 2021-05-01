@@ -61,7 +61,7 @@ User.addHook('afterBulkCreate', async (users) => {
       const myCart = await Cart.create();
       user.cartId = myCart.id;
       await user.save();
-    })
+    }),
   );
 });
 
