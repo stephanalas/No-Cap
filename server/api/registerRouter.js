@@ -8,7 +8,9 @@ const registerRouter = express.Router();
 
 registerRouter.post('/', async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const {
+      firstName, lastName, email, password,
+    } = req.body;
 
     const tryToFindUser = await User.findOne({ where: { email } });
 
@@ -32,7 +34,9 @@ registerRouter.post('/', async (req, res, next) => {
 
 registerRouter.put('/', async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password, anonUser } = req.body;
+    const {
+      firstName, lastName, email, password, anonUser,
+    } = req.body;
 
     const tryToFindUser = await User.findOne({ where: { email } });
     const anonymousUser = await User.findByPk(anonUser);
