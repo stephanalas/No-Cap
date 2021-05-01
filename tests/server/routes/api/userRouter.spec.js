@@ -98,14 +98,14 @@ describe('User Routes', () => {
     const newEmail = 'mjordan3@hotmail.com';
     userData.firstName = newFirstName;
     userData.email = newEmail;
-    userData.isAdmin = true;
+    userData.role = 'Admin';
 
     response = await request.put(`/api/users/${user.id}`).send(userData);
     response = JSON.parse(response.text);
-    const { firstName, email, isAdmin } = response;
+    const { firstName, email, role } = response;
     expect(firstName).toBe(userData.firstName);
     expect(email).toBe(userData.email);
-    expect(isAdmin).toBe(userData.isAdmin);
+    expect(role).toBe(userData.role);
     done();
   });
 

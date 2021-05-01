@@ -33,9 +33,10 @@ const User = db.define('user', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  isAdmin: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+  role: {
+    type: DataTypes.ENUM(['Admin', 'Anonymous', 'User']),
+    defaultValue: 'Anonymous',
+    allowNull: false,
   },
   address: {
     type: DataTypes.STRING,

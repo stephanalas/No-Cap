@@ -35,7 +35,7 @@ registerRouter.post('/', async (req, res, next) => {
 registerRouter.put('/', async (req, res, next) => {
   try {
     const {
-      firstName, lastName, email, password, anonUser,
+      firstName, lastName, email, password, role, anonUser,
     } = req.body;
 
     const tryToFindUser = await User.findOne({ where: { email } });
@@ -49,8 +49,8 @@ registerRouter.put('/', async (req, res, next) => {
       lastName,
       email,
       password,
+      role,
     });
-    console.log(anonymousUser);
     const token = await User.authenticate({ email, password });
 
     res.status(201).send({ token });

@@ -390,21 +390,21 @@ const syncAndSeed = async () => {
         password: 'anon',
         firstName: 'Anon',
         lastName: 'ymous',
-        isAdmin: false,
+        role: 'User',
       }),
       User.create({
         email: 'admin@gmail.com',
         password: 'hello123',
         firstName: 'Admin',
         lastName: 'istrator',
-        isAdmin: true,
+        role: 'Admin',
       }),
       User.create({
         email: 'Lizzo@hotmail.com',
         password: 'juice',
         firstName: 'Melissa',
         lastName: 'Jefferson',
-        isAdmin: false,
+        role: 'User',
       }),
     ]);
 
