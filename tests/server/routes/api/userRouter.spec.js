@@ -214,6 +214,7 @@ describe('User Routes', () => {
     ];
 
     let response = await request.put('/api/users/1/updateCart').send({ cart });
+    console.log(response);
     response = JSON.parse(response.text);
 
     expect(response.cart.length).toBe(2);

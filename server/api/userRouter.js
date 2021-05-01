@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
   models: {
-    User, Cart, Order, Review,
+    User, Cart, Order, Review
   },
 } = require('../db/models/associations');
 const CartLineItem = require('../db/models/CartLineItem');
