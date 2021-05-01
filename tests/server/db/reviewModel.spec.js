@@ -15,9 +15,10 @@ afterAll(() => {
   db.close();
 });
 
-it('Review model exists', async () => {
+it('Review model exists', async (done) => {
   review = await Review.create({
     stars: 4,
   });
   expect(review.stars).toBe(4);
+  done();
 });

@@ -24,6 +24,11 @@ describe('Product Routes', () => {
       },
     ]);
   });
+
+  afterAll(async () => {
+    await db.close();
+  });
+
   test('GET /api/products length', async (done) => {
     const response = await request.get('/api/products');
     expect(JSON.parse(response.text).length).toBe(2);
@@ -85,8 +90,5 @@ describe('Product Routes', () => {
     response = (await request.delete(`/api/products/${product.id}`)).status;
     expect(response).toEqual(204);
     done();
-  });
-  afterAll(async () => {
-    await db.close();
   });
 });
