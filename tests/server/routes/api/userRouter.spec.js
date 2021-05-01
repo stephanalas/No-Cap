@@ -1,7 +1,7 @@
 /* eslint no-undef: 'off' */
 
 const supertest = require('supertest');
-const app = require('../../../../server/app');
+const { app } = require('../../../../server/app');
 
 const request = supertest(app);
 const { db, initDB } = require('../../../../server/db/index');
@@ -96,7 +96,7 @@ describe('User Routes', () => {
 
     response = await request.put(`/api/users/${user.id}`).send(userData);
     response = JSON.parse(response.text);
-    const { firstName, email, isAdmin} = response;
+    const { firstName, email, isAdmin } = response;
     expect(firstName).toBe(userData.firstName);
     expect(email).toBe(userData.email);
     expect(isAdmin).toBe(userData.isAdmin);

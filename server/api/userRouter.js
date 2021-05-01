@@ -65,7 +65,7 @@ userRouter.put('/:id', async (req, res, next) => {
   }
   // will need to update this with appropriate fields
   const {
-    firstName, lastName, email, password, isAdmin
+    firstName, lastName, email, password, isAdmin,
   } = req.body;
 
   try {

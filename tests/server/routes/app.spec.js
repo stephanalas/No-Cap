@@ -1,6 +1,7 @@
 /* eslint no-undef: 'off' */
 
-const app = require('supertest')(require('../../../server/app'));
+let { app } = require('../../../server/app');
+app = require('supertest')(app);
 
 describe('Routes', () => {
   test('GET /', async (done) => {

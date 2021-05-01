@@ -1,7 +1,7 @@
 /* eslint no-undef: 'off' */
 
 const supertest = require('supertest');
-const app = require('../../../../server/app');
+const { app } = require('../../../../server/app');
 
 const request = supertest(app);
 const { db } = require('../../../../server/db/index');
