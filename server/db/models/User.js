@@ -55,12 +55,14 @@ User.addHook('beforeUpdate', async (user) => {
 });
 
 // this hook is for seeding data for testing instead of functionality
-User.addHook('afterBulkCreate', (users) => {
-  users.forEach(async (user) => {
-    const myCart = await Cart.create();
-    user.cartId = myCart.id;
-    await user.save();
-  });
+User.addHook('afterBulkCreate', async (users) => {
+  await Promise.all(
+    users.map(async (user) => {
+      const myCart = await Cart.create();
+      user.cartId = myCart.id;
+      await user.save();
+    })
+  );
 });
 
 User.addHook('afterCreate', async (user) => {

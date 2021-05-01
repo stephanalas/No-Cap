@@ -14,7 +14,7 @@ afterAll(() => {
   db.close();
 });
 
-it('Product model exists', async () => {
+it('Product model exists', async (done) => {
   const product = await Product.create({
     name: 'Black Fedora',
     category: 'Fedora',
@@ -23,4 +23,5 @@ it('Product model exists', async () => {
     color: 'Black',
   });
   expect(product.name).toBe('Black Fedora');
+  done();
 });
