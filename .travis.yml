@@ -14,5 +14,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-5
+      - python
 env:
   - JWT=12345 CXX=g++-5
