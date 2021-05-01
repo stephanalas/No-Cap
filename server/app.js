@@ -10,25 +10,9 @@ const morgan = require('morgan');
 const path = require('path');
 
 const app = express();
-
-const {
-  models: { User },
-} = require('./db/models/associations');
-
-// need to figure out how to export/import for use as middleware
-async function requireToken(req, res, next) {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.byToken(token);
-    req.user = user;
-    next();
-  } catch (error) {
-    next(error);
-  }
-}
+const { urlencoded } = require('express');
 
 const router = require('./api/router');
-const { urlencoded } = require('express');
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -49,4 +33,4 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).send({ error: err.message });
 });
 
-module.exports = { app, requireToken };
+module.exports = { app };
