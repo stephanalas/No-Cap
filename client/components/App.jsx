@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import './styles/App.css';
 import Login from './Login';
 import Register from './Register';
+import Cart from './Cart';
 
 class App extends React.Component {
   render() {
@@ -14,6 +15,7 @@ class App extends React.Component {
         <Route component={NavBar} />
         <Route path='/register' component={Register} exact />
         <Route path='/login' component={Login} exact />
+        <Route path='/ShoppingCart' component={Cart} exact />
       </HashRouter>
     );
   }

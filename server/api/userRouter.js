@@ -1,7 +1,9 @@
 const express = require('express');
 
 const {
-  models: { User, Order, Review },
+  models: {
+    User, Cart, Order, Review,
+  },
 } = require('../db/models/associations');
 const CartLineItem = require('../db/models/CartLineItem');
 const OrderLineItem = require('../db/models/OrderLineItem');
@@ -41,14 +43,24 @@ userRouter.get('/:id', async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await User.findOne({
-      include: {
-        model: Order,
-        include: [
-          {
-            model: OrderLineItem,
-          },
-        ],
-      },
+      include: [
+        {
+          model: Order,
+          include: [
+            {
+              model: OrderLineItem,
+            },
+          ],
+        },
+        {
+          model: Cart,
+          include: [
+            {
+              model: CartLineItem,
+            },
+          ],
+        },
+      ],
       where: {
         id: userId,
       },
@@ -98,10 +110,19 @@ userRouter.delete('/:id', async (req, res, next) => {
 
 userRouter.get('/:id/cart', async (req, res, next) => {
   try {
+    console.log('hello');
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(await user.getCart());
+    res.send(
+      await user.getCart({
+        include: [
+          {
+            model: CartLineItem,
+          },
+        ],
+      }),
+    );
   } catch (ex) {
     next(ex);
   }
@@ -119,7 +140,13 @@ userRouter.post('/:id/orders', async (req, res, next) => {
     const user = await User.findByPk(id);
 
     // get the users cart line items
-    const cart = await user.getCart();
+    const cart = await user.getCart({
+      include: [
+        {
+          model: CartLineItem,
+        },
+      ],
+    });
     const cartItems = await CartLineItem.findAll({
       where: {
         cartId: cart.id,
@@ -207,7 +234,13 @@ userRouter.put('/:id/updateCart', async (req, res, next) => {
     const { cart } = req.body;
     const { id } = req.params;
     const user = await User.findByPk(id);
-    const userCart = await user.getCart();
+    const userCart = await user.getCart({
+      include: [
+        {
+          model: CartLineItem,
+        },
+      ],
+    });
 
     // delete all the users cartLineItems if they exist
     await CartLineItem.destroy({

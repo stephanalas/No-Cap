@@ -6,6 +6,9 @@ const bcrypt = require('bcrypt');
 const { DataTypes } = require('sequelize');
 const { db } = require('../index');
 const Cart = require('./Cart');
+const CartLineItem = require('./CartLineItem');
+const Order = require('./Order');
+const OrderLineItem = require('./OrderLineItem');
 
 const User = db.define('user', {
   id: {
@@ -86,6 +89,24 @@ User.authenticate = async ({ email, password }) => {
   if (!email || !password) return error;
 
   const user = await User.findOne({
+    include: [
+      {
+        model: Order,
+        include: [
+          {
+            model: OrderLineItem,
+          },
+        ],
+      },
+      {
+        model: Cart,
+        include: [
+          {
+            model: CartLineItem,
+          },
+        ],
+      },
+    ],
     where: {
       email,
     },

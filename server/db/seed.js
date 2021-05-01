@@ -2,7 +2,9 @@
 
 const { db } = require('./index');
 const {
-  models: { Product, User, Review },
+  models: {
+    Product, User, Review, CartLineItem,
+  },
 } = require('./models/associations');
 
 const syncAndSeed = async () => {
