@@ -2,7 +2,9 @@
 
 const { db } = require('./index');
 const {
-  models: { Product, User, Review, CartLineItem },
+  models: {
+    Product, User, Review, CartLineItem,
+  },
 } = require('./models/associations');
 
 const syncAndSeed = async () => {
@@ -476,25 +478,23 @@ const syncAndSeed = async () => {
         unitPrice: 15.99,
         productId: 2,
         quantity: 3,
-        subTotal: 31.98
+        subTotal: 31.98,
       }),
       CartLineItem.create({
         cartId: 1,
         unitPrice: 12.99,
         productId: 2,
         quantity: 1,
-        subTotal: 12.99
+        subTotal: 12.99,
       }),
       CartLineItem.create({
         cartId: 1,
-        unitPrice: 25.50,
+        unitPrice: 25.5,
         productId: 4,
         quantity: 2,
-        subTotal: 51.00
+        subTotal: 51.0,
       }),
     ]);
-
-
   } catch (ex) {
     console.log(ex);
   }
