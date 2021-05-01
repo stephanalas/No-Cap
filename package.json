@@ -49,7 +49,8 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^6.3.4"
+    "sequelize": "^6.3.4",
+    "styled-components": "^5.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
