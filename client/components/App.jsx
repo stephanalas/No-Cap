@@ -1,13 +1,14 @@
 /* eslint jsx-quotes: "off" */
 
-import React from "react";
-import { HashRouter, Route } from "react-router-dom";
-import NavBar from "./NavBar";
-import "./styles/App.css";
-import Login from "./Login";
-import Register from "./Register";
-import AllProducts from "./AllProducts";
-import SingleProduct from "./SingleProduct";
+import React from 'react';
+import { HashRouter, Route } from 'react-router-dom';
+import NavBar from './NavBar';
+import './styles/App.css';
+import Login from './Login';
+import Register from './Register';
+import AllProducts from './AllProducts';
+import SingleProduct from './SingleProduct';
+import Filter from './Filter';
 
 class App extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class App extends React.Component {
         <Route path="/login" component={Login} exact />
         <Route path="/Products" component={AllProducts} exact />
         <Route path="/Products/:id" component={SingleProduct} exact />
+        <Route path="/test" component={Filter} exact />
       </HashRouter>
     );
   }
