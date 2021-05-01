@@ -1,7 +1,7 @@
 /* eslint no-console: 'off' */
 
 // allows use to use the environment variables in the .env file
-// require('dotenv').config();
+require('dotenv').config();
 
 const express = require('express');
 // morgan for development only!!

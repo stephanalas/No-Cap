@@ -5,5 +5,12 @@ services:
   - postgresql
 before_script:
   - psql -c 'create database box_jumpers_db;' -U postgres
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-4.8
+      - g++-4.8
 env:
-  - JWT=12345
+  - JWT=12345 CXX=g++-4.8
