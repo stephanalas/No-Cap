@@ -15,4 +15,4 @@ addons:
     packages:
       - g++-5
 env:
-  - JWT=12345 CXX=g++-4.8
+  - JWT=12345 CXX=g++-5
