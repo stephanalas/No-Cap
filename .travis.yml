@@ -3,7 +3,7 @@ before_install:
   - npm install -g node-gyp
 language: node_js
 node_js:
-  - stable
+  - 15
 services:
   - postgresql
 before_script:
