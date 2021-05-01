@@ -6,5 +6,4 @@ services:
 before_script:
   - psql -c 'create database box_jumpers_db;' -U postgres
 env:
-  JWT=dummy-test-key
-
+  - JWT=dummy-test-key
