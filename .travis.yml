@@ -1,19 +1,9 @@
-sudo: required
-before_install:
-  - npm install -g node-gyp
 language: node_js
 node_js:
-  - 15
+  - stable
 services:
   - postgresql
 before_script:
   - psql -c 'create database box_jumpers_db;' -U postgres
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-5
-      - python
 env:
-  - JWT=12345 CXX=g++-5
+  - JWT=12345
