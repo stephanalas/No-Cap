@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+
 const {
   models: { User },
 } = require('../db/models/associations');
@@ -11,12 +11,21 @@ registerRouter.post('/', async (req, res, next) => {
     const {
       firstName, lastName, email, password,
     } = req.body;
-    const hashPassword = await bcrypt.hash(password, 10);
+
+    const tryToFindUser = await User.findOne({ where: { email } });
+
+    if (tryToFindUser) {
+      res.status(403).json({ message: 'User already exists ' });
+    }
     await User.create({
-      firstName, lastName, email, password: hashPassword,
+      firstName,
+      lastName,
+      email,
+      password,
     });
-    req.flash('success_msg', 'Successfully registered');
-    res.sendStatus(200);
+    const token = await User.authenticate(req.body);
+
+    res.status(201).send({ token });
   } catch (error) {
     res.redirect('/register');
     next(error);

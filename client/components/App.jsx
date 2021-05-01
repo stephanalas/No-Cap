@@ -12,8 +12,8 @@ class App extends React.Component {
     return (
       <HashRouter>
         <Route component={NavBar} />
-        <Route path="/register" component={Register} exact />
-        <Route path="/login" component={Login} exact />
+        <Route path='/register' component={Register} exact />
+        <Route path='/login' component={Login} exact />
       </HashRouter>
     );
   }

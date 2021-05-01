@@ -7,20 +7,23 @@ import './styles/NavBar.css';
 class NavBar extends React.Component {
   render() {
     return (
-      <div id="nav">
-        <NavLink className="nav-link underline" to="/Home">
+      <div id='nav'>
+        <NavLink className='nav-link underline' to='/Home'>
           Home
         </NavLink>
-        <NavLink className="nav-link underline" to="/Products">
+        <NavLink className='nav-link underline' to='/Products'>
           Products
         </NavLink>
-        <NavLink className="nav-link underline" to="/Contact">
+        <NavLink className='nav-link underline' to='/Contact'>
           Contact Us
         </NavLink>
-        <NavLink className="nav-link underline" to="/Login">
+        <NavLink className='nav-link underline' to='/Login'>
           Log In
         </NavLink>
-        <NavLink className="nav-link underline" to="/ShoppingCart">
+        <NavLink className='nav-link underline' to='/register'>
+          Register
+        </NavLink>
+        <NavLink className='nav-link underline' to='/ShoppingCart'>
           Shopping Cart
         </NavLink>
       </div>

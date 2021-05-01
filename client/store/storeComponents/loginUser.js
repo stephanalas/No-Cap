@@ -4,18 +4,13 @@
 import axios from 'axios';
 
 // action type
-const CREATE_USER = 'CREATE_USER';
+const LOGIN_USER = 'LOGIN_USER';
 // action creator
-const _createUser = (user) => ({
-  type: CREATE_USER,
-  user,
-});
-
+const _loginUser = (user) => ({ type: LOGIN_USER, user });
 // thunk
-const createUser = (user) => async (dispatch) => {
+const loginUser = (user) => async (dispatch) => {
   try {
-    // might need await here. putting in await gets rid of action console log though
-    const response = await axios.post('/api/register', user);
+    const response = await axios.post('/api/login/auth', user);
     const { token } = response.data;
     window.localStorage.setItem('token', token);
     let authenticatedUser;
@@ -27,10 +22,10 @@ const createUser = (user) => async (dispatch) => {
       });
     }
     delete authenticatedUser.data.password;
-    dispatch(_createUser(authenticatedUser.data));
+    dispatch(_loginUser(authenticatedUser.data));
   } catch (err) {
     console.log(err.response);
   }
 };
 
-export { createUser, CREATE_USER };
+export { loginUser, LOGIN_USER };
