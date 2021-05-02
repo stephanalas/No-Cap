@@ -24,9 +24,7 @@ class Login extends React.Component {
   async onSubmit(ev) {
     try {
       ev.preventDefault();
-
       this.props.loginUser(this.state);
-
       this.props.history.push('/');
     } catch (error) {
       console.log(error);
@@ -38,11 +36,11 @@ class Login extends React.Component {
     const { email, password } = this.state;
     return (
       <form onSubmit={onSubmit}>
-        <label htmlFor='email'>Email</label>
-        <input value={email} onChange={onChange} name='email' />
-        <label htmlFor='password'>Password</label>
-        <input value={password} onChange={onChange} name='password' />
-        <button type='submit'>Login In</button>
+        <label htmlFor="email">Email</label>
+        <input value={email} onChange={onChange} name="email" />
+        <label htmlFor="password">Password</label>
+        <input value={password} onChange={onChange} name="password" />
+        <button type="submit">Login In</button>
       </form>
     );
   }

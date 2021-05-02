@@ -14,7 +14,8 @@ afterAll(async () => {
   db.close();
 });
 
-it('Cart Model exists', async () => {
+it('Cart Model exists', async (done) => {
   const cart = await Cart.create({});
   expect(cart.id).toBe(1);
+  done();
 });

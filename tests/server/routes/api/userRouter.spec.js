@@ -17,6 +17,7 @@ describe('User Routes', () => {
     // await Order.sync({ force: true });
     // await User.sync({ force: true });
     await initDB();
+
     await User.bulkCreate([
       {
         firstName: 'Joe',
@@ -40,6 +41,11 @@ describe('User Routes', () => {
     });
     await Order.bulkCreate([{ userId: 2 }, { userId: 2 }]);
   });
+
+  afterAll(async () => {
+    await db.close();
+  });
+
   test('GET /api/users length', async (done) => {
     const response = await request.get('/api/users');
     expect(JSON.parse(response.text).length).toBe(2);
@@ -92,14 +98,14 @@ describe('User Routes', () => {
     const newEmail = 'mjordan3@hotmail.com';
     userData.firstName = newFirstName;
     userData.email = newEmail;
-    userData.isAdmin = true;
+    userData.role = 'Admin';
 
     response = await request.put(`/api/users/${user.id}`).send(userData);
     response = JSON.parse(response.text);
-    const { firstName, email, isAdmin } = response;
+    const { firstName, email, role } = response;
     expect(firstName).toBe(userData.firstName);
     expect(email).toBe(userData.email);
-    expect(isAdmin).toBe(userData.isAdmin);
+    expect(role).toBe(userData.role);
     done();
   });
 
@@ -120,14 +126,14 @@ describe('User Routes', () => {
   test('POST /api/users/:id/orders posts a users order', async (done) => {
     const user = await User.findByPk(1);
 
-    const lineItem = await CartLineItem.create({
+    await CartLineItem.create({
       cartId: user.cartId,
       unitPrice: 12.5,
       productId: 1,
       quantity: 3,
     });
 
-    const lineItem2 = await CartLineItem.create({
+    await CartLineItem.create({
       cartId: user.cartId,
       unitPrice: 5.0,
       productId: 1,
@@ -166,7 +172,7 @@ describe('User Routes', () => {
         total: 99.75,
       },
     ]);
-    const lineItem = await OrderLineItem.create({
+    await OrderLineItem.create({
       orderId: 1,
       unitPrice: 19.95,
       productId: 1,
@@ -174,14 +180,14 @@ describe('User Routes', () => {
       subTotal: 19.95,
     });
 
-    const lineItem2 = await OrderLineItem.create({
+    await OrderLineItem.create({
       orderId: 2,
       unitPrice: 19.95,
       productId: 1,
       quantity: 2,
       subTotal: 39.9,
     });
-    const lineItem3 = await OrderLineItem.create({
+    await OrderLineItem.create({
       orderId: 2,
       unitPrice: 10.0,
       productId: 2,
@@ -281,9 +287,5 @@ describe('User Routes', () => {
     expect(data.stars).toBe(5);
     expect(data.body).toBe(body);
     done();
-  });
-
-  afterAll(async () => {
-    await db.close();
   });
 });

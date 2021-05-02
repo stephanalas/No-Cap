@@ -33,9 +33,10 @@ const User = db.define('user', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  isAdmin: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+  role: {
+    type: DataTypes.ENUM(['Admin', 'Anonymous', 'User']),
+    defaultValue: 'Anonymous',
+    allowNull: false,
   },
   address: {
     type: DataTypes.STRING,
@@ -48,13 +49,21 @@ User.addHook('beforeCreate', async (user) => {
   }
 });
 
+User.addHook('beforeUpdate', async (user) => {
+  if (user.password && user.password.slice(0, 4) !== '$2b$') {
+    user.password = await bcrypt.hash(user.password, 12);
+  }
+});
+
 // this hook is for seeding data for testing instead of functionality
-User.addHook('afterBulkCreate', (users) => {
-  users.forEach(async (user) => {
-    const myCart = await Cart.create();
-    user.cartId = myCart.id;
-    await user.save();
-  });
+User.addHook('afterBulkCreate', async (users) => {
+  await Promise.all(
+    users.map(async (user) => {
+      const myCart = await Cart.create();
+      user.cartId = myCart.id;
+      await user.save();
+    }),
+  );
 });
 
 User.addHook('afterCreate', async (user) => {
