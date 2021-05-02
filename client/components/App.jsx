@@ -13,11 +13,8 @@ import AllProducts from "./AllProducts";
 import SingleProduct from "./SingleProduct";
 import Cart from './Cart';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
+class App extends React.Component {
   componentDidMount() {
     const anonUser = {
       email: faker.internet.email(),
