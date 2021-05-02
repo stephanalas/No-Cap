@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { loginUser } from '../store/storeComponents/loginUser';
 
 class Login extends React.Component {
@@ -34,13 +35,18 @@ class Login extends React.Component {
     const { onChange, onSubmit } = this;
     const { email, password } = this.state;
     return (
-      <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input value={email} onChange={onChange} name="email" />
-        <label htmlFor="password">Password</label>
-        <input value={password} onChange={onChange} name="password" />
-        <button type="submit">Login In</button>
-      </form>
+      <div>
+        <form onSubmit={onSubmit}>
+          <label htmlFor="email">Email</label>
+          <input value={email} onChange={onChange} name="email" />
+          <label htmlFor="password">Password</label>
+          <input value={password} onChange={onChange} name="password" />
+          <button type="submit">Login In</button>
+        </form>
+        <Link to="/register">
+          <button type="button">Register</button>
+        </Link>
+      </div>
     );
   }
 }

@@ -28,12 +28,13 @@ class NavBar extends React.Component {
             Log In
           </NavLink>
         )}
-        <NavLink className="nav-link underline" to="/register">
-          Register
-        </NavLink>
-        <NavLink className="nav-link underline" to="/admin">
-          Admin
-        </NavLink>
+        {this.props.user.role && this.props.user.role === 'Admin' ? (
+          <NavLink className="nav-link underline" to="/admin">
+            Admin
+          </NavLink>
+        ) : (
+          ''
+        )}
         <NavLink className="nav-link underline" to="/ShoppingCart">
           Shopping Cart
         </NavLink>

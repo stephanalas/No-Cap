@@ -1,5 +1,9 @@
-.all-products-ul {
+.all-users-ul {
   border: solid 1px black;
   display: flex;
+}
+.all-users-view {
+  display: flex;
+  flex-direction: row;
   flex-flow: wrap;
 }
