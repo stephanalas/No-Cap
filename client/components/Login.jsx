@@ -2,7 +2,8 @@
 /* eslint jsx-quotes: "off" */
 
 import React from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { loginUser } from '../store/storeComponents/loginUser';
 
 class Login extends React.Component {
   constructor(props) {
@@ -22,11 +23,7 @@ class Login extends React.Component {
   async onSubmit(ev) {
     try {
       ev.preventDefault();
-      const { email, password } = this.state;
-      //comment
-      // thunk needed for submit
-      const message = (await axios.post('/api/login', this.state)).data;
-      console.log(message);
+      this.props.loginUser(this.state);
       this.props.history.push('/');
     } catch (error) {
       console.log(error);
@@ -48,4 +45,10 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch(loginUser(user)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

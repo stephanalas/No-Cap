@@ -1,8 +1,10 @@
 /* eslint jsx-quotes: "off" */
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './styles/NavBar.css';
+// import { connect } from 'react-redux';
 
 class NavBar extends React.Component {
   render() {
@@ -17,8 +19,20 @@ class NavBar extends React.Component {
         <NavLink className="nav-link underline" to="/Contact">
           Contact Us
         </NavLink>
-        <NavLink className="nav-link underline" to="/Login">
-          Log In
+        {this.props.user.role && this.props.user.role !== 'Anonymous' ? (
+          <NavLink className="nav-link underline" to="/Logout">
+            Logout
+          </NavLink>
+        ) : (
+          <NavLink className="nav-link underline" to="/Login">
+            Log In
+          </NavLink>
+        )}
+        <NavLink className="nav-link underline" to="/register">
+          Register
+        </NavLink>
+        <NavLink className="nav-link underline" to="/admin">
+          Admin
         </NavLink>
         <NavLink className="nav-link underline" to="/ShoppingCart">
           Shopping Cart
@@ -28,4 +42,7 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(NavBar);
+// export default NavBar;

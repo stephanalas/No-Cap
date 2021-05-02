@@ -9,6 +9,7 @@ let user;
 
 beforeAll(async () => {
   await initDB();
+
   user = await User.create({
     email: 'blabal@yahoo.com',
     password: 'bcrypt',
@@ -22,11 +23,12 @@ afterAll(() => {
   db.close();
 });
 
-it('User model exists', () => {
+it('User model exists', (done) => {
   expect(user.email).toEqual('blabal@yahoo.com');
+  done();
 });
 
-it('User email is valid email', async () => {
+it('User email is valid email', async (done) => {
   try {
     const newUser = await User.create({
       email: 'blabalyahoo.com',
@@ -40,4 +42,5 @@ it('User email is valid email', async () => {
   } catch (error) {
     expect(error.message).toBe('Validation error: Validation isEmail on email failed');
   }
+  done();
 });

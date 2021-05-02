@@ -1,6 +1,6 @@
 /* eslint no-console: 'off' */
 
-const app = require('./app');
+const { app } = require('./app');
 
 const syncAndSeed = require('./db/seed');
 

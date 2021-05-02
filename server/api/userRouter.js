@@ -1,7 +1,9 @@
 const express = require('express');
 
 const {
-  models: { User, Order, Review },
+  models: {
+    User, Order, Review, Cart, Product,
+  },
 } = require('../db/models/associations');
 const CartLineItem = require('../db/models/CartLineItem');
 const OrderLineItem = require('../db/models/OrderLineItem');
@@ -41,14 +43,24 @@ userRouter.get('/:id', async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await User.findOne({
-      include: {
-        model: Order,
-        include: [
-          {
-            model: OrderLineItem,
-          },
-        ],
-      },
+      include: [
+        {
+          model: Order,
+          include: [
+            {
+              model: OrderLineItem,
+            },
+          ],
+        },
+        {
+          model: Cart,
+          include: [
+            {
+              model: CartLineItem,
+            },
+          ],
+        },
+      ],
       where: {
         id: userId,
       },
@@ -65,7 +77,7 @@ userRouter.put('/:id', async (req, res, next) => {
   }
   // will need to update this with appropriate fields
   const {
-    firstName, lastName, email, password, isAdmin
+    firstName, lastName, email, password, role,
   } = req.body;
 
   try {
@@ -75,7 +87,7 @@ userRouter.put('/:id', async (req, res, next) => {
       firstName,
       lastName,
       email,
-      isAdmin,
+      role,
       password,
     });
 
@@ -101,7 +113,16 @@ userRouter.get('/:id/cart', async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(await user.getCart());
+    res.send(
+      await user.getCart({
+        include: {
+          model: CartLineItem,
+          include: {
+            model: Product,
+          },
+        },
+      }),
+    );
   } catch (ex) {
     next(ex);
   }
@@ -266,6 +287,20 @@ userRouter.post('/:userId/products/:productId/reviews', async (req, res, next) =
       stars,
     });
     res.status(201).send(review);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.post('/togglerole', async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findByPk(userId);
+    const newRole = user.role === 'Admin' ? 'User' : 'Admin';
+    const updatedUser = await user.update({
+      role: newRole,
+    });
+    res.status(200).send(updatedUser);
   } catch (ex) {
     next(ex);
   }
