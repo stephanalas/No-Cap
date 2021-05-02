@@ -2,115 +2,163 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Filter extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      filterOptions: {},
-    };
-    this.onChange = this.onChange.bind(this);
+  constructor(props) {
+    super(props);
   }
-  onChange(ev) {
-    const prevOptions = this.state.filterOptions;
-    if (!prevOptions[ev.target.name]) {
-      this.setState({
-        filterOptions: { ...prevOptions, [ev.target.name]: true },
-      });
-    } else {
-      this.setState({
-        filterOptions: {
-          ...prevOptions,
-          [ev.target.name]: !prevOptions[ev.target.name],
-        },
-      });
-    }
-    console.log(this.state);
-  }
-  handleClick(ev) {}
+
   render() {
-    const onChange = this.onChange;
+    console.log(this);
+    const { onChange, handleClick, handleReset } = this.props;
     return (
       <section>
-        <ul>
+        <ul className="category-list">
           <label>Category</label>
           <li>
             {' '}
             Beanie
-            <input type="checkbox" onChange={onChange} name="beanie"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Beanie"
+            ></input>
           </li>
           <li>
             {' '}
             Beret
-            <input type="checkbox" onChange={onChange} name="beret"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Beret"
+            ></input>
           </li>
           <li>
             {' '}
             Baseball Hat
             <input
+              className="filter-checkbox"
               type="checkbox"
               onChange={onChange}
-              name="baseballHat"
+              name="Baseball Hat"
             ></input>
           </li>
           <li>
             {' '}
             Fedora
-            <input type="checkbox" onChange={onChange} name="fedora"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Fedora"
+            ></input>
           </li>
           <li>
             {' '}
             Cowboy Hat
-            <input type="checkbox" onChange={onChange} name="cowboyHat"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Cowboy Hat"
+            ></input>
           </li>
           <li>
             {' '}
             Fez
-            <input type="checkbox" onChange={onChange} name="fez"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Fez"
+            ></input>
           </li>
           <li>
             {' '}
             Top Hat
-            <input type="checkbox" onChange={onChange} name="topHat"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Top Hat"
+            ></input>
           </li>
           <li>
             {' '}
             other
-            <input type="checkbox" onChange={onChange} name="other"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Other"
+            ></input>
           </li>
         </ul>
-        <ul>
+        <ul className="color-list">
           <label htmlFor="">Color</label>
           <li>
             {' '}
             Black
-            <input type="checkbox" onChange={onChange} name="black"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Black"
+            ></input>
           </li>
           <li>
             {' '}
             Brown
-            <input type="checkbox" onChange={onChange} name="brown"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Brown"
+            ></input>
           </li>
           <li>
             {' '}
             Red
-            <input type="checkbox" onChange={onChange} name="red"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Red"
+            ></input>
           </li>
           <li>
             {' '}
             Green
-            <input type="checkbox" onChange={onChange} name="green"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Green"
+            ></input>
           </li>
           <li>
             {' '}
             Blue
-            <input type="checkbox" onChange={onChange} name="blue"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Blue"
+            ></input>
           </li>
           <li>
             {' '}
             Other
-            <input type="checkbox" onChange={onChange} name="other"></input>
+            <input
+              className="filter-checkbox"
+              type="checkbox"
+              onChange={onChange}
+              name="Other"
+            ></input>
           </li>
         </ul>
-        <button>Apply Filter</button>
+        <button onClick={handleClick}>Apply Filters</button>
+        <button onClick={handleReset}>Reset Filters</button>
       </section>
     );
   }
