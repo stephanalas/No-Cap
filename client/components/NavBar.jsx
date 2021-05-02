@@ -1,30 +1,37 @@
 /* eslint jsx-quotes: "off" */
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch } from 'react-router-dom';
 import './styles/NavBar.css';
 import { connect } from 'react-redux';
 
 class NavBar extends React.Component {
   render() {
     return (
-      <div id="nav">
-        <NavLink className="nav-link underline" to="/Home">
+      <div id='nav'>
+        <NavLink className='nav-link underline' to='/Home'>
           Home
         </NavLink>
-        <NavLink className="nav-link underline" to="/Products">
+        <NavLink className='nav-link underline' to='/Products'>
           Products
         </NavLink>
-        <NavLink className="nav-link underline" to="/Contact">
+        <NavLink className='nav-link underline' to='/Contact'>
           Contact Us
         </NavLink>
-        <NavLink className="nav-link underline" to="/Login">
-          Log In
-        </NavLink>
-        <NavLink className="nav-link underline" to="/register">
+        {this.props.user.role && this.props.user.role !== 'Anonymous' ? (
+          <NavLink className='nav-link underline' to='/Logout'>
+            Logout
+          </NavLink>
+        ) : (
+          <NavLink className='nav-link underline' to='/Login'>
+            Log In
+          </NavLink>
+        )}
+
+        <NavLink className='nav-link underline' to='/register'>
           Register
         </NavLink>
-        <NavLink className="nav-link underline" to="/ShoppingCart">
+        <NavLink className='nav-link underline' to='/ShoppingCart'>
           Shopping Cart
         </NavLink>
       </div>
@@ -32,4 +39,7 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(NavBar);
+// export default NavBar;
