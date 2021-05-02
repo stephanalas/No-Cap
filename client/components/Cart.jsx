@@ -29,16 +29,17 @@ class Cart extends React.Component {
         }
     }
 
+
     render(){
-        const {cart} = this.props;
-        return cart ? (
+        const {cart_line_items} = this.props.cart;
+        return cart_line_items ? (
             <div>
                 <div>
                     Cart 
                 </div>
                 <div id= "cart-list"> 
                 {
-                    cart.map(cartItem =>{
+                    cart_line_items.map(cartItem =>{
                         return (
                             <div className = "cart-item" key={cartItem.id}>
                                 <img src={cartItem.product.photo}/>
