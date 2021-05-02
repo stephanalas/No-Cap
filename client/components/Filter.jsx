@@ -7,10 +7,9 @@ class Filter extends React.Component {
   }
 
   render() {
-    console.log(this);
     const { onChange, handleClick, handleReset } = this.props;
     return (
-      <section>
+      <section className="filter">
         <ul className="category-list">
           <label>Category</label>
           <li>

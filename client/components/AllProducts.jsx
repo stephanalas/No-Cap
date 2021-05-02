@@ -28,9 +28,6 @@ class AllProducts extends React.Component {
     if (!prevState.products.length) {
       this.setState({ ...this.state, products: this.props.products });
     }
-    if (!this.state.products.length) {
-      console.log(prevProps);
-    }
   }
   onChange(ev) {
     const { filterOptions } = this.state;
@@ -60,12 +57,11 @@ class AllProducts extends React.Component {
       // {
       //  color: [...aBunchOfColors],
       //  category: [...AlotOfCategories]
-      // }
+      // }             VVVVVVVV
       const filters = setFilters(filterOptions);
-      console.log(filters);
+
       // filters the products based on whats in the filters object
       const filteredProducts = productFilter(this.props.products, filters);
-      console.log(filteredProducts);
 
       this.setState({ ...this.state, products: filteredProducts });
     }
