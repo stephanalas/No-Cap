@@ -8,11 +8,17 @@ import NavBar from './NavBar';
 import './styles/App.css';
 import Login from './Login';
 import Register from './Register';
+import AllProducts from './AllProducts';
+import SingleProduct from './SingleProduct';
+import Filter from './Filter';
 import { createUser } from '../store/storeComponents/createUser';
 import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
 import Admin from './Admin';
 import Cart from './Cart';
+
+import Logout from './Logout';
+
 
 class App extends React.Component {
   componentDidMount() {
@@ -32,12 +38,14 @@ class App extends React.Component {
     return (
       <HashRouter>
         <Route component={NavBar} />
-        <Route path="/register" component={Register} exact />
-        <Route path="/login" component={Login} exact />
-        <Route path="/Products" component={AllProducts} exact />
-        <Route path="/Products/:id" component={SingleProduct} exact />
-        <Route path="/ShoppingCart" component={Cart} exact />
         <Route path="/Admin" component={Admin} exact />
+        <Route path="/test" component={Filter} exact />
+        <Route path='/register' component={Register} exact />
+        <Route path='/login' component={Login} exact />
+        <Route path='/Logout' component={Logout} exact />
+        <Route path='/Products' component={AllProducts} exact />
+        <Route path='/Products/:id' component={SingleProduct} exact />
+        <Route path='/ShoppingCart' component={Cart} exact />
       </HashRouter>
     );
   }
