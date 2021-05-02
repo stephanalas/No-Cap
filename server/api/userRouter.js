@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
   models: {
-    User, Order, Review, Cart, Product
+    User, Order, Review, Cart, Product,
   },
 } = require('../db/models/associations');
 const CartLineItem = require('../db/models/CartLineItem');
@@ -120,7 +120,7 @@ userRouter.get('/:id/cart', async (req, res, next) => {
           include: {
             model: Product,
           },
-        }
+        },
       }),
     );
   } catch (ex) {
@@ -287,6 +287,20 @@ userRouter.post('/:userId/products/:productId/reviews', async (req, res, next) =
       stars,
     });
     res.status(201).send(review);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.post('/togglerole', async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findByPk(userId);
+    const newRole = user.role === 'Admin' ? 'User' : 'Admin';
+    const updatedUser = await user.update({
+      role: newRole,
+    });
+    res.status(200).send(updatedUser);
   } catch (ex) {
     next(ex);
   }

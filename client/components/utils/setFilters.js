@@ -4,7 +4,7 @@ export default (filterOptions) => {
     category: [],
   };
   const colors = ['Black', 'Brown', 'Red', 'Green', 'Blue', 'Other'];
-  for (let key in filterOptions) {
+  for (const key in filterOptions) {
     if (colors.includes(key) && filterOptions[key]) {
       filters.color.push(key);
     } else if (!colors.includes(key) && filterOptions[key]) {

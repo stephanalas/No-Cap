@@ -16,7 +16,6 @@ const registerUser = (user) => async (dispatch) => {
   try {
     // might need await here. putting in await gets rid of action console log though
     const response = await axios.put('/api/register', user);
-    console.log(user);
     const { token } = response.data;
     window.localStorage.setItem('token', token);
     let authenticatedUser;
