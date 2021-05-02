@@ -1,17 +1,16 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint jsx-quotes: "off" */
 
-import React from 'react';
-import { connect } from 'react-redux';
-import './styles/Cart.css';
-import { loadCart } from '../store/storeComponents/loadCart';
+import React from "react";
+import { connect } from "react-redux";
+import "./styles/Cart.css";
 
 class Cart extends React.Component {
   constructor() {
     super();
     this.state = {
       cart: [],
-      cartTotal: '',
+      cartTotal: "",
     };
   }
 
@@ -48,7 +47,7 @@ class Cart extends React.Component {
         </div>
       </div>
     ) : (
-      'Loading'
+      "Loading"
     );
   }
 }
@@ -57,11 +56,5 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loginUser: (user) => dispatch(loginUser(user)),
-  };
-};
-
 //export default connect(null, mapDispatchToProps)(Cart)
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps)(Cart);
