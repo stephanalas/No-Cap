@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const { DataTypes } = require('sequelize');
 const { db } = require('../index');
 const Cart = require('./Cart');
+const CartLineItem = require('./associations');
 
 const User = db.define('user', {
   id: {
@@ -75,8 +76,16 @@ User.addHook('afterCreate', async (user) => {
 User.byToken = async (token) => {
   try {
     const { userId } = await jwt.verify(token, process.env.JWT);
-    const user = await User.findByPk(userId);
+    const user = await User.findOne({
+      where:{
+        id: userId,
+      },
+      include:{
+        model: Cart,
+      },
+    });
     if (user) {
+      console.log(user);
       return user;
     }
     const error = Error('bad credentials');

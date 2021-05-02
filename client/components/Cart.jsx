@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './styles/Cart.css';
 import {loadCart} from '../store/storeComponents/loadCart';
+import { loginUser } from '../store/storeComponents/loginUser';
 
 class Cart extends React.Component {
 
@@ -18,8 +19,9 @@ class Cart extends React.Component {
     
     componentDidMount(){
         try{
-            let userID = 1;
-            this.props.loadCart(userID);
+            this.setState({
+                cart: this.props.cart
+            })
         }
         catch(err)
         {
@@ -29,7 +31,6 @@ class Cart extends React.Component {
 
     render(){
         const {cart} = this.props;
-        console.log(cart);
         return cart ? (
             <div>
                 <div>
@@ -63,13 +64,12 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps = (state)=> {
-    return state
-    
+    return state   
 } 
 
 const mapDispatchToProps = (dispatch)=> {
     return{
-        loadCart: (id)=> dispatch(loadCart(id)),
+        loginUser: (user)=> dispatch(loginUser(user)),
     }
 }
 //export default connect(null, mapDispatchToProps)(Cart)
