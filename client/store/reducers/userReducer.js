@@ -16,9 +16,11 @@ const userReducer = (state = {}, action) => {
   }
   if (action.type === TOGGLE_ROLE) {
     return { ...state, ...action.user };
+  }
   if (action.type === LOGOUT_USER) {
     return {};
   }
   return state;
 };
+
 export default userReducer;
