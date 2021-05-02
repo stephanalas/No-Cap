@@ -1,13 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
-import { getProducts } from "../store/storeComponents/getProducts";
-import ProductCard from "./ProductCard";
-import "./styles/AllProducts.css";
+import React from 'react';
+import { connect } from 'react-redux';
+import { getProducts } from '../store/storeComponents/getProducts';
+import ProductCard from './ProductCard';
+import './styles/AllProducts.css';
 
 class AllProducts extends React.Component {
   componentDidMount() {
     this.props.loadProducts();
   }
+
   render() {
     const { products } = this.props;
     return (

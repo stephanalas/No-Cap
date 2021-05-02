@@ -1,0 +1,7 @@
+.user-card {
+  border: solid 1px black;
+  list-style: none;
+  width: 14rem;
+  height: 20rem;
+  margin: 0.3rem 0.3rem;
+}
