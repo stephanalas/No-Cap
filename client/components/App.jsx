@@ -14,9 +14,11 @@ import Filter from './Filter';
 import { createUser } from '../store/storeComponents/createUser';
 import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
+import Admin from './Admin';
+import Cart from './Cart';
+
 import Logout from './Logout';
 
-import Cart from './Cart';
 
 class App extends React.Component {
   componentDidMount() {
@@ -36,6 +38,7 @@ class App extends React.Component {
     return (
       <HashRouter>
         <Route component={NavBar} />
+        <Route path="/Admin" component={Admin} exact />
         <Route path="/test" component={Filter} exact />
         <Route path='/register' component={Register} exact />
         <Route path='/login' component={Login} exact />

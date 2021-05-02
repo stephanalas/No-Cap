@@ -3,7 +3,7 @@
 import React from 'react';
 import { NavLink, Switch } from 'react-router-dom';
 import './styles/NavBar.css';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 class NavBar extends React.Component {
   render() {
@@ -31,7 +31,10 @@ class NavBar extends React.Component {
         <NavLink className='nav-link underline' to='/register'>
           Register
         </NavLink>
-        <NavLink className='nav-link underline' to='/ShoppingCart'>
+        <NavLink className="nav-link underline" to="/admin">
+          Admin
+        </NavLink>
+        <NavLink className="nav-link underline" to="/ShoppingCart">
           Shopping Cart
         </NavLink>
       </div>
