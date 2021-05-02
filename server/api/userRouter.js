@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
   models: {
-    User, Order, Review, Cart,
+    User, Order, Review, Cart, Product
   },
 } = require('../db/models/associations');
 const CartLineItem = require('../db/models/CartLineItem');
@@ -117,7 +117,10 @@ userRouter.get('/:id/cart', async (req, res, next) => {
       await user.getCart({
         include: {
           model: CartLineItem,
-        },
+          include: {
+            model: Product,
+          },
+        }
       }),
     );
   } catch (ex) {

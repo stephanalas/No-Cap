@@ -7,7 +7,7 @@ import './styles/Cart.css';
 import {loadCart} from '../store/storeComponents/loadCart';
 
 class Cart extends React.Component {
-    
+
     constructor() {
         super();
         this.state = {
@@ -29,34 +29,35 @@ class Cart extends React.Component {
 
     render(){
         const {cart} = this.props;
-        /*
-        return (
+        console.log(cart);
+        return cart ? (
             <div>
                 <div>
-                    <h1>Cart</h1>
+                    Cart 
+                </div>
                 <div id= "cart-list"> 
                 {
-                    cartItems.map(lineItem =>{
+                    cart.map(cartItem =>{
                         return (
-                            <div id = "line-item" key={lineItem.id}>       
-                                <div className="line-info">
-                                    <li>{lineItem.productName}</li>
-                                    <li>{lineItem.quantity}</li>
-                                    <li>{lineItem.price}</li>
-                                    <li>{lineItem.subTotal}</li>
+                            <div className = "cart-item" key={cartItem.id}>
+                                <img src={cartItem.product.photo}/>
+                                <div className='cart-info'>
+                                    <h3>{cartItem.product.name}</h3>
+                                    <h3>Price: {cartItem.product.price}</h3>
+                                    <h3>Quantity: {cartItem.quantity}</h3>
+                                    <h3>Total: {cartItem.subTotal}</h3>
+                                    <button id='delete' >Remove</button>
                                 </div>
                             </div>
                         );
                     })
                 }
-                </div>
-                    </div>
-                </div>
-        ); */
-        return (
-            <div>
-                Cart
             </div>
+               
+            </div>
+        ) : 
+        (
+            "Loading"
         )
     }
 }
