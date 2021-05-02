@@ -31,6 +31,7 @@ class ProductCard extends React.Component {
           <button
             type="button"
             onClick={() => this.addClick(product.id, this.props.user.id)}
+            // need to find a way to load after adding
           >
             Add to Cart
           </button>
