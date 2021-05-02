@@ -3,26 +3,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './styles/UserCard.css';
+import { toggleRole } from '../store/storeComponents/toggleRole';
 
 class UserCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      role: '',
-    };
-    // this.changeRole = this.changeRole.bind(this);
-  }
-
-  // componentDidMount() {
-  //   this.setState({ role: this.props.user.role });
-  // }
-
-  // changeRole() {
-  //   this.state.role === 'Admin'
-  //     ? (this.setState({ role: 'User' }) && user.role = 'User')
-  //     : (this.setState({ role: 'Admin' }) && user.role = 'Admin');
-  // }
-
   render() {
     const { user } = this.props;
     return (
@@ -35,7 +18,7 @@ class UserCard extends React.Component {
             type="checkBox"
             id="Admin"
             defaultChecked={user.role === 'Admin' ? 'checked' : ''}
-            onClick={() => this.changeRole()}
+            onClick={() => this.props.toggleRole(user.id)}
           />
         </section>
       </li>
@@ -45,7 +28,9 @@ class UserCard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // toggleAdmin: dispatch(toggleAdmin())
+    toggleRole: (id) => {
+      return dispatch(toggleRole(id));
+    },
   };
 };
 
