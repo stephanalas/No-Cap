@@ -4,7 +4,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './styles/Cart.css';
-import { loadCart } from '../store/storeComponents/loadCart';
 import { removeCartItem } from '../store/storeComponents/removeCartItem';
 
 class Cart extends React.Component {
@@ -15,7 +14,7 @@ class Cart extends React.Component {
       cartTotal: '',
       totalAmt: 0
     };
-    this.RemoveItem = this.RemoveItem.bind(this);
+    //this.RemoveItem = this.RemoveItem.bind(this);
   }
 
 
@@ -41,15 +40,8 @@ class Cart extends React.Component {
     }
   }
 
-
-  RemoveItem(id, cartItemID){
-    const {removeCartItem} = this.props;
-    removeCartItem(id, cartItemID);
-    
-  }
-
   render() {
-    const {RemoveItem} = this;
+    const {removeCartItem} = this.props;
     const { cart_line_items, id } = this.state.cart;
     const { totalAmt} = this.state;
     return cart_line_items ? (
@@ -65,7 +57,7 @@ class Cart extends React.Component {
                   <h3>Price: {cartItem.product.price}</h3>
                   <h3>Quantity: {cartItem.quantity}</h3>
                   <h3>Total: {cartItem.subTotal}</h3>
-                  <button id="delete" onClick={()=> RemoveItem(id, cartItem.id)}>Remove</button>
+                  <button id="delete" onClick={()=> removeCartItem(id, cartItem.id)}>Remove</button>
                 </div>
               </div> 
             );
@@ -83,15 +75,11 @@ const mapStateToProps = (state) => {
   return {
       cart: state.cart
   };
-    // return state;
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    removeCartItem: (cartId, lineId)=> dispatch(removeCartItem(cartId, lineId)),
-    loadCart: (userId) => {
-        dispatch(loadCart(userId));
-      },
+    removeCartItem: (cartId, lineId)=> dispatch(removeCartItem(cartId, lineId))
   };
 };
 
