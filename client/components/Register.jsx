@@ -4,6 +4,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button, TextField } from '@material-ui/core';
+import './styles/Login.css';
 import { registerUser } from '../store/storeComponents/registerUser';
 
 class Register extends React.Component {
@@ -37,23 +39,58 @@ class Register extends React.Component {
     const { onChange, onSubmit } = this;
     const { email, password, firstName, lastName } = this.state;
     return (
-      <form method="POST" onSubmit={onSubmit}>
-        <label htmlFor="firstName">First Name</label>
-        <input value={firstName} onChange={onChange} name="firstName" />
-        <label htmlFor="lastname">Last Name</label>
-        <input value={lastName} onChange={onChange} name="lastName" />
-        <label htmlFor="email">Email</label>
-        <input value={email} onChange={onChange} name="email" />
-        <label htmlFor="password">Password</label>
-        <input
-          title="Password cannot contain special character '$'"
-          value={password}
-          pattern="^[^$]\d+"
-          onChange={onChange}
-          name="password"
-        />
-        <button type="submit">Register</button>
-      </form>
+      <div id='login-container'>
+        <h2> Sign Up! </h2>
+        <form onSubmit={onSubmit} autoComplete='off'>
+          <TextField
+            id='standard-basic'
+            label='First name'
+            value={firstName}
+            onChange={onChange}
+            name='firstName'
+            type='text'
+          />
+          <TextField
+            id='standard-basic'
+            label='Last name'
+            value={lastName}
+            onChange={onChange}
+            name='lastName'
+            type='text'
+          />
+          <TextField
+            id='standard-basic'
+            label='Email'
+            value={email}
+            onChange={onChange}
+            name='email'
+            type='email'
+            autoComplete='email'
+          />
+          <TextField
+            id='standard-adornment-password'
+            label='Password'
+            value={password}
+            onChange={onChange}
+            title="Password cannot contain special character '$'"
+            name='password'
+            type='password'
+            autoComplete='new-password'
+            pattern='^[^$]\d+'
+          />
+          <Button
+            variant='contained'
+            type='submit'
+            color='secondary'
+            style={{ marginTop: '1rem' }}
+          >
+            Sign up
+          </Button>
+        </form>
+        <h6>
+          <a href='#/Login'>Already have an account?</a>
+        </h6>
+      </div>
     );
   }
 }

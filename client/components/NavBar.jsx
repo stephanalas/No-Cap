@@ -89,12 +89,12 @@ class NavBar extends React.Component {
                     Log In
                   </Nav.Link>
                 )}
-                {this.props.user.role &&
+                {/* {this.props.user.role &&
                 this.props.user.role === 'Anonymous' ? (
-                  <Nav.Link className='nav-link underline' href='#register'>
-                    Register
+                  <Nav.Link className='nav-link underline' href='#Signup'>
+                    Signup
                   </Nav.Link>
-                ) : null}
+                ) : null} */}
                 {this.props.user.role && this.props.user.role === 'Admin' ? (
                   <Nav.Link className='nav-link underline' href='#admin'>
                     Admin
