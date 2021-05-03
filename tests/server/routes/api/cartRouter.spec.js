@@ -40,52 +40,50 @@ describe('Cart Routes', () => {
     });
 
     await CartLineItem.bulkCreate([
-        {
-          unitPrice: 20.00,
-          quantity: 3,
-          subTotal: 60.00,
-          cartId: 2,
-        },
-        {
-            unitPrice: 15.00,
-            quantity: 2,
-            subTotal: 30.00,
-            cartId: 2,
-        },
-        {
-            unitPrice: 10.00,
-            quantity: 4,
-            subTotal: 40.00,
-            cartId: 2,
-        },
-      ]);
-
+      {
+        unitPrice: 20.0,
+        quantity: 3,
+        subTotal: 60.0,
+        cartId: 2,
+      },
+      {
+        unitPrice: 15.0,
+        quantity: 2,
+        subTotal: 30.0,
+        cartId: 2,
+      },
+      {
+        unitPrice: 10.0,
+        quantity: 4,
+        subTotal: 40.0,
+        cartId: 2,
+      },
+    ]);
   });
 
   afterAll(async () => {
     await db.close();
   });
 
-    test('PUT /api/cart/:id/removeCartItem', async (done) => {
-        const user = await User.findOne({
-                include: {
-                    model: Cart,
-                    include: {
-                        model: CartLineItem
-                    }
-                },
-                where:{
-                    id: 2
-                }
-        });
-         let lineItem = user.cart.cart_line_items[1];
-        let response = await request.put(`/api/cart/${user.cartId}/removeCartItem`).send({lineId: 1});
-        
-        response = JSON.parse(response.text);
-        console.log(response);
-
-        expect(response.cart_line_items.length).toBe(2);
-        done();
+  test('PUT /api/cart/:id/removeCartItem', async (done) => {
+    const user = await User.findOne({
+      include: {
+        model: Cart,
+        include: {
+          model: CartLineItem,
+        },
+      },
+      where: {
+        id: 2,
+      },
     });
-  
+    const lineItem = user.cart.cart_line_items[1];
+    let response = await request.put(`/api/cart/${user.cartId}/removeCartItem`).send({ lineId: 1 });
+
+    response = JSON.parse(response.text);
+    console.log(response);
+
+    expect(response.cart_line_items.length).toBe(2);
+    done();
+  });
 });

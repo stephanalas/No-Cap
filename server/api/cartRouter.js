@@ -2,37 +2,37 @@ const express = require('express');
 
 const {
   models: {
-    User, Cart, CartLineItem, Product
+    User, Cart, CartLineItem, Product,
   },
 } = require('../db/models/associations');
 
 const cartRouter = express.Router();
 
 cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
-    try {
-      if (!req.body) res.sendStatus(400);
-  
-      const { id } = req.params;
-      const {lineId} = req.body;
-      let lineItem = await CartLineItem.findByPk(lineId);
-      let removed = await lineItem.destroy();
+  try {
+    if (!req.body) res.sendStatus(400);
 
-      const cart = await Cart.findOne({
+    const { id } = req.params;
+    const { lineId } = req.body;
+    const lineItem = await CartLineItem.findByPk(lineId);
+    const removed = await lineItem.destroy();
+
+    const cart = await Cart.findOne({
+      include: {
+        model: CartLineItem,
         include: {
-            model: CartLineItem,
-            include:{
-                model: Product
-            }
+          model: Product,
         },
-        where: {
-            id: id
-        }
-      });
+      },
+      where: {
+        id,
+      },
+    });
 
-      res.send(cart);
-    } catch (ex) {
-      next(ex);
-    }
-  });
+    res.send(cart);
+  } catch (ex) {
+    next(ex);
+  }
+});
 
-  module.exports = cartRouter;
+module.exports = cartRouter;
