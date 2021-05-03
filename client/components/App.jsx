@@ -30,8 +30,6 @@ class App extends React.Component {
     if (!token) {
       this.props.createUser(anonUser);
     }
-    //this.props.loadCart()
-    console.log(this.props);
   }
 
   componentDidUpdate(prevProps, prevState) {

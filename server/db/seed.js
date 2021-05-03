@@ -472,23 +472,29 @@ const syncAndSeed = async () => {
       });
     });
 
+    const testUser = await User.findAll({
+      where: {
+        email: 'Lizzo@hotmail.com',
+      },
+    });
+
     await Promise.all([
       CartLineItem.create({
-        cartId: 1,
+        cartId: testUser[0].cartId,
         unitPrice: 15.99,
         productId: 2,
         quantity: 3,
         subTotal: 31.98,
       }),
       CartLineItem.create({
-        cartId: 1,
+        cartId: testUser[0].cartId,
         unitPrice: 12.99,
         productId: 2,
         quantity: 1,
         subTotal: 12.99,
       }),
       CartLineItem.create({
-        cartId: 1,
+        cartId: testUser[0].cartId,
         unitPrice: 25.5,
         productId: 4,
         quantity: 2,
