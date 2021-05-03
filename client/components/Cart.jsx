@@ -15,7 +15,8 @@ class Cart extends React.Component {
     super();
     this.state = {
       cart: [],
-      cartTotal: 42.0,
+      totalAmt: 0,
+      cartTotal: 0,
     };
     this.handleToken = this.handleToken.bind(this);
   }
@@ -58,20 +59,18 @@ class Cart extends React.Component {
     return cart_line_items ? (
       <div>
         <div>Cart</div>
-        <div id="cart-list">
+        <ToastContainer />
+        <div id="cart-lis                t">
           {cart_line_items.map((cartItem) => {
             return (
-              <div>
-                <ToastContainer />
-                <div className="cart-item" key={cartItem.id}>
-                  <img src={cartItem.product.photo} />
-                  <div className="cart-info">
-                    <h3>{cartItem.product.name}</h3>
-                    <h3>Price: {cartItem.product.price}</h3>
-                    <h3>Quantity: {cartItem.quantity}</h3>
-                    <h3>Total: {cartItem.subTotal}</h3>
-                    <button id="delete">Remove</button>
-                  </div>
+              <div className="cart-item" key={cartItem.id}>
+                <img src={cartItem.product.photo} />
+                <div className="cart-info">
+                  <h3>{cartItem.product.name}</h3>
+                  <h3>Price: {cartItem.product.price}</h3>
+                  <h3>Quantity: {cartItem.quantity}</h3>
+                  <h3>Total: {cartItem.subTotal}</h3>
+                  <button id="delete">Remove</button>
                 </div>
               </div>
             );
