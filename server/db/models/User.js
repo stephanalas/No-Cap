@@ -77,10 +77,10 @@ User.byToken = async (token) => {
   try {
     const { userId } = await jwt.verify(token, process.env.JWT);
     const user = await User.findOne({
-      where:{
+      where: {
         id: userId,
       },
-      include:{
+      include: {
         model: Cart,
       },
     });
