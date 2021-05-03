@@ -112,12 +112,13 @@
   left: 50%;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 575px) {
   #nav {
     margin-left: auto;
     margin-right: auto;
     flex-flow: column nowrap;
     width: fit-content;
+    padding-bottom: 1rem;
   }
   .underline:before {
     height: 1px;

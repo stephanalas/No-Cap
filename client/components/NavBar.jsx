@@ -29,7 +29,7 @@ class NavBar extends React.Component {
       <>
         <BootstrapNavBar
           collapseOnSelect
-          expand='lg'
+          expand='sm'
           bg='light'
           variant='light'
           className='sticky-nav'
