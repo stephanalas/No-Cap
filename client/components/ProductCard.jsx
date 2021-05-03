@@ -5,15 +5,29 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { loadCart } from "../store/storeComponents/loadCart";
 import "./styles/ProductCard.css";
+import InputCounter from "./InputCounter";
 
 class ProductCard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      quantity: 1,
+    };
     this.addClick = this.addClick.bind(this);
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
   }
 
-  addClick(userID, productID) {
-    this.props.loadCart(userID, productID);
+  addClick(userID, productID, quantity) {
+    this.props.loadCart(userID, productID, quantity);
+  }
+  increment() {
+    this.setState({ quantity: this.state.quantity + 1 });
+  }
+  decrement() {
+    if (this.state.quantity !== 1) {
+      this.setState({ quantity: this.state.quantity - 1 });
+    }
   }
 
   render() {
@@ -26,9 +40,16 @@ class ProductCard extends React.Component {
             <h2>{product.name}</h2>
           </Link>
           <p>{product.price}</p>
+          <InputCounter
+            increment={this.increment}
+            decrement={this.decrement}
+            quantity={this.state.quantity}
+          />
           <button
             type="button"
-            onClick={() => this.addClick(this.props.user.id, product.id)}
+            onClick={() =>
+              this.addClick(this.props.user.id, product.id, this.state.quantity)
+            }
             // need to find a way to load after adding
           >
             Add to Cart
@@ -41,8 +62,8 @@ class ProductCard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCart: (userId, productID) => {
-      dispatch(loadCart(userId, productID));
+    loadCart: (userId, productID, quantity) => {
+      dispatch(loadCart(userId, productID, quantity));
     },
   };
 };

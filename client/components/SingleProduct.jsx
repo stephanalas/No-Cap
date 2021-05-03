@@ -1,16 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
 import { loadCart } from "../store/storeComponents/loadCart";
+import InputCounter from "./InputCounter";
 import "./styles/SingleProduct.css";
 
 class SingleProduct extends React.Component {
   constructor() {
     super();
+    this.state = {
+      quantity: 1,
+    };
     this.addClick = this.addClick.bind(this);
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
   }
 
-  addClick(userID, productID) {
-    this.props.loadCart(userID, productID);
+  addClick(userID, productID, quantity) {
+    this.props.loadCart(userID, productID, quantity);
+  }
+
+  increment() {
+    this.setState({ quantity: this.state.quantity + 1 });
+  }
+
+  decrement() {
+    if (this.state.quantity !== 1) {
+      this.setState({ quantity: this.state.quantity - 1 });
+    }
   }
 
   render() {
@@ -24,10 +40,19 @@ class SingleProduct extends React.Component {
             <div>Price: {singleProduct.price}</div>
             <div>Stock: {singleProduct.inventory}</div>
             <div>Product Description:{singleProduct.description}</div>
+            <InputCounter
+              increment={this.increment}
+              decrement={this.decrement}
+              quantity={this.state.quantity}
+            />
             <button
               type="button"
               onClick={() =>
-                this.addClick(this.props.user.id, this.props.product.id)
+                this.addClick(
+                  this.props.user.id,
+                  singleProduct.id,
+                  this.state.quantity
+                )
               }
             >
               Add to Cart
@@ -54,8 +79,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCart: (userId, productID) => {
-      dispatch(loadCart(userId, productID));
+    loadCart: (userId, productID, quantity) => {
+      dispatch(loadCart(userId, productID, quantity));
     },
   };
 };

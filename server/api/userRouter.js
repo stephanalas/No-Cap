@@ -191,7 +191,7 @@ userRouter.get("/:id/orders", async (req, res, next) => {
 
 userRouter.put("/:id/Cart", async (req, res, next) => {
   try {
-    const product = req.body;
+    const { productToAdd, quantity } = req.body;
     const userId = req.params.id;
     const user = await User.findOne({
       where: {
@@ -202,9 +202,9 @@ userRouter.put("/:id/Cart", async (req, res, next) => {
     const cart = await user.getCart();
     const newItem = await CartLineItem.create({
       cartId: cart.id,
-      quantity: 1,
-      unitPrice: product.price,
-      productId: product.id,
+      quantity,
+      unitPrice: productToAdd.price,
+      productId: productToAdd.id,
     });
     console.log(newItem);
     res.send(newItem);

@@ -13,12 +13,12 @@ const _loadCart = (cart) => ({
 });
 
 // thunk
-const loadCart = (userId, productId = "") => async (dispatch) => {
+const loadCart = (userId, productId = "", quantity = 1) => async (dispatch) => {
   try {
     if (productId !== "") {
       const response = await axios.get(`api/products/${productId}`);
       const productToAdd = response.data;
-      await axios.put(`/api/users/${userId}/Cart`, productToAdd);
+      await axios.put(`/api/users/${userId}/Cart`, { productToAdd, quantity });
     }
     const response2 = await axios.get(`api/users/${userId}/cart`);
     const userCart = response2.data;
