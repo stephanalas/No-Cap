@@ -6,7 +6,17 @@ const {
 
 const userRouter = express.Router();
 
-userRouter.get("/", async (req, res, next) => {
+const requireToken = require('../requireToken');
+
+userRouter.get('/auth', requireToken, async (req, res, next) => {
+  try {
+    res.send(req.user.role);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll();
     res.status(200).send(users);

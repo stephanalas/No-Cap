@@ -3,6 +3,9 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button, TextField } from '@material-ui/core';
+import './styles/Login.css';
+
 import { loginUser } from '../store/storeComponents/loginUser';
 
 class Login extends React.Component {
@@ -34,13 +37,44 @@ class Login extends React.Component {
     const { onChange, onSubmit } = this;
     const { email, password } = this.state;
     return (
-      <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input value={email} onChange={onChange} name="email" />
-        <label htmlFor="password">Password</label>
-        <input value={password} onChange={onChange} name="password" />
-        <button type="submit">Login In</button>
-      </form>
+      <div id='login-container'>
+        <h2> Login </h2>
+        <form onSubmit={onSubmit} autoComplete='off'>
+          <TextField
+            id='standard-basic'
+            label='Email'
+            value={email}
+            onChange={onChange}
+            name='email'
+            type='email'
+            autoComplete='email'
+          />
+          <TextField
+            id='standard-adornment-password'
+            label='Password'
+            value={password}
+            onChange={onChange}
+            name='password'
+            type='password'
+            autoComplete='current-password'
+          />
+
+          <Button
+            variant='contained'
+            type='submit'
+            color='secondary'
+            style={{ marginTop: '1rem' }}
+          >
+            Login
+          </Button>
+        </form>
+        <h6>
+          <a href='#'>Forgot your password?</a>
+        </h6>
+        <h6>
+          <a href='#/Signup'>Create an account</a>
+        </h6>
+      </div>
     );
   }
 }

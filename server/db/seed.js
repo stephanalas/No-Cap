@@ -413,7 +413,7 @@ const syncAndSeed = async () => {
       role: "Admin",
     });
     await User.create({
-      email: "Lizzo@hotmail.com",
+      email: "lizzo@hotmail.com",
       password: "juice",
       firstName: "Melissa",
       lastName: "Jefferson",
@@ -480,6 +480,12 @@ const syncAndSeed = async () => {
         userId: 1,
         productId: getRandomInt(35) + 1,
       });
+    });
+
+    const testUser = await User.findAll({
+      where: {
+        email: 'Lizzo@hotmail.com',
+      },
     });
 
     await Promise.all([
