@@ -1,8 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
+import { loadCart } from "../store/storeComponents/loadCart";
 import "./styles/SingleProduct.css";
 
 class SingleProduct extends React.Component {
+  constructor() {
+    super();
+    this.addClick = this.addClick.bind(this);
+  }
+
+  addClick(productID, userID) {
+    this.props.loadCart(userID, productID);
+  }
+
   render() {
     const singleProduct = this.props.product;
     return singleProduct ? (
@@ -14,7 +24,14 @@ class SingleProduct extends React.Component {
             <div>Price: {singleProduct.price}</div>
             <div>Stock: {singleProduct.inventory}</div>
             <div>Product Description:{singleProduct.description}</div>
-            <button>Add to Cart</button>
+            <button
+              type="button"
+              onClick={() =>
+                this.addClick(this.props.product.id, this.props.user.id)
+              }
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
         <div className="rating">Rating: {singleProduct.rating}</div>
@@ -32,8 +49,16 @@ const mapStateToProps = (state, ownProps) => {
         return product;
       }
     }),
+    user: state.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCart: (productID, userId) => {
+      dispatch(loadCart(productID, userId));
+    },
   };
 };
 
-export default connect(mapStateToProps)(SingleProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
 // export default SingleProduct;
