@@ -4,18 +4,19 @@
 import axios from 'axios';
 
 const authentication = async (token) => {
+  let response;
   try {
-    const response = (
+    response = (
       await axios.get('/api/users/auth', {
         headers: {
           authorization: token,
         },
       })
     ).data;
-    return response;
   } catch (err) {
     console.log(err.response);
   }
+  return response;
 };
 
 export default authentication;
