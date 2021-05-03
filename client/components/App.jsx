@@ -51,7 +51,7 @@ class App extends React.Component {
         ) : null}
         <Route path='/test' component={Filter} exact />
         {this.props.user.role && this.props.user.role === 'Anonymous' ? (
-          <Route path='/register' component={Register} exact />
+          <Route path='/Signup' component={Register} exact />
         ) : null}
         {this.props.user.role && this.props.user.role !== 'Anonymous' ? (
           <Route path='/Logout' component={Logout} exact />
