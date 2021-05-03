@@ -15,8 +15,6 @@ const addToCart = (productId, userID) => async (dispatch) => {
     let response = await axios.get(`api/products/${productId}`);
     const productToAdd = response.data;
     response = await axios.put(`/api/users/${userID}/Cart`, productToAdd);
-    const cartLineItem = response.data;
-    dispatch(_addToCart(cartLineItem));
   } catch (err) {
     console.log(err.response);
   }

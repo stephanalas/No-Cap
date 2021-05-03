@@ -3,7 +3,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart } from "../store/storeComponents/addToCart";
 import { loadCart } from "../store/storeComponents/loadCart";
 import "./styles/ProductCard.css";
 
@@ -14,8 +13,7 @@ class ProductCard extends React.Component {
   }
 
   addClick(productID, userID) {
-    this.props.addToCart(productID, userID);
-    this.props.loadCart(userID);
+    this.props.loadCart(userID, productID);
   }
 
   render() {
@@ -43,11 +41,8 @@ class ProductCard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (productID, userID) => {
-      dispatch(addToCart(productID, userID));
-    },
-    loadCart: (userId) => {
-      dispatch(loadCart(userId));
+    loadCart: (productID, userId) => {
+      dispatch(loadCart(productID, userId));
     },
   };
 };
