@@ -17,21 +17,21 @@ class Cart extends React.Component {
 
   componentDidMount() {
     try {
-      let userID = 1;
-      this.props.loadCart(userID);
+      this.setState({
+        cart: this.props.cart,
+      });
     } catch (err) {
       console.log(err);
     }
   }
 
   render() {
-    const { cart } = this.props;
-    console.log(cart);
-    return cart ? (
+    const { cart_line_items } = this.props.cart;
+    return cart_line_items ? (
       <div>
         <div>Cart</div>
         <div id="cart-list">
-          {cart.map((cartItem) => {
+          {cart_line_items.map((cartItem) => {
             return (
               <div className="cart-item" key={cartItem.id}>
                 <img src={cartItem.product.photo} />
@@ -59,8 +59,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCart: (id) => dispatch(loadCart(id)),
+    loginUser: (user) => dispatch(loginUser(user)),
   };
 };
+
 //export default connect(null, mapDispatchToProps)(Cart)
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

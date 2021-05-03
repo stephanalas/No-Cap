@@ -12,12 +12,14 @@ import Register from './Register';
 import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
 import Filter from './Filter';
-import Admin from './Admin';
-import Cart from './Cart';
 import LandingPage from './LandingPage';
 
-import { createUser } from '../store/storeComponents/createUser';
 import './styles/App.css';
+import { createUser } from '../store/storeComponents/createUser';
+import { loadCart } from '../store/storeComponents/loadCart';
+import Admin from './Admin';
+import Cart from './Cart';
+import axios from 'axios';
 
 class App extends React.Component {
   componentDidMount() {
@@ -30,6 +32,14 @@ class App extends React.Component {
     const token = window.localStorage.getItem('token');
     if (!token) {
       this.props.createUser(anonUser);
+    }
+    //this.props.loadCart()
+    console.log(this.props);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.user.id !== this.props.user.id) {
+      this.props.loadCart(this.props.user.id);
     }
   }
 
@@ -56,7 +66,10 @@ const mapDispatchToProps = (dispatch) => {
     createUser: (user) => {
       dispatch(createUser(user));
     },
+    loadCart: (userId) => {
+      dispatch(loadCart(userId));
+    },
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect((state) => state, mapDispatchToProps)(App);
