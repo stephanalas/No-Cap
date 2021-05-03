@@ -17,21 +17,32 @@ class Cart extends React.Component {
     this.state = {
       cart: {},
       cartTotal: '',
-      totalAmt: 0
+      totalAmt: 0,
     };
     this.handleToken = this.handleToken.bind(this);
   }
 
-
   componentDidMount() {
     try {
-        this.setState({ 
-            ...this.state, 
-            cart: this.props.cart, 
-            totalAmt: this.props.cart.cart_line_items.length
-        });
+      this.setState({
+        ...this.state,
+        cart: this.props.cart,
+        totalAmt: this.props.cart.cart_line_items.length,
+      });
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.cart.cart_line_items.length !==
+      this.props.cart.cart_line_items.length
+    ) {
+      this.setState({
+        cart: this.props.cart,
+        totalAmt: this.props.cart.cart_line_items.length,
+      });
     }
   }
 
@@ -55,20 +66,13 @@ class Cart extends React.Component {
       }
     } catch (error) {
       next(error);
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.cart.cart_line_items.length !== this.props.cart.cart_line_items.length) {
-        this.setState({ 
-            cart: this.props.cart, 
-            totalAmt: this.props.cart.cart_line_items.length
-        });
     }
   }
 
   render() {
-    const {removeCartItem} = this.props;
+    const { removeCartItem } = this.props;
     const { cart_line_items, id } = this.state.cart;
-    const { totalAmt} = this.state;
+    const { totalAmt } = this.state;
     return cart_line_items ? (
       <div>
         <div>Cart</div>
@@ -83,9 +87,14 @@ class Cart extends React.Component {
                   <h3>Price: {cartItem.product.price}</h3>
                   <h3>Quantity: {cartItem.quantity}</h3>
                   <h3>Total: {cartItem.subTotal}</h3>
-                  <button id="delete" onClick={()=> removeCartItem(id, cartItem.id)}>Remove</button>
+                  <button
+                    id="delete"
+                    onClick={() => removeCartItem(id, cartItem.id)}
+                  >
+                    Remove
+                  </button>
                 </div>
-              </div> 
+              </div>
             );
           })}
           <StripeCheckout
@@ -106,13 +115,14 @@ class Cart extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-      cart: state.cart
+    cart: state.cart,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    removeCartItem: (cartId, lineId)=> dispatch(removeCartItem(cartId, lineId))
+    removeCartItem: (cartId, lineId) =>
+      dispatch(removeCartItem(cartId, lineId)),
   };
 };
 
