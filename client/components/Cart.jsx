@@ -3,7 +3,12 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import StripeCheckout from 'react-stripe-checkout';
 import './styles/Cart.css';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import { loadCart } from '../store/storeComponents/loadCart';
+import 'react-toastify/dist/ReactToastify.css';
 import { removeCartItem } from '../store/storeComponents/removeCartItem';
 
 class Cart extends React.Component {
@@ -14,6 +19,7 @@ class Cart extends React.Component {
       cartTotal: '',
       totalAmt: 0
     };
+    this.handleToken = this.handleToken.bind(this);
   }
 
 
@@ -29,6 +35,26 @@ class Cart extends React.Component {
     }
   }
 
+  async handleToken(token, addresses) {
+    try {
+      const { cartTotal } = this.state;
+      const response = await axios.post('/api/orders/checkout', {
+        token,
+        addresses,
+        cartTotal,
+      });
+      const status = response.data;
+      if (status === 'success') {
+        toast('Your order went through! Check email for details.', {
+          type: 'success',
+        });
+      } else {
+        toast('There was an error placing your order. Please try again.', {
+          type: 'error',
+        });
+      }
+    } catch (error) {
+      next(error);
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cart.cart_line_items.length !== this.props.cart.cart_line_items.length) {
@@ -45,7 +71,8 @@ class Cart extends React.Component {
     const { totalAmt} = this.state;
     return cart_line_items ? (
       <div>
-        <div>Cart ({totalAmt})</div>
+        <div>Cart</div>
+        <ToastContainer />
         <div id="cart-list">
           {cart_line_items.map((cartItem) => {
             return (
@@ -61,7 +88,14 @@ class Cart extends React.Component {
               </div> 
             );
           })}
-          <button>Checkout</button>
+          <StripeCheckout
+            stripeKey="pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop"
+            token={this.handleToken}
+            billingAddress
+            shippingAddress
+            amount={this.state.cartTotal * 100}
+            name="NoCap Order"
+          />
         </div>
       </div>
     ) : (
