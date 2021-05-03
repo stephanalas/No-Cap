@@ -4,18 +4,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { HashRouter, Route } from 'react-router-dom';
 import faker from 'faker';
+
 import NavBar from './NavBar';
-import './styles/App.css';
 import Login from './Login';
+import Logout from './Logout';
 import Register from './Register';
 import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
 import Filter from './Filter';
-import { createUser } from '../store/storeComponents/createUser';
 import Admin from './Admin';
 import Cart from './Cart';
+import LandingPage from './LandingPage';
 
-import Logout from './Logout';
+import { createUser } from '../store/storeComponents/createUser';
+import './styles/App.css';
 
 class App extends React.Component {
   componentDidMount() {
@@ -35,6 +37,7 @@ class App extends React.Component {
     return (
       <HashRouter>
         <Route component={NavBar} />
+        <Route path="/" component={LandingPage} exact />
         <Route path="/Admin" component={Admin} exact />
         <Route path="/test" component={Filter} exact />
         <Route path="/register" component={Register} exact />

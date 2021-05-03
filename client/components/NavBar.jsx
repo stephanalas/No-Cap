@@ -10,8 +10,12 @@ class NavBar extends React.Component {
   render() {
     return (
       <div id="nav">
-        <NavLink className="nav-link underline" to="/Home">
-          Home
+        <NavLink className="nav-link" to="/">
+          <img
+            id="logo"
+            src="https://cdn.shopify.com/s/files/1/0085/4333/8543/products/NoCap.png?v=1584644511"
+            alt="NoCap Logo"
+          />
         </NavLink>
         <NavLink className="nav-link underline" to="/Products">
           Products

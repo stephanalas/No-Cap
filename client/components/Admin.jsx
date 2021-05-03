@@ -47,10 +47,4 @@ class Admin extends Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     authentication: (token) => dispatch(authentication(token)),
-//   };
-// };
-
-export default connect(null, null)(Admin);
+export default connect(null)(Admin);
