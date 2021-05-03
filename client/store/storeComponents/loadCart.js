@@ -17,6 +17,7 @@ const loadCart = (userId) => async (dispatch) => {
   try {
     const response2 = await axios.get(`api/users/${userId}/cart`);
     const userCart = response2.data;
+
     dispatch(_loadCart(userCart));
   } catch (err) {
     console.log(err.response);

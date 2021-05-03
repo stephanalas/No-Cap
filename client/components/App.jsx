@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { HashRouter, Route } from 'react-router-dom';
 import faker from 'faker';
-
 import NavBar from './NavBar';
 import Login from './Login';
 import Logout from './Logout';
@@ -13,7 +12,6 @@ import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
 import Filter from './Filter';
 import LandingPage from './LandingPage';
-
 import './styles/App.css';
 import { createUser } from '../store/storeComponents/createUser';
 import { loadCart } from '../store/storeComponents/loadCart';
@@ -32,8 +30,6 @@ class App extends React.Component {
     if (!token) {
       this.props.createUser(anonUser);
     }
-    //this.props.loadCart()
-    console.log(this.props);
   }
 
   componentDidUpdate(prevProps, prevState) {
