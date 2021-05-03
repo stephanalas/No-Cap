@@ -470,6 +470,12 @@ const syncAndSeed = async () => {
       });
     });
 
+    const testUser = await User.findAll({
+      where: {
+        email: 'Lizzo@hotmail.com',
+      },
+    });
+
     await Promise.all([
       CartLineItem.create({
         cartId: 3,
