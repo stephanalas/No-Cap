@@ -1,23 +1,22 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint jsx-quotes: "off" */
 
-
-import React from 'react';
-import { connect } from 'react-redux';
-import StripeCheckout from 'react-stripe-checkout';
-import './styles/Cart.css';
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import { loadCart } from '../store/storeComponents/loadCart';
-import 'react-toastify/dist/ReactToastify.css';
-import { removeCartItem } from '../store/storeComponents/removeCartItem';
+import React from "react";
+import { connect } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
+import "./styles/Cart.css";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import { loadCart } from "../store/storeComponents/loadCart";
+import "react-toastify/dist/ReactToastify.css";
+import { removeCartItem } from "../store/storeComponents/removeCartItem";
 
 class Cart extends React.Component {
   constructor() {
     super();
     this.state = {
       cart: {},
-      cartTotal: '',
+      cartTotal: 0,
       totalAmt: 0,
     };
     this.handleToken = this.handleToken.bind(this);
@@ -25,10 +24,15 @@ class Cart extends React.Component {
 
   componentDidMount() {
     try {
+      let total = this.props.cart.cart_line_items.reduce((accum, next) => {
+        console.log(accum);
+        return accum + parseFloat(next.subTotal);
+      }, 0);
       this.setState({
         ...this.state,
         cart: this.props.cart,
         totalAmt: this.props.cart.cart_line_items.length,
+        cartTotal: total,
       });
     } catch (err) {
       console.log(err);
@@ -50,19 +54,19 @@ class Cart extends React.Component {
   async handleToken(token, addresses) {
     try {
       const { cartTotal } = this.state;
-      const response = await axios.post('/api/orders/checkout', {
+      const response = await axios.post("/api/orders/checkout", {
         token,
         addresses,
         cartTotal,
       });
       const status = response.data;
-      if (status === 'success') {
-        toast('Your order went through! Check email for details.', {
-          type: 'success',
+      if (status === "success") {
+        toast("Your order went through! Check email for details.", {
+          type: "success",
         });
       } else {
-        toast('There was an error placing your order. Please try again.', {
-          type: 'error',
+        toast("There was an error placing your order. Please try again.", {
+          type: "error",
         });
       }
     } catch (error) {
@@ -128,4 +132,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
-
