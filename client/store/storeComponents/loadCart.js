@@ -1,10 +1,10 @@
 /* eslint no-underscore-dangle: 'off' */
 /* eslint no-console: 'off' */
 
-import axios from "axios";
+import axios from 'axios';
 
 // action types
-const LOAD_CART = "LOAD_CART";
+const LOAD_CART = 'LOAD_CART';
 
 // action creator
 const _loadCart = (cart) => ({
@@ -13,9 +13,9 @@ const _loadCart = (cart) => ({
 });
 
 // thunk
-const loadCart = (userId, productId = "", quantity = 1) => async (dispatch) => {
+const loadCart = (userId, productId = '', quantity = 1) => async (dispatch) => {
   try {
-    if (productId !== "") {
+    if (productId !== '') {
       const response = await axios.get(`api/products/${productId}`);
       const productToAdd = response.data;
       await axios.put(`/api/users/${userId}/Cart`, { productToAdd, quantity });

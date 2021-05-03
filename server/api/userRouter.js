@@ -1,8 +1,10 @@
-const express = require("express");
+const express = require('express');
 
 const {
-  models: { User, Order, Review, Cart, Product, CartLineItem, OrderLineItem },
-} = require("../db/models/associations");
+  models: {
+    User, Order, Review, Cart, Product, CartLineItem, OrderLineItem,
+  },
+} = require('../db/models/associations');
 
 const userRouter = express.Router();
 
@@ -25,11 +27,13 @@ userRouter.get('/', async (req, res, next) => {
   }
 });
 
-userRouter.post("/", async (req, res, next) => {
+userRouter.post('/', async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
     // will need to update this with appropriate fields
-    const { firstName, lastName, email, password } = req.body;
+    const {
+      firstName, lastName, email, password,
+    } = req.body;
 
     const newUser = await User.create({
       firstName,
@@ -43,7 +47,7 @@ userRouter.post("/", async (req, res, next) => {
   }
 });
 
-userRouter.get("/:id", async (req, res, next) => {
+userRouter.get('/:id', async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await User.findOne({
@@ -75,12 +79,14 @@ userRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-userRouter.put("/:id", async (req, res, next) => {
+userRouter.put('/:id', async (req, res, next) => {
   if (!req.body) {
     res.sendStatus(400);
   }
   // will need to update this with appropriate fields
-  const { firstName, lastName, email, password, role } = req.body;
+  const {
+    firstName, lastName, email, password, role,
+  } = req.body;
 
   try {
     const { id } = req.params;
@@ -99,7 +105,7 @@ userRouter.put("/:id", async (req, res, next) => {
   }
 });
 
-userRouter.delete("/:id", async (req, res, next) => {
+userRouter.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
@@ -110,7 +116,7 @@ userRouter.delete("/:id", async (req, res, next) => {
   }
 });
 
-userRouter.get("/:id/cart", async (req, res, next) => {
+userRouter.get('/:id/cart', async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
@@ -123,14 +129,14 @@ userRouter.get("/:id/cart", async (req, res, next) => {
             model: Product,
           },
         },
-      })
+      }),
     );
   } catch (ex) {
     next(ex);
   }
 });
 
-userRouter.post("/:id/orders", async (req, res, next) => {
+userRouter.post('/:id/orders', async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
 
@@ -171,7 +177,7 @@ userRouter.post("/:id/orders", async (req, res, next) => {
           subTotal: cartItem.subTotal,
         });
         orderLineItems.push(orderLineItem);
-      })
+      }),
     );
 
     res.status(201).send({ ...order, orderLineItems });
@@ -180,7 +186,7 @@ userRouter.post("/:id/orders", async (req, res, next) => {
   }
 });
 
-userRouter.get("/:id/orders", async (req, res, next) => {
+userRouter.get('/:id/orders', async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
@@ -192,14 +198,14 @@ userRouter.get("/:id/orders", async (req, res, next) => {
             model: OrderLineItem,
           },
         ],
-      })
+      }),
     );
   } catch (ex) {
     next(ex);
   }
 });
 
-userRouter.put("/:id/Cart", async (req, res, next) => {
+userRouter.put('/:id/Cart', async (req, res, next) => {
   try {
     const { productToAdd, quantity } = req.body;
     const userId = req.params.id;
@@ -224,7 +230,7 @@ userRouter.put("/:id/Cart", async (req, res, next) => {
 });
 
 // update a users cart
-userRouter.put("/:id/updateCart", async (req, res, next) => {
+userRouter.put('/:id/updateCart', async (req, res, next) => {
   if (!req.body) {
     res.sendStatus(400);
   }
@@ -270,7 +276,7 @@ userRouter.put("/:id/updateCart", async (req, res, next) => {
           quantity: cartItem.quantity,
         });
         updatedCart.push(cartLineItem);
-      })
+      }),
     );
     res.status(201).send({ ...userCart, cart: updatedCart });
   } catch (ex) {
@@ -278,7 +284,7 @@ userRouter.put("/:id/updateCart", async (req, res, next) => {
   }
 });
 
-userRouter.get("/:id/orders/:orderId", async (req, res, next) => {
+userRouter.get('/:id/orders/:orderId', async (req, res, next) => {
   try {
     const { id, orderId } = req.params;
     const user = await User.findByPk(id);
@@ -299,33 +305,30 @@ userRouter.get("/:id/orders/:orderId", async (req, res, next) => {
   }
 });
 
-userRouter.post(
-  "/:userId/products/:productId/reviews",
-  async (req, res, next) => {
-    // create a product review from a user
-    if (!req.body) res.sendStatus(400);
+userRouter.post('/:userId/products/:productId/reviews', async (req, res, next) => {
+  // create a product review from a user
+  if (!req.body) res.sendStatus(400);
 
-    try {
-      const { userId, productId } = req.params;
-      const { stars, body } = req.body;
-      const review = await Review.create({
-        userId,
-        productId,
-        body,
-        stars,
-      });
-      res.status(201).send(review);
-    } catch (ex) {
-      next(ex);
-    }
+  try {
+    const { userId, productId } = req.params;
+    const { stars, body } = req.body;
+    const review = await Review.create({
+      userId,
+      productId,
+      body,
+      stars,
+    });
+    res.status(201).send(review);
+  } catch (ex) {
+    next(ex);
   }
-);
+});
 
-userRouter.post("/togglerole", async (req, res, next) => {
+userRouter.post('/togglerole', async (req, res, next) => {
   try {
     const { userId } = req.body;
     const user = await User.findByPk(userId);
-    const newRole = user.role === "Admin" ? "User" : "Admin";
+    const newRole = user.role === 'Admin' ? 'User' : 'Admin';
     const updatedUser = await user.update({
       role: newRole,
     });

@@ -1,5 +1,5 @@
-import { LOAD_CART } from "../storeComponents/loadCart";
-import { LOGIN_USER } from "../storeComponents/loginUser";
+import { LOAD_CART } from '../storeComponents/loadCart';
+import { LOGIN_USER } from '../storeComponents/loginUser';
 import { REMOVE_CART_ITEM } from '../storeComponents/removeCartItem';
 
 const cartReducer = (state = {}, action) => {
