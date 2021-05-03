@@ -14,7 +14,6 @@ class Cart extends React.Component {
       cartTotal: '',
       totalAmt: 0
     };
-    //this.RemoveItem = this.RemoveItem.bind(this);
   }
 
 
