@@ -11,9 +11,9 @@
     "test": "jest --detectOpenHandles",
     "test:dev": "npm run test -- --watch",
     "lint": "./node_modules/.bin/eslint $(pwd)/.",
-    "format:client": "prettier-eslint --write --single-quote --semi  \"$PWD/client/**/*.js\"",
-    "format:tests": "prettier-eslint --write --single-quote --semi  \"$PWD/tests/**/*.js\"",
-    "format:server": "prettier-eslint --write --single-quote --semi \"$PWD/server/**/*.js\"",
+    "format:client": "prettier-eslint --write --single-quote --semi \"client/**/*.js\"",
+    "format:tests": "prettier-eslint --write --single-quote --semi \"tests/**/*.js\"",
+    "format:server": "prettier-eslint --write --single-quote --semi \"server/**/*.js\"",
     "format": "npm run format:client && npm run format:tests && npm run format:server"
   },
   "repository": {
