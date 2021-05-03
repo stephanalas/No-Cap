@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { HashRouter, Route } from 'react-router-dom';
 import faker from 'faker';
-
 import NavBar from './NavBar';
 import Login from './Login';
 import Logout from './Logout';
@@ -13,13 +12,11 @@ import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
 import Filter from './Filter';
 import LandingPage from './LandingPage';
-
 import './styles/App.css';
 import { createUser } from '../store/storeComponents/createUser';
 import { loadCart } from '../store/storeComponents/loadCart';
 import Admin from './Admin';
 import Cart from './Cart';
-import axios from 'axios';
 
 class App extends React.Component {
   componentDidMount() {
