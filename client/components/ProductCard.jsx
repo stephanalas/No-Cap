@@ -12,7 +12,7 @@ class ProductCard extends React.Component {
     this.addClick = this.addClick.bind(this);
   }
 
-  addClick(productID, userID) {
+  addClick(userID, productID) {
     this.props.loadCart(userID, productID);
   }
 
@@ -28,7 +28,7 @@ class ProductCard extends React.Component {
           <p>{product.price}</p>
           <button
             type="button"
-            onClick={() => this.addClick(product.id, this.props.user.id)}
+            onClick={() => this.addClick(this.props.user.id, product.id)}
             // need to find a way to load after adding
           >
             Add to Cart
@@ -41,8 +41,8 @@ class ProductCard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCart: (productID, userId) => {
-      dispatch(loadCart(productID, userId));
+    loadCart: (userId, productID) => {
+      dispatch(loadCart(userId, productID));
     },
   };
 };

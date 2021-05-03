@@ -9,7 +9,7 @@ class SingleProduct extends React.Component {
     this.addClick = this.addClick.bind(this);
   }
 
-  addClick(productID, userID) {
+  addClick(userID, productID) {
     this.props.loadCart(userID, productID);
   }
 
@@ -27,7 +27,7 @@ class SingleProduct extends React.Component {
             <button
               type="button"
               onClick={() =>
-                this.addClick(this.props.product.id, this.props.user.id)
+                this.addClick(this.props.user.id, this.props.product.id)
               }
             >
               Add to Cart
@@ -54,8 +54,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCart: (productID, userId) => {
-      dispatch(loadCart(productID, userId));
+    loadCart: (userId, productID) => {
+      dispatch(loadCart(userId, productID));
     },
   };
 };
