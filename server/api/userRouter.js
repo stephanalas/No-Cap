@@ -10,6 +10,16 @@ const OrderLineItem = require('../db/models/OrderLineItem');
 
 const userRouter = express.Router();
 
+const requireToken = require('../requireToken');
+
+userRouter.get('/auth', requireToken, async (req, res, next) => {
+  try {
+    res.send(req.user.role);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 userRouter.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll();
