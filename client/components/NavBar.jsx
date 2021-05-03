@@ -1,7 +1,6 @@
 /* eslint jsx-quotes: "off" */
 
 import React from 'react';
-// import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Navbar as BootstrapNavBar, Nav, Container } from 'react-bootstrap';
 import HamburgerMenu from 'react-hamburger-menu';
@@ -63,11 +62,12 @@ class NavBar extends React.Component {
               }`}
             >
               <Nav className='m-auto' id='nav'>
-                <BootstrapNavBar.Brand href='#Home'>
+                <BootstrapNavBar.Brand href='#/'>
                   <img
-                    src='/logo.svg'
                     className='d-inline-block align-top'
-                    alt='React Bootstrap logo'
+                    id="logo"
+                    src="https://cdn.shopify.com/s/files/1/0085/4333/8543/products/NoCap.png?v=1584644511"
+                    alt="NoCap Logo"
                   />
                 </BootstrapNavBar.Brand>
 

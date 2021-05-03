@@ -4,16 +4,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { HashRouter, Route } from 'react-router-dom';
 import faker from 'faker';
+
 import NavBar from './NavBar';
-import './styles/App.css';
 import Login from './Login';
+import Logout from './Logout';
 import Register from './Register';
 import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
 import Filter from './Filter';
+import LandingPage from './LandingPage';
+
+import './styles/App.css';
 import { createUser } from '../store/storeComponents/createUser';
 import { loadCart } from '../store/storeComponents/loadCart';
-import Logout from './Logout';
 import Admin from './Admin';
 import Cart from './Cart';
 
@@ -43,14 +46,15 @@ class App extends React.Component {
     return (
       <HashRouter>
         <Route component={NavBar} />
-        <Route path='/Admin' component={Admin} exact />
-        <Route path='/test' component={Filter} exact />
-        <Route path='/register' component={Register} exact />
-        <Route path='/login' component={Login} exact />
-        <Route path='/Logout' component={Logout} exact />
-        <Route path='/Products' component={AllProducts} exact />
-        <Route path='/Products/:id' component={SingleProduct} exact />
-        <Route path='/ShoppingCart' component={Cart} exact />
+        <Route path="/" component={LandingPage} exact />
+        <Route path="/Admin" component={Admin} exact />
+        <Route path="/test" component={Filter} exact />
+        <Route path="/register" component={Register} exact />
+        <Route path="/login" component={Login} exact />
+        <Route path="/Logout" component={Logout} exact />
+        <Route path="/Products" component={AllProducts} exact />
+        <Route path="/Products/:id" component={SingleProduct} exact />
+        <Route path="/ShoppingCart" component={Cart} exact />
       </HashRouter>
     );
   }

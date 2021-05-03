@@ -32,6 +32,11 @@
   margin-bottom: 1rem;
 }
 
+#nav img {
+  width: 150px;
+  height: 75px;
+}
+
 .nav-link {
   flex-shrink: 0;
   text-decoration: none;
