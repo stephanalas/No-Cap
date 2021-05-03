@@ -19,7 +19,6 @@ import { createUser } from '../store/storeComponents/createUser';
 import { loadCart } from '../store/storeComponents/loadCart';
 import Admin from './Admin';
 import Cart from './Cart';
-import axios from 'axios';
 
 class App extends React.Component {
   componentDidMount() {

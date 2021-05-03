@@ -6,7 +6,7 @@ const cartReducer = (state = {}, action) => {
     return action.cart;
   }
   if (action.type === LOGIN_USER) {
-      console.log(action.user);
+    console.log(action.user);
     return action.user.cart;
   }
   return state;
