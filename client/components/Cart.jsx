@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint jsx-quotes: "off" */
 
+
 import React from 'react';
 import { connect } from 'react-redux';
 import StripeCheckout from 'react-stripe-checkout';
@@ -108,7 +109,7 @@ class Cart extends React.Component {
         </div>
       </div>
     ) : (
-      'Loading'
+      "Loading"
     );
   }
 }
@@ -127,3 +128,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+
