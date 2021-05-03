@@ -51,9 +51,9 @@
 
 body {
   /* max-width: 37.5rem; */
-  margin: 0 auto;
-  padding: 0 1.25rem;
-  font-family: 'Lato', sans-serif;
+  /* margin: 0 auto; */
+  /* padding: 0 1.25rem; */
+  /* font-family: 'Lato', sans-serif; */
 }
 
 * {
@@ -94,6 +94,13 @@ li {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (min-width: 1000px) {
+  .carousel {
+    width: 800px;
+    height: 80%;
+  }
 }
 
 .carousel__viewport {
@@ -214,28 +221,28 @@ li {
 
 .carousel__slide:first-child {
   background-image: url(https://di2ponv0v5otw.cloudfront.net/posts/2019/02/03/5c57e19003087cc8e6b20782/m_5c57e1b47386bc91f4b61121.jpg);
-  background-size: 80% 80%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .carousel__slide:nth-child(2) {
   background-image: url(https://www.villagehatshop.com/photos/product/giant/4511390S162242/alt/162242.jpg);
-  background-size: 80% 80%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .carousel__slide:nth-child(3) {
   background-image: url(https://cdn.shopify.com/s/files/1/1140/8354/products/ENS-4060050-CA_800x.jpg?v=1610567728);
-  background-size: 80% 80%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .carousel__slide:nth-child(4) {
   background-image: url(https://www.medievalcollectibles.com/wp-content/uploads/2020/05/MCI-6031.jpg);
-  background-size: 75% 80%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
