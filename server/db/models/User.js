@@ -42,6 +42,16 @@ const User = db.define('user', {
   address: {
     type: DataTypes.STRING,
   },
+  resetPasswordToken: {
+    type: DataTypes.STRING,
+    defaultValue: null,
+    allowNull: true,
+  },
+  resetPasswordTokenExpires: {
+    type: DataTypes.DATE,
+    defaultValue: null,
+    allowNull: true,
+  },
 });
 
 User.addHook('beforeCreate', async (user) => {
@@ -63,7 +73,7 @@ User.addHook('afterBulkCreate', async (users) => {
       const myCart = await Cart.create();
       user.cartId = myCart.id;
       await user.save();
-    }),
+    })
   );
 });
 
@@ -85,16 +95,11 @@ User.byToken = async (token) => {
       },
     });
     if (user) {
-      console.log(user);
       return user;
     }
-    const error = Error('bad credentials');
-    error.status = 401;
-    throw error;
   } catch (ex) {
-    const error = Error('bad credentials');
-    error.status = 401;
-    throw error;
+    console.log(ex.name);
+    return ex.name;
   }
 };
 

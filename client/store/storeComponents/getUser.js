@@ -2,7 +2,7 @@
 /* eslint no-console: 'off' */
 
 import axios from 'axios';
-
+import faker from 'faker';
 // action type
 const GET_USER = 'GET_USER';
 // action creator
@@ -14,7 +14,7 @@ const _getUser = (user) => ({
 // thunk
 const getUser = () => async (dispatch) => {
   try {
-    const token = window.localStorage.getItem('token');
+    let token = window.localStorage.getItem('token');
     let authenticatedUser;
     if (token) {
       authenticatedUser = await axios.get('/api/login/auth', {
@@ -23,10 +23,32 @@ const getUser = () => async (dispatch) => {
         },
       });
     }
-    delete authenticatedUser.data.password;
-    dispatch(_getUser(authenticatedUser.data));
+    if (authenticatedUser.data === 'JsonWebTokenError') {
+      const anonUser = {
+        email: faker.internet.email(),
+        firstName: 'Anonymous',
+        lastName: 'User',
+        password: faker.internet.password(),
+      };
+      const response = await axios.post('/api/register', anonUser);
+      token = response.data.token;
+      window.localStorage.clear();
+      window.localStorage.setItem('token', token);
+      if (token) {
+        authenticatedUser = await axios.get('/api/login/auth', {
+          headers: {
+            authorization: token,
+          },
+        });
+      }
+      delete authenticatedUser.data.password;
+      dispatch(_getUser(authenticatedUser.data));
+    } else {
+      delete authenticatedUser.data.password;
+      dispatch(_getUser(authenticatedUser.data));
+    }
   } catch (err) {
-    console.log(err.response);
+    console.log(err);
   }
 };
 

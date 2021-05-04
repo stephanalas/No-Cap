@@ -1,42 +1,27 @@
 /* eslint jsx-quotes: "off" */
 
-import React from "react";
-import { connect } from "react-redux";
-import { HashRouter, Route } from "react-router-dom";
-import faker from "faker";
-import NavBar from "./NavBar";
-import "./styles/App.css";
-import Login from "./Login";
-import Register from "./Register";
-import AllProducts from "./AllProducts";
-import SingleProduct from "./SingleProduct";
-import Filter from "./Filter";
+import React from 'react';
+import { connect } from 'react-redux';
+import { HashRouter, Route } from 'react-router-dom';
+import faker from 'faker';
+import NavBar from './NavBar';
+import './styles/App.css';
+import Login from './Login';
+import Register from './Register';
+import AllProducts from './AllProducts';
+import SingleProduct from './SingleProduct';
+import Filter from './Filter';
 import LandingPage from './LandingPage';
-import { createUser } from "../store/storeComponents/createUser";
-import { loadCart } from "../store/storeComponents/loadCart";
+import { createUser } from '../store/storeComponents/createUser';
+import { loadCart } from '../store/storeComponents/loadCart';
 import { getUser } from '../store/storeComponents/getUser';
-import Logout from "./Logout";
-import Admin from "./Admin";
-import Cart from "./Cart";
-import axios from "axios";
-
+import Logout from './Logout';
+import Admin from './Admin';
+import Cart from './Cart';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 class App extends React.Component {
-  componentDidMount() {
-    const anonUser = {
-      email: faker.internet.email(),
-      firstName: "Anonymous",
-      lastName: "User",
-      password: faker.internet.password(),
-    };
-    const token = window.localStorage.getItem("token");
-    if (!token) {
-      this.props.createUser(anonUser);
-    } else if (token) {
-      this.props.getUser();
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.user.id !== this.props.user.id) {
       this.props.loadCart(this.props.user.id);
@@ -64,6 +49,8 @@ class App extends React.Component {
         <Route path='/Products' component={AllProducts} exact />
         <Route path='/Products/:id' component={SingleProduct} exact />
         <Route path='/ShoppingCart' component={Cart} exact />
+        <Route path='/ForgotPassword' component={ForgotPassword} />
+        <Route path='/ResetPassword' component={ResetPassword} />
       </HashRouter>
     );
   }
