@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Navbar as BootstrapNavBar, Nav, Container } from 'react-bootstrap';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import HamburgerMenu from 'react-hamburger-menu';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/NavBar.css';
@@ -28,7 +29,7 @@ class NavBar extends React.Component {
       <>
         <BootstrapNavBar
           collapseOnSelect
-          expand='lg'
+          expand='sm'
           bg='light'
           variant='light'
           className='sticky-nav'
@@ -65,9 +66,10 @@ class NavBar extends React.Component {
                 <BootstrapNavBar.Brand href='#/'>
                   <img
                     className='d-inline-block align-top'
-                    id="logo"
-                    src="https://cdn.shopify.com/s/files/1/0085/4333/8543/products/NoCap.png?v=1584644511"
-                    alt="NoCap Logo"
+                    id='logo'
+                    // src='https://cdn.shopify.com/s/files/1/0085/4333/8543/products/NoCap.png?v=1584644511'
+                    src='logo.svg'
+                    alt='NoCap Logo'
                   />
                 </BootstrapNavBar.Brand>
 
@@ -87,14 +89,19 @@ class NavBar extends React.Component {
                     Log In
                   </Nav.Link>
                 )}
-                <Nav.Link className='nav-link underline' href='#register'>
-                  Register
-                </Nav.Link>
-                <Nav.Link className='nav-link underline' href='#admin'>
-                  Admin
-                </Nav.Link>
+                {/* {this.props.user.role &&
+                this.props.user.role === 'Anonymous' ? (
+                  <Nav.Link className='nav-link underline' href='#Signup'>
+                    Signup
+                  </Nav.Link>
+                ) : null} */}
+                {this.props.user.role && this.props.user.role === 'Admin' ? (
+                  <Nav.Link className='nav-link underline' href='#admin'>
+                    Admin
+                  </Nav.Link>
+                ) : null}
                 <Nav.Link className='nav-link underline' href='#ShoppingCart'>
-                  Shopping Cart
+                  <ShoppingCartIcon />
                 </Nav.Link>
               </Nav>
               {/* </BootstrapNavBar.Collapse> */}

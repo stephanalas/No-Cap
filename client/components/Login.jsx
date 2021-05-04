@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import './styles/Login.css';
 
 import { loginUser } from '../store/storeComponents/loginUser';
@@ -37,8 +37,6 @@ class Login extends React.Component {
     const { onChange, onSubmit } = this;
     const { email, password } = this.state;
     return (
-
-      // <Container>
       <div id='login-container'>
         <h2> Login </h2>
         <form onSubmit={onSubmit} autoComplete='off'>
@@ -60,7 +58,7 @@ class Login extends React.Component {
             type='password'
             autoComplete='current-password'
           />
-          {/* <button type='submit'>Login</button> */}
+
           <Button
             variant='contained'
             type='submit'
@@ -73,8 +71,10 @@ class Login extends React.Component {
         <h6>
           <a href='#'>Forgot your password?</a>
         </h6>
+        <h6>
+          <a href='#/Signup'>Create an account</a>
+        </h6>
       </div>
-      // </Container>
     );
   }
 }

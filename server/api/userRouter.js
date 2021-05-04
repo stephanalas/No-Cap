@@ -2,11 +2,9 @@ const express = require('express');
 
 const {
   models: {
-    User, Order, Review, Cart, Product,
+    User, Order, Review, Cart, Product, CartLineItem, OrderLineItem,
   },
 } = require('../db/models/associations');
-const CartLineItem = require('../db/models/CartLineItem');
-const OrderLineItem = require('../db/models/OrderLineItem');
 
 const userRouter = express.Router();
 
@@ -204,6 +202,30 @@ userRouter.get('/:id/orders', async (req, res, next) => {
     );
   } catch (ex) {
     next(ex);
+  }
+});
+
+userRouter.put('/:id/Cart', async (req, res, next) => {
+  try {
+    const { productToAdd, quantity } = req.body;
+    const userId = req.params.id;
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+      include: [Cart],
+    });
+    const cart = await user.getCart();
+    const newItem = await CartLineItem.create({
+      cartId: cart.id,
+      quantity,
+      unitPrice: productToAdd.price,
+      productId: productToAdd.id,
+    });
+    console.log(newItem);
+    res.send(newItem);
+  } catch (error) {
+    next(error);
   }
 });
 

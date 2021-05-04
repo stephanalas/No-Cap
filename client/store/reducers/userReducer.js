@@ -1,4 +1,5 @@
 import { CREATE_USER } from '../storeComponents/createUser';
+import { GET_USER } from '../storeComponents/getUser';
 import { REGISTER_USER } from '../storeComponents/registerUser';
 import { LOGIN_USER } from '../storeComponents/loginUser';
 import { TOGGLE_ROLE } from '../storeComponents/toggleRole';
@@ -6,6 +7,9 @@ import { LOGOUT_USER } from '../storeComponents/logoutUser';
 
 const userReducer = (state = {}, action) => {
   if (action.type === CREATE_USER) {
+    return { ...state, ...action.user };
+  }
+  if (action.type === GET_USER) {
     return { ...state, ...action.user };
   }
   if (action.type === LOGIN_USER) {

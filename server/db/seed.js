@@ -386,29 +386,27 @@ const syncAndSeed = async () => {
       }),
     ]);
 
-    await Promise.all([
-      User.create({
-        email: 'anonymous@aol.com',
-        password: 'anon',
-        firstName: 'Anon',
-        lastName: 'ymous',
-        role: 'User',
-      }),
-      User.create({
-        email: 'admin@gmail.com',
-        password: 'hello123',
-        firstName: 'Admin',
-        lastName: 'istrator',
-        role: 'Admin',
-      }),
-      User.create({
-        email: 'Lizzo@hotmail.com',
-        password: 'juice',
-        firstName: 'Melissa',
-        lastName: 'Jefferson',
-        role: 'User',
-      }),
-    ]);
+    await User.create({
+      email: 'anonymous@aol.com',
+      password: 'anon',
+      firstName: 'Anon',
+      lastName: 'ymous',
+      role: 'User',
+    });
+    await User.create({
+      email: 'admin@gmail.com',
+      password: 'hello123',
+      firstName: 'Admin',
+      lastName: 'istrator',
+      role: 'Admin',
+    });
+    await User.create({
+      email: 'lizzo@hotmail.com',
+      password: 'juice',
+      firstName: 'Melissa',
+      lastName: 'Jefferson',
+      role: 'User',
+    });
 
     const reviews = [
       'heard about this on melodic death metal radio, decided to give it a try.',
@@ -480,25 +478,22 @@ const syncAndSeed = async () => {
 
     await Promise.all([
       CartLineItem.create({
-        cartId: testUser[0].cartId,
-        unitPrice: 15.99,
-        productId: 2,
-        quantity: 3,
-        subTotal: 31.98,
-      }),
-      CartLineItem.create({
-        cartId: testUser[0].cartId,
+        cartId: 3,
         unitPrice: 12.99,
         productId: 2,
-        quantity: 1,
-        subTotal: 12.99,
+        quantity: 3,
       }),
       CartLineItem.create({
-        cartId: testUser[0].cartId,
+        cartId: 3,
+        unitPrice: 15.99,
+        productId: 1,
+        quantity: 1,
+      }),
+      CartLineItem.create({
+        cartId: 3,
         unitPrice: 25.5,
         productId: 4,
         quantity: 2,
-        subTotal: 51.0,
       }),
     ]);
   } catch (ex) {

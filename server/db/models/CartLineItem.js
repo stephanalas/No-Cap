@@ -16,7 +16,6 @@ const CartLineItem = db.define('cart_line_item', {
   subTotal: {
     type: Sequelize.DECIMAL(10, 2),
     defaultValue: 0,
-    allowNull: false,
   },
 });
 

@@ -1,12 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { getProducts } from '../store/storeComponents/getProducts';
-import ProductCard from './ProductCard';
-import './styles/AllProducts.css';
-import productFilter from './utils/productFilter';
-import setFilters from './utils/setFilters';
-import clearCheckboxes from './utils/clearCheckboxes';
-import Filter from './Filter';
+import React from "react";
+import { connect } from "react-redux";
+import { getProducts } from "../store/storeComponents/getProducts";
+import ProductCard from "./ProductCard";
+import "./styles/AllProducts.css";
+import productFilter from "./utils/productFilter";
+import setFilters from "./utils/setFilters";
+import clearCheckboxes from "./utils/clearCheckboxes";
+import Filter from "./Filter";
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -68,7 +68,7 @@ class AllProducts extends React.Component {
   }
 
   handleReset() {
-    const checkboxes = document.querySelectorAll('.filter-checkbox');
+    const checkboxes = document.querySelectorAll(".filter-checkbox");
 
     clearCheckboxes(checkboxes);
 
@@ -94,7 +94,11 @@ class AllProducts extends React.Component {
         />
         <ul className="all-products-ul">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              addClick={this.addClick}
+            />
           ))}
         </ul>
       </div>

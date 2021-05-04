@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutUser } from '../store/storeComponents/logoutUser';
+import { Button } from '@material-ui/core';
+import './styles/Login.css';
 
 class Logout extends React.Component {
   constructor() {
@@ -16,20 +18,32 @@ class Logout extends React.Component {
   }
 
   render() {
-    //thunk needed to update User to blank object in state and remove local storage token
-    //then redirect to landing page
-
     return (
       <div>
-        <h2>Are you sure?</h2>
-        <button type='submit' onClick={() => this.handleClick()}>
-          YES
-        </button>
+        <h6>Are you sure?</h6>
+        <Button
+          variant='contained'
+          type='submit'
+          color='secondary'
+          style={{ marginTop: '1rem' }}
+          onClick={() => this.handleClick()}
+        >
+          Yes
+        </Button>
+        <Button
+          variant='contained'
+          type='submit'
+          color='secondary'
+          style={{ marginTop: '1rem' }}
+          onClick={() => this.props.history.push('/Products')}
+        >
+          No
+        </Button>
       </div>
     );
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (_, ownProps) => {
   return { ownProps };
 };
 const mapDispatchToProps = (dispatch) => {
