@@ -71,4 +71,18 @@ Product.addHook('beforeCreate', async (hat) => {
   }
 });
 
+Product.addHook('beforeSave', async (hat) => {
+  try {
+    const reviews = await hat.getReviews();
+    const avgRating = reviews.reduce((accum, review) => {
+      return accum + review.stars;
+    }, 0) / reviews.length;
+    if (avgRating) {
+      hat.rating = avgRating;
+    }
+  } catch (error) {
+    console.log(err);
+  }
+});
+
 module.exports = Product;
