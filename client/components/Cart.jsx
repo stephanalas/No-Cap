@@ -139,6 +139,7 @@ const mapStateToProps = (state) => {
   return {
     cart: state.cart,
   };
+  console.log('get');
 };
 
 const mapDispatchToProps = (dispatch) => {
