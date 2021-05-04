@@ -37,27 +37,24 @@ cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
 
 cartRouter.put('/:id/updateQuantity', async (req, res, next) => {
   try {
-    if (!req.body) res.sendStatus(400);
-
+    if (!req.body) {
+      res.sendStatus(400);
+    }
     const { id } = req.params;
     const {lineId, quantity} = req.body;
-    let lineItem = await CartLineItem.findByPk(lineId);
+    let lineItem = await CartLineItem.findOne({
+      include:{
+        model: Product,
+      },
+      where: {
+        id: lineId
+      }
+    });
     lineItem = await lineItem.update({
       quantity: quantity,
     });
-    const cart = await Cart.findOne({
-      include: {
-        model: CartLineItem,
-        include: {
-          model: Product,
-        },
-      },
-      where: {
-        id,
-      },
-    });
-
-    res.send(cart);
+    
+    res.send(lineItem);
   } catch (ex) {
     next(ex);
   }

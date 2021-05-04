@@ -7,24 +7,27 @@ import axios from 'axios';
 const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
 
 // action creator
-const _updateCartItem = (cart) => ({
-  type: UPDATE_CART_ITEM,
-  cart,
-});
+// const _updateCartItem = (cart) => ({
+//   type: UPDATE_CART_ITEM,
+//   cart,
+// });
+const _updateCartItem = (cartLineItem) => ({
+    type: UPDATE_CART_ITEM,
+    cartLineItem,
+  });
 
 // thunk
-const updateCartItem = (lineID, quantity) => async (dispatch) => {
+const updateCartItem = (lineID, quantity, cartId) => async (dispatch) => {
   try {
-      console.log(lineID, 'in update cart reducer');
-      console.log(quantity, 'in update cart reducer');
-    let lineData = {
-        lineId: lineID,
-        quantity: quantity
-    }
-    const response2 = await axios.get(`api/users/${userId}/updateQuantity`, lineData);
-    const userCart = response2.data;
+        let lineData = {
+            lineId: lineID,
+            quantity: quantity
+        }
+    const response = await axios.put(`api/cart/${cartId}/updateQuantity`, lineData);
+    //const userCart = response.data;
+    const cartLineItem = response.data;
 
-    dispatch(_updateCartItem(userCart));
+    dispatch(_updateCartItem(cartLineItem));
   } catch (err) {
     console.log(err.response);
   }

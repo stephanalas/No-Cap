@@ -112,8 +112,8 @@ describe('Cart Routes', () => {
     let response = await request.put(`/api/cart/${user.cartId}/updateQuantity`).send(lineID);
 
     response = JSON.parse(response.text);
-
-    expect(response.cart_line_items[1].subTotal).toBe("50.00");
+    expect(response.quantity).toBe(5);
+    
     done();
   });
 });
