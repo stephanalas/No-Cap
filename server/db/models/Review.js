@@ -4,6 +4,7 @@
 
 const Sequelize = require('sequelize');
 const { db } = require('../index.js');
+const Product = require('./Product.js');
 
 const Review = db.define('review', {
   stars: {
@@ -17,6 +18,11 @@ const Review = db.define('review', {
   body: {
     type: Sequelize.STRING(4000),
   },
+});
+
+Review.addHook('afterCreate', async (review) => {
+  const product = await Product.findByPk(review.productId);
+  if (product) product.save();
 });
 
 module.exports = Review;
