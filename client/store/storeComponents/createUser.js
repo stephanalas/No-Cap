@@ -34,4 +34,4 @@ const createUser = (user) => async (dispatch) => {
   }
 };
 
-export { createUser, CREATE_USER };
+export { createUser, _createUser, CREATE_USER };

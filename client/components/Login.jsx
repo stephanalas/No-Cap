@@ -4,6 +4,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, TextField } from '@material-ui/core';
+import { Nav } from 'react-bootstrap';
 import './styles/Login.css';
 
 import { loginUser } from '../store/storeComponents/loginUser';
@@ -68,12 +69,12 @@ class Login extends React.Component {
             Login
           </Button>
         </form>
-        <h6>
-          <a href='#'>Forgot your password?</a>
-        </h6>
-        <h6>
-          <a href='#/Signup'>Create an account</a>
-        </h6>
+
+        <Nav.Link href='#ForgotPassword'>Forgot your password?</Nav.Link>
+
+        <a className='nav-link' href='#/Signup'>
+          Create an account
+        </a>
       </div>
     );
   }
