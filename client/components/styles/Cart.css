@@ -16,9 +16,18 @@ img {
   width: 80%;
 }
 .cart-info > h3 {
-flex:1 1 auto;
+flex:1;
+text-align: left;
 }
-
+.checkout {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: .8%;
+}
+.checkout > button {
+  margin-left: 10px;
+}
 @media (max-width: 845px) {
   .cart-info {
     display: flex;
