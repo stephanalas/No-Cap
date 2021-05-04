@@ -6,9 +6,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, TextField } from '@material-ui/core';
 import './styles/Login.css';
-import { registerUser } from '../store/storeComponents/registerUser';
+import { updateUser } from '../store/storeComponents/updateUser';
 
-class Register extends React.Component {
+class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,10 +16,22 @@ class Register extends React.Component {
       lastName: '',
       email: '',
       password: '',
-      role: 'User',
+      role: '',
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const { firstName, lastName, email, role, id } = this.props.user;
+    this.setState({
+      firstName: firstName || '',
+      lastName: lastName || '',
+      email: email || '',
+      password: '',
+      role: role || '',
+      id,
+    });
   }
 
   onChange(ev) {
@@ -28,19 +40,19 @@ class Register extends React.Component {
 
   async onSubmit(ev) {
     ev.preventDefault();
-    this.props.registerUser({
+    this.props.updateUser({
       ...this.state,
-      anonUser: this.props.user.id,
     });
-    this.props.history.push('/Login');
+    this.props.history.push('/');
   }
 
   render() {
     const { onChange, onSubmit } = this;
-    const { email, password, firstName, lastName } = this.state;
+    const { email, firstName, lastName } = this.state;
+
     return (
       <div id='login-container'>
-        <h2> Sign Up! </h2>
+        <h2>Edit Profile</h2>
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='standard-basic'
@@ -67,7 +79,7 @@ class Register extends React.Component {
             type='email'
             autoComplete='email'
           />
-          <TextField
+          {/* <TextField
             id='standard-adornment-password'
             label='Password'
             value={password}
@@ -77,19 +89,19 @@ class Register extends React.Component {
             type='password'
             autoComplete='new-password'
             pattern='^[^$]\d+'
-          />
+          /> */}
           <Button
             variant='contained'
             type='submit'
             color='secondary'
             style={{ marginTop: '1rem' }}
           >
-            Sign up
+            Save
           </Button>
         </form>
-        <h6>
+        {/* <h6>
           <a href='#/Login'>Already have an account?</a>
-        </h6>
+        </h6> */}
       </div>
     );
   }
@@ -97,8 +109,8 @@ class Register extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    registerUser: (user) => {
-      dispatch(registerUser(user));
+    updateUser: (user) => {
+      dispatch(updateUser(user));
     },
   };
 };
@@ -107,4 +119,4 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
