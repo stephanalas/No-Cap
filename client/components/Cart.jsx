@@ -26,12 +26,6 @@ class Cart extends React.Component {
 
   componentDidMount() {
     try {
-<<<<<<< HEAD
-        this.setState({ 
-            ...this.state, 
-            cart: this.props.cart, 
-        });
-=======
       let total = this.props.cart.cart_line_items.reduce((accum, next) => {
         console.log(accum);
         return accum + parseFloat(next.subTotal);
@@ -42,7 +36,6 @@ class Cart extends React.Component {
         totalAmt: this.props.cart.cart_line_items.length,
         cartTotal: total,
       });
->>>>>>> master
     } catch (err) {
       console.log(err);
     }
@@ -84,13 +77,13 @@ class Cart extends React.Component {
   }
 
   onInputChange(event, lineItemId) {
-    const {updateCartItem} = this.props;
-    this.setState({...this.state, ...this.state.cart.cart_line_items[lineItemId].quantity = event.target.value})
+    //const {updateCartItem} = this.props;
+    //this.setState({...this.state, ...this.state.cart.cart_line_items[lineItemId].quantity = event.target.value})
     //console.log(this.state.cart.cart_line_items[cartId].quantity);
     //this.setState({this.state.cart.cart_line_items[cartId].quantity : ...event.target.value})
     //this.state.cart.cart_line_items[cartId] = event.target.value;
     //this.setState({quantity: event.target.value});
-    updateCartItem(lineItemId, event.target.value)
+    //updateCartItem(lineItemId, event.target.value)
   } 
 
   render() {
