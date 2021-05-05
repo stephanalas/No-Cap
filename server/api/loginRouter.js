@@ -18,7 +18,7 @@ loginRouter.post('/auth', async (req, res, next) => {
 
 loginRouter.get('/auth', requireToken, async (req, res, next) => {
   try {
-    res.send({ data: req.user });
+    res.send(req.user);
   } catch (ex) {
     next(ex);
   }
