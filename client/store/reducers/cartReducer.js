@@ -16,8 +16,9 @@ const cartReducer = (state = {}, action) => {
     return action.cart;
   }
   if (action.type === UPDATE_CART_ITEM) {
-    let lineItems = state.cart_line_items.map(cartLineItem=> cartLineItem.id === action.cartLineItem.id ? action.cartLineItem : cartLineItem);
-    state = {...state, cart_line_items : lineItems};
+    // let lineItems = state.cart_line_items.map(cartLineItem=> cartLineItem.id === action.cartLineItem.id ? action.cartLineItem : cartLineItem);
+    // state = {...state, cart_line_items : lineItems};
+    return action.cart;
   }
   return state;
 };

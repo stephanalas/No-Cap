@@ -82,7 +82,6 @@ describe('Cart Routes', () => {
     let response = await request.put(`/api/cart/${user.cartId}/removeCartItem`).send({ lineId: 1 });
 
     response = JSON.parse(response.text);
-    console.log(response);
 
     expect(response.cart_line_items.length).toBe(2);
     done();

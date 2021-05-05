@@ -30,4 +30,18 @@ CartLineItem.addHook('beforeUpdate', (cartLineItem) => {
   cartLineItem.subTotal = total;
 });
 
+CartLineItem.addHook('afterCreate', async (cartLineItem) => {
+  const cart = await Cart.findByPk(cartLineItem.cartId);
+  if(cart){
+    cart.save();
+  }
+});
+
+CartLineItem.addHook('afterUpdate', async (cartLineItem) => {
+  const cart = await Cart.findByPk(cartLineItem.cartId);
+  if(cart){
+    cart.save();
+  }
+});
+
 module.exports = CartLineItem;

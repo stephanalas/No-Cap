@@ -13,7 +13,8 @@ class CartLineItem extends React.Component {
     constructor() {
       super();
       this.state = {
-        quantity: 1
+        quantity: 1,
+        subTotal: 0
       };
       this.increment = this.increment.bind(this);
       this.decrement = this.decrement.bind(this);
@@ -21,8 +22,10 @@ class CartLineItem extends React.Component {
 
     componentDidMount() {
         try {
+            //console.log(this.props.cartLineItem.subTotal, 'cartline item subtotal');
           this.setState({
-            quantity: this.props.cartLineItem.quantity
+            quantity: this.props.cartLineItem.quantity,
+            subTotal: this.props.cartLineItem.subTotal
           });
         } catch (err) {
           console.log(err);
@@ -31,31 +34,48 @@ class CartLineItem extends React.Component {
     
     componentDidUpdate(prevProps, prevState) {
         const {updateCartItem, cartLineItem} = this.props;
+        
         if (
           prevState.quantity !==
           this.state.quantity
-        ) {
-        
+        ){
           this.setState({
-            quantity: this.state.quantity
+            quantity: this.state.quantity,
+            subTotal: parseFloat(this.state.subTotal).toFixed(2)
           });
-          updateCartItem(cartLineItem.id,this.state.quantity, cartLineItem.cartId);
-          
+        
+          updateCartItem(cartLineItem.id,this.state.quantity, cartLineItem.cartId, this.props.user.id);
+          //this.props.updateCart();
         }
+        
+        
+
       }
 
       increment() {
-        this.setState({ quantity: this.state.quantity + 1 });
-      }
+        this.setState({ 
+            quantity: this.state.quantity + 1,
+            subTotal: (this.state.quantity + 1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)
+        });
+        //this.setState({subTotal: (this.state.quantity + 1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)});
+        //this.props.updateCart();
+        //this.props.loadCart(this.props.user.id);
+    }
       decrement() {
         if (this.state.quantity !== 1) {
-          this.setState({ quantity: this.state.quantity - 1 });
+            this.setState({ 
+            quantity: this.state.quantity - 1,
+            subTotal: (this.state.quantity -1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)
+        });
+         //this.setState({subTotal: (this.state.quantity -1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)});
         }
+        //this.props.updateCart();
+        //this.props.loadCart(this.props.user.id);
       }
 
     render(){
         const {cartLineItem} = this.props;
-        const {removeCartItem} = this.props;
+        const {removeCartItem, cartTotal} = this.props;
         return (
             <li className="cart-item" key={cartLineItem.id}>
             <img src={cartLineItem.product.photo} />
@@ -75,7 +95,7 @@ class CartLineItem extends React.Component {
                         
                     />
                 </h4>
-                <h4>SubTotal: ${parseFloat(cartLineItem.subTotal).toFixed(2)}</h4>
+                <h4>SubTotal: ${this.state.subTotal}</h4>
                 <button
                 id="delete"
                 onClick={() => removeCartItem(cartLineItem.cartId, cartLineItem.id)}
@@ -100,8 +120,8 @@ const mapDispatchToProps = (dispatch) => {
       removeCartItem: (cartId, lineId) => {
         dispatch(removeCartItem(cartId, lineId))
       },
-      updateCartItem: (cartLineId, quantity, cartId)=> {
-        dispatch(updateCartItem(cartLineId, quantity, cartId))
+      updateCartItem: (cartLineId, quantity, cartId, userId)=> {
+        dispatch(updateCartItem(cartLineId, quantity, cartId, userId))
       }
     };
   };
