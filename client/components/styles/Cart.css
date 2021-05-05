@@ -15,8 +15,32 @@ img {
   align-items: center;
   width: 80%;
 }
-.cart-info > h3 {
-flex:1 1 auto;
+.cart-info > h4 {
+flex:1;
+text-align: left;
+}
+.cart-list {
+  display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.cart-amt {
+  background-color: dodgerblue;
+  border-radius: 10px;
+  color: white;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.checkout {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: .8%;
 }
 
 @media (max-width: 845px) {
