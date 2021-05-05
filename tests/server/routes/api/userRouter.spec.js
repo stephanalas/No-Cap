@@ -7,7 +7,9 @@ const request = supertest(app);
 const { db, initDB } = require('../../../../server/db/index');
 
 const {
-  models: { User, Order, OrderLineItem, Product, CartLineItem },
+  models: {
+    User, Order, OrderLineItem, Product, CartLineItem,
+  },
 } = require('../../../../server/db/models/associations');
 
 describe('User Routes', () => {
@@ -131,9 +133,7 @@ describe('User Routes', () => {
       ).body;
     }
     const { id } = authenticatedUser;
-    response = await request
-      .delete(`/api/users/${id}`)
-      .set({ authorization: token });
+    response = await request.delete(`/api/users/${id}`).set({ authorization: token });
 
     expect(response.status).toEqual(204);
     done();
@@ -156,9 +156,7 @@ describe('User Routes', () => {
       quantity: 4,
     });
 
-    let response = await request
-      .post(`/api/users/${user.id}/orders`)
-      .send({ total: 57.5 });
+    let response = await request.post(`/api/users/${user.id}/orders`).send({ total: 57.5 });
     response = JSON.parse(response.text);
 
     expect(response.orderLineItems.length).toBe(2);

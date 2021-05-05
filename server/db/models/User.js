@@ -86,7 +86,7 @@ User.addHook('afterCreate', async (user) => {
 User.byToken = async (token) => {
   try {
     const { userId } = await jwt.verify(token, process.env.JWT);
-    const user = await User.findOne({
+    const user = await User.findAll({
       where: {
         id: userId,
       },
@@ -94,9 +94,10 @@ User.byToken = async (token) => {
         model: Cart,
       },
     });
-    if (user) {
-      return user;
+    if (user[0]) {
+      return user[0];
     }
+    return 'JsonWebTokenError';
   } catch (ex) {
     console.log(ex.name);
     return ex.name;

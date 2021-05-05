@@ -32,7 +32,7 @@ class Register extends React.Component {
       ...this.state,
       anonUser: this.props.user.id,
     });
-    this.props.history.push('/Login');
+    this.props.history.push('/Products');
   }
 
   render() {
