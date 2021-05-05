@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getProducts } from '../store/storeComponents/getProducts';
+import { getUser } from '../store/storeComponents/getUser';
 import ProductCard from './ProductCard';
 import './styles/AllProducts.css';
 import productFilter from './utils/productFilter';
@@ -27,6 +28,7 @@ class AllProducts extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.products.length) {
+      this.props.getUser();
       this.setState({
         ...this.state,
         filteredProducts: this.props.products,
@@ -92,14 +94,14 @@ class AllProducts extends React.Component {
     const { onChange, handleClick, handleReset } = this;
     const products = this.state.filteredProducts;
     return (
-      <div className="all-products-view">
+      <div className='all-products-view'>
         {/* We can add sort and filtering options in this component */}
         <Filter
           onChange={onChange}
           handleClick={handleClick}
           handleReset={handleReset}
         />
-        <ul className="all-products-ul">
+        <ul className='all-products-ul'>
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -118,12 +120,10 @@ const mapDispatchToProps = (dispatch) => {
     loadProducts: () => {
       dispatch(getProducts());
     },
+    getUser: () => {
+      dispatch(getUser());
+    },
   };
 };
 
-export default connect((state) => {
-  const { products } = state;
-  return {
-    products,
-  };
-}, mapDispatchToProps)(AllProducts);
+export default connect((state) => state, mapDispatchToProps)(AllProducts);
