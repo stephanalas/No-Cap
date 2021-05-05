@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Navbar as BootstrapNavBar, Nav, Container } from 'react-bootstrap';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HamburgerMenu from 'react-hamburger-menu';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/NavBar.css';
@@ -95,14 +96,20 @@ class NavBar extends React.Component {
                     Signup
                   </Nav.Link>
                 ) : null} */}
-                {this.props.user.role && this.props.user.role === 'Admin' ? (
+                {/* {this.props.user.role && this.props.user.role === 'Admin' ? (
                   <Nav.Link className='nav-link underline' href='#admin'>
                     Admin
                   </Nav.Link>
-                ) : null}
+                ) : null} */}
                 <Nav.Link className='nav-link underline' href='#ShoppingCart'>
                   <ShoppingCartIcon />
                 </Nav.Link>
+                {this.props.user.role &&
+                this.props.user.role !== 'Anonymous' ? (
+                  <Nav.Link className='nav-link underline' href='#MyAccount'>
+                    <AccountCircleIcon />
+                  </Nav.Link>
+                ) : null}
               </Nav>
               {/* </BootstrapNavBar.Collapse> */}
             </div>

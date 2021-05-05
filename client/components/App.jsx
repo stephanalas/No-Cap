@@ -20,6 +20,7 @@ import Admin from './Admin';
 import Cart from './Cart';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import UserHomePage from './UserHomePage';
 
 class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
@@ -51,6 +52,7 @@ class App extends React.Component {
         <Route path='/ShoppingCart' component={Cart} exact />
         <Route path='/ForgotPassword' component={ForgotPassword} />
         <Route path='/ResetPassword' component={ResetPassword} />
+        <Route path='/MyAccount' component={UserHomePage} />
       </HashRouter>
     );
   }
