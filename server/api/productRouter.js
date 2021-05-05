@@ -10,6 +10,7 @@ productRouter.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
       include: [Review],
+      order: [[{ model: Review }, 'id', 'DESC']],
     });
     res.status(200).send(products);
   } catch (error) {
@@ -32,7 +33,9 @@ productRouter.get('/:id', async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await Product.findOne({
-      include: [Review],
+      include: {
+        model: Review,
+      },
       where: {
         id: productId,
       },
