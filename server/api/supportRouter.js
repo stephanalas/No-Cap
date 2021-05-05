@@ -38,18 +38,16 @@ supportRouter.post('/forgotPassword', async (req, res, next) => {
       },
     });
 
-    const returnUrl = `${req.protocol}://${req.get(
-      'host'
-    )}/#/ResetPassword/${resetToken}`;
+    const returnUrl = `${req.protocol}://${req.get('host')}/#/ResetPassword/${resetToken}`;
 
     const mailOptions = {
       from: 'NoReply.NoCap@gmail.com',
       to: `${user.email}`,
       subject: 'Reset Password for your NoCap Account',
       text:
-        'You are receiving this email because someone requested that the password be reset for this account.\n\n' +
-        'If you did not request this, please ignore this!\n\n' +
-        `Click here to reset your password: ${returnUrl}\n\n`,
+        'You are receiving this email because someone requested that the password be reset for this account.\n\n'
+        + 'If you did not request this, please ignore this!\n\n'
+        + `Click here to reset your password: ${returnUrl}\n\n`,
     };
 
     console.log('Sending password reset email...');
@@ -111,7 +109,7 @@ supportRouter.put('/updatePassword', async (req, res, next) => {
     }
   } catch (err) {
     console.log('User not found during password update');
-    //should be 404
+    // should be 404
     res.status(200).send({ message: 'User not found during password update' });
     next(err);
   }

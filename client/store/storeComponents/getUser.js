@@ -17,13 +17,16 @@ const getUser = () => async (dispatch) => {
     let token = window.localStorage.getItem('token');
     let authenticatedUser;
     if (token) {
-      authenticatedUser = await axios.get('/api/login/auth', {
-        headers: {
-          authorization: token,
-        },
-      });
+      authenticatedUser = (
+        await axios.get('/api/login/auth', {
+          headers: {
+            authorization: token,
+          },
+        })
+      ).data;
     }
     if (authenticatedUser.data === 'JsonWebTokenError') {
+      console.log('old JWT for this user');
       const anonUser = {
         email: faker.internet.email(),
         firstName: 'Anonymous',
@@ -35,15 +38,19 @@ const getUser = () => async (dispatch) => {
       window.localStorage.clear();
       window.localStorage.setItem('token', token);
       if (token) {
-        authenticatedUser = await axios.get('/api/login/auth', {
-          headers: {
-            authorization: token,
-          },
-        });
+        authenticatedUser = (
+          await axios.get('/api/login/auth', {
+            headers: {
+              authorization: token,
+            },
+          })
+        ).data;
       }
+      console.log(authenticatedUser);
       delete authenticatedUser.data.password;
       dispatch(_getUser(authenticatedUser.data));
     } else {
+      console.log(authenticatedUser.data);
       delete authenticatedUser.data.password;
       dispatch(_getUser(authenticatedUser.data));
     }
