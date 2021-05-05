@@ -90,17 +90,6 @@ class NavBar extends React.Component {
                     Log In
                   </Nav.Link>
                 )}
-                {/* {this.props.user.role &&
-                this.props.user.role === 'Anonymous' ? (
-                  <Nav.Link className='nav-link underline' href='#Signup'>
-                    Signup
-                  </Nav.Link>
-                ) : null} */}
-                {/* {this.props.user.role && this.props.user.role === 'Admin' ? (
-                  <Nav.Link className='nav-link underline' href='#admin'>
-                    Admin
-                  </Nav.Link>
-                ) : null} */}
                 <Nav.Link className='nav-link underline' href='#ShoppingCart'>
                   <ShoppingCartIcon />
                 </Nav.Link>
@@ -110,8 +99,15 @@ class NavBar extends React.Component {
                     <AccountCircleIcon />
                   </Nav.Link>
                 ) : null}
+
+                {this.props.user.role === 'Anonymous' && <div>Guest</div>}
+                {this.props.user.role === 'Admin' && (
+                  <div>{this.props.user.role}</div>
+                )}
+                {this.props.user.role === 'User' && (
+                  <div>{this.props.user.firstName}</div>
+                )}
               </Nav>
-              {/* </BootstrapNavBar.Collapse> */}
             </div>
           </Container>
         </BootstrapNavBar>
