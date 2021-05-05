@@ -24,10 +24,15 @@ Cart.addHook('beforeSave', async (cart) => {
         return acc + (cartLineItem.subTotal * 1);
       }, 0);
     }
+    else{
+      cart.total = 0;
+    }
   }
   catch(err){
     console.log(err);
   }
 });
+
+
 
 module.exports = Cart;
