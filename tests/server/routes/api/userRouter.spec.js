@@ -7,9 +7,7 @@ const request = supertest(app);
 const { db, initDB } = require('../../../../server/db/index');
 
 const {
-  models: {
-    User, Order, OrderLineItem, Product, CartLineItem,
-  },
+  models: { User, Order, OrderLineItem, Product, CartLineItem },
 } = require('../../../../server/db/models/associations');
 
 describe('User Routes', () => {
@@ -109,17 +107,35 @@ describe('User Routes', () => {
     done();
   });
 
-  test('DELETE /api/users/:id deletes a user', async (done) => {
+  // authenticated route
+  test('AUTH DELETE /api/users/:id deletes a user where ID comes from JWT', async (done) => {
     const userData = {
       firstName: 'Michael',
       lastName: 'Jordan',
       email: 'mjordan4@hotmail.com',
       password: 'password',
     };
-    let response = await request.post('/api/users').send(userData);
-    user = JSON.parse(response.text);
-    response = (await request.delete(`/api/users/${user.id}`)).status;
-    expect(response).toEqual(204);
+    let response = (await request.post('/api/users').send(userData)).body;
+
+    response = await request.post('/api/login/auth').send({
+      email: userData.email,
+      password: userData.password,
+    });
+    const { token } = response.body;
+    let authenticatedUser;
+    if (token) {
+      authenticatedUser = (
+        await request.get('/api/login/auth').set({
+          authorization: token,
+        })
+      ).body;
+    }
+    const { id } = authenticatedUser;
+    response = await request
+      .delete(`/api/users/${id}`)
+      .set({ authorization: token });
+
+    expect(response.status).toEqual(204);
     done();
   });
 
@@ -140,7 +156,9 @@ describe('User Routes', () => {
       quantity: 4,
     });
 
-    let response = await request.post(`/api/users/${user.id}/orders`).send({ total: 57.5 });
+    let response = await request
+      .post(`/api/users/${user.id}/orders`)
+      .send({ total: 57.5 });
     response = JSON.parse(response.text);
 
     expect(response.orderLineItems.length).toBe(2);
