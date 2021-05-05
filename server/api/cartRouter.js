@@ -17,7 +17,7 @@ cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
 
     const lineItem = await CartLineItem.findByPk(lineId);
     const removed = await lineItem.destroy();
-    
+
     const newCart = await Cart.findOne({
       include: {
         model: CartLineItem,
@@ -29,7 +29,7 @@ cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
         id,
       },
     });
-    
+
     await newCart.save();
 
     res.send(newCart);
@@ -44,19 +44,19 @@ cartRouter.put('/:id/updateQuantity', async (req, res, next) => {
       res.sendStatus(400);
     }
     const { id } = req.params;
-    const {lineId, quantity} = req.body;
+    const { lineId, quantity } = req.body;
     let lineItem = await CartLineItem.findOne({
-      include:{
+      include: {
         model: Product,
       },
       where: {
-        id: lineId
-      }
+        id: lineId,
+      },
     });
     lineItem = await lineItem.update({
-      quantity: quantity,
+      quantity,
     });
-    
+
     res.send(lineItem);
   } catch (ex) {
     next(ex);
