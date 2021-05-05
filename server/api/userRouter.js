@@ -98,9 +98,10 @@ userRouter.put('/:id', async (req, res, next) => {
   }
 });
 
-userRouter.delete('/:id', async (req, res, next) => {
+userRouter.delete('/:id', requireToken, async (req, res, next) => {
   try {
-    const { id } = req.params;
+    // const { id } = req.params;
+    const { id } = req.user;
     const user = await User.findByPk(id);
     await user.destroy();
     res.sendStatus(204);
