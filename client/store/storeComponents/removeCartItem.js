@@ -17,7 +17,7 @@ const removeCartItem = (cartId, lineId) => async (dispatch) => {
     const response = await axios.put(`/api/cart/${cartId}/removeCartItem`, { lineId });
 
     const updatedCart = response.data;
-    console.log(updatedCart, 'cart');
+    console.log(updatedCart);
     dispatch(_removeCartItem(updatedCart));
   } catch (err) {
     console.log(err.response);

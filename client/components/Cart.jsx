@@ -4,12 +4,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
+import CartLineItem from "./CartLineItem";
 import "./styles/Cart.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { loadCart } from "../store/storeComponents/loadCart";
 import "react-toastify/dist/ReactToastify.css";
 import { removeCartItem } from "../store/storeComponents/removeCartItem";
+import { updateCartItem } from '../store/storeComponents/updateCartItem';
+import { getUser } from '../store/storeComponents/getUser';
+
 
 class Cart extends React.Component {
   constructor() {
@@ -18,38 +22,52 @@ class Cart extends React.Component {
       cart: {},
       cartTotal: 0,
       totalAmt: 0,
+      user: {}
     };
     this.handleToken = this.handleToken.bind(this);
   }
 
-  componentDidMount() {
-    try {
-      let total = this.props.cart.cart_line_items.reduce((accum, next) => {
-        console.log(accum);
-        return accum + parseFloat(next.subTotal);
-      }, 0);
+  async componentDidMount() {
+    try {  
+      this.props.getUser();
+      this.props.loadCart(this.props.user.id);
       this.setState({
         ...this.state,
-        cart: this.props.cart,
-        totalAmt: this.props.cart.cart_line_items.length,
-        cartTotal: total,
-      });
+        cartTotal: this.props.cart.total,
+        user: this.props.user
+      })
+      
     } catch (err) {
       console.log(err);
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.cart.cart_line_items.length !==
-      this.props.cart.cart_line_items.length
-    ) {
+    if(prevProps.cart.total !== this.props.cart.total){
+      this.setState({
+        cartTotal: this.props.cart.total,
+        cart: this.props.cart,
+        totalAmt: this.props.cart.cart_line_items.length
+      })
+    }
+   
+    if(this.props.user !== this.state.user){
+      this.setState({
+        ...this.state,
+        user: this.props.user
+      })
+    }
+
+    if(prevState.cart.id !== this.props.cart.id){
+      this.props.getUser();
       this.setState({
         cart: this.props.cart,
         totalAmt: this.props.cart.cart_line_items.length,
-      });
+      })
     }
+
   }
+  
 
   async handleToken(token, addresses) {
     try {
@@ -74,46 +92,40 @@ class Cart extends React.Component {
     }
   }
 
+  
+
   render() {
-    const { removeCartItem } = this.props;
-    const { cart_line_items, id } = this.state.cart;
-    const { totalAmt } = this.state;
+    const { cart_line_items } = this.state.cart;
+    const { totalAmt, cartTotal } = this.state;
+
     return cart_line_items ? (
       <div>
-        <div>Cart</div>
+        <div><h3>Cart <span className="cart-amt">{totalAmt}</span></h3></div>
         <ToastContainer />
         <div id="cart-list">
-          {cart_line_items.map((cartItem) => {
-            return (
-              <div className="cart-item" key={cartItem.id}>
-                <img src={cartItem.product.photo} />
-                <div className="cart-info">
-                  <h3>{cartItem.product.name}</h3>
-                  <h3>Price: {cartItem.product.price}</h3>
-                  <h3>Quantity: {cartItem.quantity}</h3>
-                  <h3>Total: {cartItem.subTotal}</h3>
-                  <button
-                    id="delete"
-                    onClick={() => removeCartItem(id, cartItem.id)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-          <StripeCheckout
-            stripeKey="pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop"
-            token={this.handleToken}
-            billingAddress
-            shippingAddress
-            amount={this.state.cartTotal * 100}
-            name="NoCap Order"
-          />
+          <ul className = 'cart-container1'>
+            {cart_line_items.map((cartItem) => (
+              <CartLineItem key={cartItem.id} cartLineItem = {cartItem} cartTotal={cartTotal} />
+            ))}
+          </ul>
         </div>
+        <div className = 'checkout'>
+          <h3>Total: ${cartTotal.toFixed(2)}</h3>
+        </div>
+        <StripeCheckout
+          stripeKey="pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop"
+          token={this.handleToken}
+          billingAddress
+          shippingAddress
+          amount={this.state.cartTotal * 100}
+          name="NoCap Order"
+        />
       </div>
     ) : (
-      "Loading"
+      <div>
+      <h2>Loading</h2>
+    </div>
+
     );
   }
 }
@@ -121,13 +133,16 @@ class Cart extends React.Component {
 const mapStateToProps = (state) => {
   return {
     cart: state.cart,
+    user: state.user
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    removeCartItem: (cartId, lineId) =>
-      dispatch(removeCartItem(cartId, lineId)),
+    loadCart: (userId) => dispatch(loadCart(userId)),
+    removeCartItem: (cartId, lineId) => dispatch(removeCartItem(cartId, lineId)),
+      updateCartItem: (cartLineId, quantity, cartId, userId)=> dispatch(updateCartItem(cartLineId, quantity, cartId, userId)),
+        getUser: () => dispatch(getUser()),
   };
 };
 

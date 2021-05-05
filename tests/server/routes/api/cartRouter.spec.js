@@ -78,12 +78,41 @@ describe('Cart Routes', () => {
       },
     });
     const lineItem = user.cart.cart_line_items[1];
+    console.log(lineItem);
     let response = await request.put(`/api/cart/${user.cartId}/removeCartItem`).send({ lineId: 1 });
 
     response = JSON.parse(response.text);
-    console.log(response);
 
     expect(response.cart_line_items.length).toBe(2);
+    done();
+  });
+
+  test('PUT /api/cart/:id/updateQuantity', async (done) => {
+    const user = await User.findOne({
+      include: {
+        model: Cart,
+        include: {
+          model: CartLineItem,
+          include: {
+            model: Product,
+          },
+        },
+      },
+      where: {
+        id: 2,
+      },
+    });
+
+    const lineItem = user.cart.cart_line_items[1];
+    const lineID = {
+      lineId: lineItem.id,
+      quantity: 5,
+    };
+    let response = await request.put(`/api/cart/${user.cartId}/updateQuantity`).send(lineID);
+
+    response = JSON.parse(response.text);
+    expect(response.quantity).toBe(5);
+
     done();
   });
 });

@@ -33,8 +33,7 @@ const filterByPrice = (priceRanges, filteredProducts) => {
         if (price >= lowestPrice) passedFilter = true;
       } else if (!lowestPrice) {
         if (price <= highestPrice) passedFilter = true;
-      } else if (price >= lowestPrice && price <= highestPrice)
-        passedFilter = true;
+      } else if (price >= lowestPrice && price <= highestPrice) passedFilter = true;
       if (passedFilter) return true;
     }
     return false;
@@ -72,7 +71,9 @@ const filterByCategory = (categories, filteredProducts) => {
   });
 };
 
-export default (products, { category, color, priceRange, avgRating }) => {
+export default (products, {
+  category, color, priceRange, avgRating,
+}) => {
   // converts price ranges from strings to integer in a format of a nested Array [[0, 15], [15,50], [50, null]]
   const priceRanges = parseIntPriceRanges(priceRange);
   // converts avgRating to integers
