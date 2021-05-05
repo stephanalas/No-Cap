@@ -1,8 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { loadCart } from "../store/storeComponents/loadCart";
-import InputCounter from "./InputCounter";
-import "./styles/SingleProduct.css";
+import React from 'react';
+import { connect } from 'react-redux';
+import { loadCart } from '../store/storeComponents/loadCart';
+import { getUser } from '../store/storeComponents/getUser';
+import { getProducts } from '../store/storeComponents/getProducts';
+import InputCounter from './InputCounter';
+import './styles/SingleProduct.css';
 
 class SingleProduct extends React.Component {
   constructor() {
@@ -13,6 +15,11 @@ class SingleProduct extends React.Component {
     this.addClick = this.addClick.bind(this);
     this.increment = this.increment.bind(this);
     this.decrement = this.decrement.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getUser();
+    this.props.loadProducts();
   }
 
   addClick(userID, productID, quantity) {
@@ -33,9 +40,9 @@ class SingleProduct extends React.Component {
     const singleProduct = this.props.product;
     return singleProduct ? (
       <div>
-        <div className="product-pic-text">
-          <img src={singleProduct.photo} alt="new" />
-          <div className="product-text">
+        <div className='product-pic-text'>
+          <img src={singleProduct.photo} alt='new' />
+          <div className='product-text'>
             <div>Product name: {singleProduct.name}</div>
             <div>Price: {singleProduct.price}</div>
             <div>Stock: {singleProduct.inventory}</div>
@@ -46,7 +53,7 @@ class SingleProduct extends React.Component {
               quantity={this.state.quantity}
             />
             <button
-              type="button"
+              type='button'
               onClick={() =>
                 this.addClick(
                   this.props.user.id,
@@ -59,10 +66,10 @@ class SingleProduct extends React.Component {
             </button>
           </div>
         </div>
-        <div className="rating">Rating: {singleProduct.rating}</div>
+        <div className='rating'>Rating: {singleProduct.rating}</div>
       </div>
     ) : (
-      "Loading"
+      'Loading'
     );
   }
 }
@@ -81,6 +88,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadCart: (userId, productID, quantity) => {
       dispatch(loadCart(userId, productID, quantity));
+    },
+    loadProducts: () => {
+      dispatch(getProducts());
+    },
+    getUser: () => {
+      dispatch(getUser());
     },
   };
 };
