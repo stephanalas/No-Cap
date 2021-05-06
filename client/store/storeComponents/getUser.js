@@ -23,7 +23,9 @@ const getUser = () => async (dispatch) => {
         },
       });
     }
+
     if (authenticatedUser.data === 'JsonWebTokenError') {
+      console.log('received an old JWT');
       const anonUser = {
         email: faker.internet.email(),
         firstName: 'Anonymous',
@@ -41,9 +43,11 @@ const getUser = () => async (dispatch) => {
           },
         });
       }
-      delete authenticatedUser.data.password;
+      console.log(authenticatedUser);
+      delete authenticatedUser.password;
       dispatch(_getUser(authenticatedUser.data));
     } else {
+      console.log(authenticatedUser.data);
       delete authenticatedUser.data.password;
       dispatch(_getUser(authenticatedUser.data));
     }

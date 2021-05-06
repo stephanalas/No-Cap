@@ -28,7 +28,7 @@ class Login extends React.Component {
     try {
       ev.preventDefault();
       this.props.loginUser(this.state);
-      this.props.history.push('/');
+      this.props.history.push('/Products');
     } catch (error) {
       console.log(error);
     }
