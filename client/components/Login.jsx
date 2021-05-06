@@ -43,6 +43,7 @@ class Login extends React.Component {
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='standard-basic'
+            required={true}
             label='Email'
             value={email}
             onChange={onChange}
@@ -52,6 +53,7 @@ class Login extends React.Component {
           />
           <TextField
             id='standard-adornment-password'
+            required={true}
             label='Password'
             value={password}
             onChange={onChange}
@@ -63,7 +65,7 @@ class Login extends React.Component {
           <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ marginTop: '1rem' }}
           >
             Login
