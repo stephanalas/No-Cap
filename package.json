@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	  "start": "node ./server/start",
+    "start": "node ./server/start",
     "start:dev": "npm run start-server & npm run build:dev",
     "start-server": "nodemon ./server/start --ignore public/ --ignore client/",
     "build:dev": "npm run build -- --watch --mode=development",

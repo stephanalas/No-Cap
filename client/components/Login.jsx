@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, TextField } from '@material-ui/core';
 import { Nav } from 'react-bootstrap';
+import { Redirect } from 'react-router';
 import './styles/Login.css';
 
 import { loginUser } from '../store/storeComponents/loginUser';
@@ -15,9 +16,24 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      error: '',
+      loading: false,
+      success: false,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    // breaks if it receives the same error twice
+    if (this.props.error.message !== prevProps.error.message) {
+      this.setState({
+        loading: false,
+        error: this.props.error.message,
+        email: '',
+        password: '',
+      });
+    }
   }
 
   onChange(ev) {
@@ -27,8 +43,8 @@ class Login extends React.Component {
   async onSubmit(ev) {
     try {
       ev.preventDefault();
+      this.setState({ loading: true, success: true });
       this.props.loginUser(this.state);
-      this.props.history.push('/Products');
     } catch (error) {
       console.log(error);
     }
@@ -36,10 +52,18 @@ class Login extends React.Component {
 
   render() {
     const { onChange, onSubmit } = this;
-    const { email, password } = this.state;
+    const { email, password, error, loading, success } = this.state;
+    if (loading) {
+      return <h6>...Logging in</h6>;
+    }
+    if (!error && success) {
+      console.log('redirecting...');
+      return <Redirect to='/' />;
+    }
     return (
       <div id='login-container'>
         <h2> Login </h2>
+        {error && <h6>{error}</h6>}
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='standard-basic'
@@ -88,4 +112,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

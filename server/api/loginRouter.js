@@ -10,6 +10,13 @@ const loginRouter = express.Router();
 
 loginRouter.post('/auth', async (req, res, next) => {
   try {
+    const tokenOrError = await User.authenticate(req.body);
+
+    const errors = ['email required', 'password required', 'email not found', 'invalid password'];
+    if (errors.includes(tokenOrError)) {
+      const error = tokenOrError;
+      res.send({ error });
+    }
     res.send({ token: await User.authenticate(req.body) });
   } catch (ex) {
     next(ex);
