@@ -19,6 +19,25 @@ reviewRouter.get('/:reviewId', async (req, res, next) => {
   }
 });
 
+reviewRouter.post('/', async (req, res, next) => {
+  // create new review
+  try {
+    const {
+      productId, userId, stars, body,
+    } = req.body;
+    const review = await Review.create({
+      productId,
+      userId,
+      stars,
+      body,
+    });
+    if (!review) res.sendStatus(404);
+    res.status(200).send(review);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 reviewRouter.put('/:reviewId', async (req, res, next) => {
   // update a product review by id
   if (!req.body) res.sendStatus(400);

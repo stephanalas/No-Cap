@@ -1,9 +1,3 @@
-#logo {
-  height: 300px;
-  width: 100%;
-  max-width: 100%;
-}
-
 @keyframes tonext {
   75% {
     left: 0;
@@ -51,9 +45,9 @@
 
 body {
   /* max-width: 37.5rem; */
-  /* margin: 0 auto; */
-  /* padding: 0 1.25rem; */
-  /* font-family: 'Lato', sans-serif; */
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  font-family: 'Lato', sans-serif;
 }
 
 * {
@@ -88,19 +82,12 @@ li {
 
 .carousel {
   position: relative;
-  padding-top: 75%;
+  /* padding-top: 20px; */
   filter: drop-shadow(0 0 10px #0003);
-  perspective: 100px;
-  width: 80%;
+  /* perspective: 100px; */
+  /* width: 80%; */
   margin-left: auto;
   margin-right: auto;
-}
-
-@media (min-width: 1000px) {
-  .carousel {
-    width: 800px;
-    height: 80%;
-  }
 }
 
 .carousel__viewport {
@@ -219,30 +206,31 @@ li {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
 }
 
-.carousel__slide:first-child {
-  background-image: url(https://di2ponv0v5otw.cloudfront.net/posts/2019/02/03/5c57e19003087cc8e6b20782/m_5c57e1b47386bc91f4b61121.jpg);
+.carousel__slide {
   background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.carousel__slide:first-child {
+  background-image: url(https://di2ponv0v5otw.cloudfront.net/posts/2019/02/03/5c57e19003087cc8e6b20782/m_5c57e1b47386bc91f4b61121.jpg);
 }
 
 .carousel__slide:nth-child(2) {
   background-image: url(https://www.villagehatshop.com/photos/product/giant/4511390S162242/alt/162242.jpg);
-  background-size: 80%;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .carousel__slide:nth-child(3) {
   background-image: url(https://cdn.shopify.com/s/files/1/1140/8354/products/ENS-4060050-CA_800x.jpg?v=1610567728);
-  background-size: 80%;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .carousel__slide:nth-child(4) {
   background-image: url(https://www.medievalcollectibles.com/wp-content/uploads/2020/05/MCI-6031.jpg);
-  background-size: 80%;
-  background-position: center;
-  background-repeat: no-repeat;
+}
+
+@media (min-width: 800px) {
+  .carousel {
+    width: 800px;
+    height: 800px;
+  }
 }

@@ -16,7 +16,7 @@ class Admin extends Component {
 
   async componentDidMount() {
     const token = window.localStorage.getItem('token');
-    const role = await authentication(token);
+    const { role } = await authentication(token);
     const oldState = this.state;
     this.setState({ ...oldState, role });
   }
