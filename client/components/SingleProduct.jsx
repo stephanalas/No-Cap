@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from '@material-ui/core';
 import { loadCart } from '../store/storeComponents/loadCart';
 import { getUser } from '../store/storeComponents/getUser';
 import { getProducts } from '../store/storeComponents/getProducts';
@@ -37,37 +38,54 @@ class SingleProduct extends React.Component {
     }
   }
 
+  onChange() {
+    this.setState({ [ev.target.name]: ev.target.value });
+  }
+
   render() {
     const singleProduct = this.props.product;
     return singleProduct ? (
       <div>
-        <div className="product-pic-text">
-          <img src={singleProduct.photo} alt="new" />
-          <div className="product-text">
-            <div>Product name: {singleProduct.name}</div>
-            <div>Price: {singleProduct.price}</div>
-            <div>Stock: {singleProduct.inventory}</div>
-            <div>Product Description:{singleProduct.description}</div>
-            <InputCounter
-              increment={this.increment}
-              decrement={this.decrement}
-              quantity={this.state.quantity}
+        <div id="product-name">{singleProduct.name}</div>
+        <div>
+          <div className="product-pic-text">
+            <img
+              id="single-product-image"
+              src={singleProduct.photo}
+              alt="new"
             />
-            <button
-              type="button"
-              onClick={() =>
-                this.addClick(
-                  this.props.user.id,
-                  singleProduct.id,
-                  this.state.quantity
-                )
-              }
-            >
-              Add to Cart
-            </button>
+            <div className="product-text">
+              <div id="reviews">
+                {singleProduct.rating} Stars -{singleProduct.reviews.length}{' '}
+                Reviews
+              </div>
+              <div id="price">${singleProduct.price}</div>
+              {/* <div>Stock: {singleProduct.inventory}</div> */}
+              <div>{singleProduct.description}</div>
+              <InputCounter
+                increment={this.increment}
+                decrement={this.decrement}
+                quantity={this.state.quantity}
+              />
+              <Button
+                variant="contained"
+                onClick={() =>
+                  this.addClick(
+                    this.props.user.id,
+                    singleProduct.id,
+                    this.state.quantity
+                  )
+                }
+                size="large"
+                type="submit"
+                color="primary"
+                style={{ marginTop: '1rem' }}
+              >
+                Add to Cart
+              </Button>
+            </div>
           </div>
         </div>
-        <div className="rating">Rating: {singleProduct.rating}</div>
         <Reviews user={this.props.user} product={singleProduct} />
       </div>
     ) : (
