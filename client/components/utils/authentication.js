@@ -13,6 +13,7 @@ const authentication = async (token) => {
         },
       })
     ).data;
+    // console.log('this is in the function', response);
   } catch (err) {
     console.log(err.response);
   }

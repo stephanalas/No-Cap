@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  models: { Product, Review },
+  models: { Product, Review, User },
 } = require('../db/models/associations');
 
 const productRouter = express.Router();
@@ -9,7 +9,12 @@ const productRouter = express.Router();
 productRouter.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [Review],
+      include: {
+        model: Review,
+        include: {
+          model: User,
+        },
+      },
       order: [[{ model: Review }, 'id', 'DESC']],
     });
     res.status(200).send(products);
@@ -35,6 +40,9 @@ productRouter.get('/:id', async (req, res, next) => {
     const product = await Product.findOne({
       include: {
         model: Review,
+        include: {
+          model: User,
+        },
       },
       where: {
         id: productId,

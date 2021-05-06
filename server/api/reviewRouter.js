@@ -25,9 +25,11 @@ reviewRouter.post('/', async (req, res, next) => {
     const {
       productId, userId, stars, body,
     } = req.body;
-    console.log(stars);
     const review = await Review.create({
-      productId, userId, stars, body,
+      productId,
+      userId,
+      stars,
+      body,
     });
     if (!review) res.sendStatus(404);
     res.status(200).send(review);

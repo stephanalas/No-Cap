@@ -12,7 +12,7 @@ const requireToken = require('../requireToken');
 
 userRouter.get('/auth', requireToken, async (req, res, next) => {
   try {
-    res.send(req.user.role);
+    res.send(req.user);
   } catch (ex) {
     next(ex);
   }

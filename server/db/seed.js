@@ -389,15 +389,15 @@ const syncAndSeed = async () => {
     await User.create({
       email: 'anonymous@aol.com',
       password: 'anon',
-      firstName: 'Anon',
-      lastName: 'ymous',
+      firstName: 'John',
+      lastName: 'Doe',
       role: 'User',
     });
     await User.create({
       email: 'admin@gmail.com',
       password: 'hello123',
-      firstName: 'Admin',
-      lastName: 'istrator',
+      firstName: 'Mary',
+      lastName: 'Poppins',
       role: 'Admin',
     });
     await User.create({
@@ -465,7 +465,7 @@ const syncAndSeed = async () => {
       await Review.create({
         stars: getRandomInt(6),
         body: reviews[getRandomInt(50)],
-        userId: 1,
+        userId: getRandomInt(3) + 1,
         productId: getRandomInt(35) + 1,
       });
     });

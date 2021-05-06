@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addReview } from '../store/storeComponents/addReview';
+import authentication from './utils/authentication';
 // import './styles/Reviews.css';
 
 class Reviews extends React.Component {
@@ -9,18 +10,34 @@ class Reviews extends React.Component {
     this.state = {
       stars: 0,
       body: '',
+      user: {},
+      // reviews: 0,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  // componentDidUpdate(prevProps, prevState){
-  //   if (prevProps.product.reviews.length !== this.props.product.reviews.length) {
+  async componentDidMount() {
+    // const { stars, body } = this.props.product.reviews;
+    // const reviews = this.props.product.reviews.length;
+    // this.setState({ stars, body, reviews });
+    const token = window.localStorage.getItem('token');
+    const user = await authentication(token);
+    this.setState({ user });
+  }
 
-  //   }
+  // componentDidUpdate(prevProps, prevState) {
+  // console.log(prevState.product.reviews.length);
+  // console.log(this.state.length);
+  // if (
+  // prevState.product.reviews.length !== this.state.product.reviews.length
+  // ) {
+  // this.forceUpdate();
+  // }
   // }
 
   onChange(ev) {
+    console.log(this.state.user.id);
     this.setState({ [ev.target.name]: ev.target.value });
   }
 
@@ -28,10 +45,12 @@ class Reviews extends React.Component {
     ev.preventDefault();
     this.props.addReview(
       this.props.product.id,
-      this.props.user.id,
+      this.state.user.id,
       this.state.stars,
       this.state.body
     );
+    // const newReviews = this.state.reviews + 1;
+    // this.setState({ reviews: newReviews });
   }
 
   render() {
@@ -74,7 +93,11 @@ class Reviews extends React.Component {
                 return (
                   <tr key={review.id}>
                     <th>{review.stars}</th>
-                    <td>{review.body}</td>
+                    <td>
+                      {/* {console.log(review.user)}  */}
+                      {review.body} -{' '}
+                      {review.user ? review.user.firstName : 'Anonymous'}
+                    </td>
                   </tr>
                 );
               })}

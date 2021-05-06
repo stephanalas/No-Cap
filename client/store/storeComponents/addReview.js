@@ -9,17 +9,17 @@ const _addReview = (review) => ({
   review,
 });
 // thunk
-const addReview = (productId, userID, stars, body) => async (dispatch) => {
+const addReview = (productId, userId, stars, body) => async (dispatch) => {
   try {
     let newReview = await axios.post('api/reviews', {
       productId,
-      userID,
+      userId,
       stars,
       body,
     });
     newReview = newReview.data;
     dispatch(_addReview(newReview));
-    // window.location.reload();
+    window.location.reload();
   } catch (err) {
     console.log(err.response);
   }
