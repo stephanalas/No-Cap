@@ -1,6 +1,8 @@
 const express = require('express');
 const {
-  models: { User, Order, Review, Cart, Product, CartLineItem, OrderLineItem },
+  models: {
+    User, Order, Review, Cart, Product, CartLineItem, OrderLineItem,
+  },
 } = require('../db/models/associations');
 
 const userRouter = express.Router();
@@ -28,7 +30,9 @@ userRouter.post('/', async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
     // will need to update this with appropriate fields
-    const { firstName, lastName, email, password } = req.body;
+    const {
+      firstName, lastName, email, password,
+    } = req.body;
 
     const newUser = await User.create({
       firstName,
@@ -79,7 +83,9 @@ userRouter.put('/:id', async (req, res, next) => {
     res.sendStatus(400);
   }
   // will need to update this with appropriate fields
-  const { firstName, lastName, email, password, role } = req.body;
+  const {
+    firstName, lastName, email, password, role,
+  } = req.body;
 
   try {
     const { id } = req.params;
@@ -115,16 +121,19 @@ userRouter.get('/:id/cart', async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(
-      await user.getCart({
+    const cart = await user.getCart({
+      include: {
+        model: CartLineItem,
         include: {
-          model: CartLineItem,
-          include: {
-            model: Product,
-          },
+          model: Product,
         },
-      })
-    );
+      },
+    });
+
+    cart.cart_line_items.sort((a, b) => {
+      return a.id - b.id;
+    });
+    res.send(cart);
   } catch (ex) {
     next(ex);
   }
@@ -171,7 +180,7 @@ userRouter.post('/:id/orders', async (req, res, next) => {
           subTotal: cartItem.subTotal,
         });
         orderLineItems.push(orderLineItem);
-      })
+      }),
     );
 
     res.status(201).send({ ...order, orderLineItems });
@@ -192,7 +201,7 @@ userRouter.get('/:id/orders', async (req, res, next) => {
             model: OrderLineItem,
           },
         ],
-      })
+      }),
     );
   } catch (ex) {
     next(ex);
@@ -216,7 +225,7 @@ userRouter.put('/:id/Cart', async (req, res, next) => {
       },
       include: [CartLineItem],
     });
-    const cart_line_items = cart.cart_line_items;
+    const { cart_line_items } = cart;
     let existingItem = cart_line_items.filter((item) => {
       if (item.productId === productToAdd.id) {
         return item;
@@ -287,7 +296,7 @@ userRouter.put('/:id/updateCart', async (req, res, next) => {
           quantity: cartItem.quantity,
         });
         updatedCart.push(cartLineItem);
-      })
+      }),
     );
     res.status(201).send({ ...userCart, cart: updatedCart });
   } catch (ex) {
@@ -316,27 +325,24 @@ userRouter.get('/:id/orders/:orderId', async (req, res, next) => {
   }
 });
 
-userRouter.post(
-  '/:userId/products/:productId/reviews',
-  async (req, res, next) => {
-    // create a product review from a user
-    if (!req.body) res.sendStatus(400);
+userRouter.post('/:userId/products/:productId/reviews', async (req, res, next) => {
+  // create a product review from a user
+  if (!req.body) res.sendStatus(400);
 
-    try {
-      const { userId, productId } = req.params;
-      const { stars, body } = req.body;
-      const review = await Review.create({
-        userId,
-        productId,
-        body,
-        stars,
-      });
-      res.status(201).send(review);
-    } catch (ex) {
-      next(ex);
-    }
+  try {
+    const { userId, productId } = req.params;
+    const { stars, body } = req.body;
+    const review = await Review.create({
+      userId,
+      productId,
+      body,
+      stars,
+    });
+    res.status(201).send(review);
+  } catch (ex) {
+    next(ex);
   }
-);
+});
 
 userRouter.post('/togglerole', async (req, res, next) => {
   try {

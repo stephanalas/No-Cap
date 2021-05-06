@@ -42,13 +42,9 @@ class CartLineItem extends React.Component {
             quantity: this.state.quantity,
             subTotal: parseFloat(this.state.subTotal).toFixed(2)
           });
-        
           updateCartItem(cartLineItem.id,this.state.quantity, cartLineItem.cartId, this.props.user.id);
      
         }
-        
-        
-
       }
 
       increment() {
@@ -78,6 +74,7 @@ class CartLineItem extends React.Component {
                 <h4>
             <Link to={`/Products/${cartLineItem.product.id}`}>
                 <h4>{cartLineItem.product.name}</h4>
+                <h4>{cartLineItem.id}</h4>
             </Link> 
             </h4>
                 <h4>Price: ${cartLineItem.product.price}</h4>
