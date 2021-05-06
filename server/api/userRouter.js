@@ -121,16 +121,19 @@ userRouter.get('/:id/cart', async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(
-      await user.getCart({
+    const cart = await user.getCart({
+      include: {
+        model: CartLineItem,
         include: {
-          model: CartLineItem,
-          include: {
-            model: Product,
-          },
+          model: Product,
         },
-      }),
-    );
+      },
+    });
+
+    cart.cart_line_items.sort((a, b) => {
+      return a.id - b.id;
+    });
+    res.send(cart);
   } catch (ex) {
     next(ex);
   }
