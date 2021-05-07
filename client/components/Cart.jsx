@@ -140,7 +140,7 @@ class Cart extends React.Component {
           <Table>
         <TableHead>
             <TableRow>
-            <StyledTableCell style={{ width: 1200 }} align="right">Total:</StyledTableCell>
+            <StyledTableCell style={{ width: 900 }} align="right">Total:</StyledTableCell>
               <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
             </TableRow>
             </TableHead>
@@ -160,43 +160,6 @@ class Cart extends React.Component {
            <h2>Loading</h2>
          </div>
     );
-
-    // return cart_line_items ? (
-    //   <div>
-    //     <div>
-    //       <h3>
-    //         Cart <span className='cart-amt'>{totalAmt}</span>
-    //       </h3>
-    //     </div>
-    //     <ToastContainer />
-    //     <div id='cart-list'>
-    //       <ul className='cart-container1'>
-    //         {cart_line_items.map((cartItem) => (
-    //           <CartLineItem
-    //             key={cartItem.id}
-    //             cartLineItem={cartItem}
-    //             cartTotal={cartTotal}
-    //           />
-    //         ))}
-    //       </ul>
-    //     </div>
-    //     <div className='checkout'>
-    //       <h3>Total: ${cartTotal.toFixed(2)}</h3>
-    //     </div>
-    //     <StripeCheckout
-    //       stripeKey='pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop'
-    //       token={this.handleToken}
-    //       billingAddress
-    //       shippingAddress
-    //       amount={this.state.cartTotal * 100}
-    //       name='NoCap Order'
-    //     />
-    //   </div>
-    // ) : (
-    //   <div>
-    //     <h2>Loading</h2>
-    //   </div>
-    // );
   }
 }
 
