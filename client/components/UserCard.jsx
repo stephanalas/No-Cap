@@ -3,26 +3,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './styles/UserCard.css';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { toggleRole } from '../store/storeComponents/toggleRole';
+import {StyledTableCell, StyledTableRow} from './utils/styledTableCell';
 
 class UserCard extends React.Component {
   render() {
     const { user } = this.props;
     return (
-      <li key={user.id} className="user-card">
-        <section className="user-info">
-          <h3>{`${user.firstName} ${user.lastName}`}</h3>
-          <h4>{user.email}</h4>
-          <label htmlFor="Admin">Make User Admin</label>
-          <input
+      <StyledTableRow key={user.id}>
+              <StyledTableCell component="th" scope="row">
+              <AccountCircleIcon />
+              {`${user.firstName} ${user.lastName}`}
+              </StyledTableCell>
+              <StyledTableCell align="justify">{user.email}</StyledTableCell>
+              <StyledTableCell align="justify"><label htmlFor="Admin">Make User Admin</label>
+           <input
             type="checkBox"
             id="Admin"
             defaultChecked={user.role === 'Admin' ? 'checked' : ''}
             onClick={() => this.props.toggleRole(user.id)}
-          />
-        </section>
-      </li>
-    );
+           /></StyledTableCell>
+            </StyledTableRow>
+    )
   }
 }
 

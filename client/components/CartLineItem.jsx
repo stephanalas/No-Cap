@@ -7,7 +7,8 @@ import { loadCart } from "../store/storeComponents/loadCart";
 import { removeCartItem } from "../store/storeComponents/removeCartItem";
 import { updateCartItem } from '../store/storeComponents/updateCartItem';
 import InputCounter from "./InputCounter";
-
+import {StyledTableCell, StyledTableRow} from './utils/styledTableCell';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 class CartLineItem extends React.Component {
     constructor() {
@@ -68,35 +69,70 @@ class CartLineItem extends React.Component {
         const {cartLineItem} = this.props;
         const {removeCartItem, cartTotal} = this.props;
         return (
-            <li className="cart-item" key={cartLineItem.id}>
+          <StyledTableRow key={cartLineItem.id}>
+            <StyledTableCell component="th" scope="row">
             <img src={cartLineItem.product.photo} />
-            <div className="cart-info">
-                <h4>
-            <Link to={`/Products/${cartLineItem.product.id}`}>
-                <h4>{cartLineItem.product.name}</h4>
-                <h4>{cartLineItem.id}</h4>
-            </Link> 
-            </h4>
-                <h4>Price: ${cartLineItem.product.price}</h4>
-                <h4>
-                    <InputCounter
+              </StyledTableCell>
+              <StyledTableCell align="justify">
+              <Link to={`/Products/${cartLineItem.product.id}`}>
+               {cartLineItem.product.name}
+             </Link> 
+              </StyledTableCell>
+              <StyledTableCell align="center">
+              ${cartLineItem.product.price}
+           </StyledTableCell>
+           <StyledTableCell align="center">
+           <InputCounter
                     
-                        increment={this.increment}
-                        decrement={this.decrement}
-                        quantity={this.state.quantity}
-                        
-                    />
-                </h4>
-                <h4>SubTotal: ${this.state.subTotal}</h4>
-                <button
-                id="delete"
-                onClick={() => removeCartItem(cartLineItem.cartId, cartLineItem.id)}
-                >
-                Remove
-                </button>
-            </div>
-            </li>
+                                    increment={this.increment}
+                                     decrement={this.decrement}
+                                    quantity={this.state.quantity}
+                                    
+                                 />
+           </StyledTableCell>
+           <StyledTableCell align="center">
+           ${this.state.subTotal}
+           </StyledTableCell>
+           <StyledTableCell align="center">
+           <DeleteIcon color="disabled"
+                 onClick={() => removeCartItem(cartLineItem.cartId, cartLineItem.id)}
+                 
+                 />
+           </StyledTableCell>
+          </StyledTableRow>
         );
+
+
+        // return (
+        //     <li className="cart-item" key={cartLineItem.id}>
+        //     <img src={cartLineItem.product.photo} />
+        //     <div className="cart-info">
+        //         <h4>
+        //     <Link to={`/Products/${cartLineItem.product.id}`}>
+        //         <h4>{cartLineItem.product.name}</h4>
+        //         <h4>{cartLineItem.id}</h4>
+        //     </Link> 
+        //     </h4>
+        //         <h4>Price: ${cartLineItem.product.price}</h4>
+        //         <h4>
+        //             <InputCounter
+                    
+        //                 increment={this.increment}
+        //                 decrement={this.decrement}
+        //                 quantity={this.state.quantity}
+                        
+        //             />
+        //         </h4>
+        //         <h4>SubTotal: ${this.state.subTotal}</h4>
+        //         <button
+        //         id="delete"
+        //         onClick={() => removeCartItem(cartLineItem.cartId, cartLineItem.id)}
+        //         >
+        //         Remove
+        //         </button>
+        //     </div>
+        //     </li>
+        // );
 
     }
 
