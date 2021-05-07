@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { removeCartItem } from '../store/storeComponents/removeCartItem';
 import { updateCartItem } from '../store/storeComponents/updateCartItem';
 import { getUser } from '../store/storeComponents/getUser';
+import { clearCart } from '../store/storeComponents/clearCart';
 
 class Cart extends React.Component {
   constructor() {
@@ -82,6 +83,7 @@ class Cart extends React.Component {
           `/api/orders/users/${this.props.user.id}`,
           this.props.cart.cart_line_items
         );
+        this.props.clearCart();
       } else {
         toast('There was an error placing your order. Please try again.', {
           type: 'error',
@@ -150,6 +152,7 @@ const mapDispatchToProps = (dispatch) => {
     updateCartItem: (cartLineId, quantity, cartId, userId) =>
       dispatch(updateCartItem(cartLineId, quantity, cartId, userId)),
     getUser: () => dispatch(getUser()),
+    clearCart: () => dispatch(clearCart()),
   };
 };
 

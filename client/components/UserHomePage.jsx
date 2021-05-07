@@ -15,7 +15,7 @@ export default () => {
   const [selected, setSelected] = useState('Edit Profile');
   const userRole = useSelector((state) => state.user.role);
 
-  const [isAdmin, _] = useState(userRole === 'Admin' ? true : false);
+  const [isAdmin] = useState(userRole === 'Admin' ? true : false);
 
   function getSelected(ev) {
     const divArr = document.getElementsByClassName('link-box');
