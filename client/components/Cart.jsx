@@ -20,7 +20,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {StyledTableCell} from './utils/styledTableCell';
+import { StyledTableCell } from './utils/styledTableCell';
+import getToken from './utils/getToken';
+
 
 class Cart extends React.Component {
   constructor() {
@@ -76,11 +78,16 @@ class Cart extends React.Component {
   async handleToken(token, addresses) {
     try {
       const { cartTotal } = this.state;
-      const response = await axios.post('/api/orders/checkout', {
-        token,
-        addresses,
-        cartTotal,
-      });
+      console.log(getToken(), 'in cart component handle token');
+      const response = await axios.post(
+        '/api/orders/checkout',
+        {
+          token,
+          addresses,
+          cartTotal,
+        },
+        getToken()
+      );
       const status = response.data;
       if (status === 'success') {
         toast('Your order went through! Check email for details.', {
@@ -88,7 +95,8 @@ class Cart extends React.Component {
         });
         await axios.post(
           `/api/orders/users/${this.props.user.id}`,
-          this.props.cart.cart_line_items
+          this.props.cart.cart_line_items,
+          getToken()
         );
         this.props.clearCart();
       } else {
@@ -105,36 +113,39 @@ class Cart extends React.Component {
     const { cart_line_items } = this.state.cart;
     const { totalAmt, cartTotal } = this.state;
 
-
     return cart_line_items ? (
       <div>
-      <TableContainer component={Paper} style={{ height: 600 }} >
-         <ToastContainer />
-        <Table aria-label="spanning table">
-          <TableHead>
-            <TableRow>
-            <StyledTableCell colSpan={6} align="center">Cart <span className='cart-amt'>{totalAmt}</span></StyledTableCell>
-            </TableRow>
-            <TableRow>
-            <StyledTableCell colSpan={2} align="center">Product</StyledTableCell>
-            <StyledTableCell align="center">Price</StyledTableCell>
-            <StyledTableCell align="center">Quantity</StyledTableCell>
-            <StyledTableCell align="center">SubTotal</StyledTableCell>
-            <StyledTableCell align="center">Remove</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {cart_line_items.map((cartItem) => (
-              <CartLineItem
-                key={cartItem.id}
-                cartLineItem={cartItem}
-                cartTotal={cartTotal}
-              />
-             ))}
-            <TableRow>
-            </TableRow>
+        <TableContainer component={Paper} style={{ height: 600 }}>
+          <ToastContainer />
+
+          <Table aria-label="spanning table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell colSpan={6} align="center">
+                  Cart <span className="cart-amt">{totalAmt}</span>
+                </StyledTableCell>
+              </TableRow>
+              <TableRow>
+                <StyledTableCell colSpan={2} align="center">
+                  Product
+                </StyledTableCell>
+                <StyledTableCell align="center">Price</StyledTableCell>
+                <StyledTableCell align="center">Quantity</StyledTableCell>
+                <StyledTableCell align="center">SubTotal</StyledTableCell>
+                <StyledTableCell align="center">Remove</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {cart_line_items.map((cartItem) => (
+                <CartLineItem
+                  key={cartItem.id}
+                  cartLineItem={cartItem}
+                  cartTotal={cartTotal}
+                />
+              ))}
+              <TableRow></TableRow>
             </TableBody>
-        </Table>
+          </Table>
         </TableContainer>
         <TableContainer>
           <Table>
@@ -144,21 +155,22 @@ class Cart extends React.Component {
               <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
             </TableRow>
             </TableHead>
-        </Table>
-      </TableContainer>
-      <StripeCheckout
-             stripeKey='pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop'
-             token={this.handleToken}
-             billingAddress
-             shippingAddress
-             amount={this.state.cartTotal * 100}
-             name='NoCap Order'
-           />
-         </div>
-    )  : (
-         <div>
-           <h2>Loading</h2>
-         </div>
+          </Table>
+        </TableContainer>
+        <StripeCheckout
+
+          stripeKey="pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop"
+          token={this.handleToken}
+          billingAddress
+          shippingAddress
+          amount={this.state.cartTotal * 100}
+          name="NoCap Order"
+        />
+      </div>
+    ) : (
+      <div>
+        <h2>Loading</h2>
+      </div>
     );
   }
 }

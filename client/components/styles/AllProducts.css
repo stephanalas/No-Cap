@@ -2,7 +2,7 @@ body * {
   box-sizing: border-box;
 }
 .all-products-ul {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   display: flex;
   flex-flow: wrap;
   width: 75%;
@@ -13,12 +13,21 @@ body * {
 .color-list {
   list-style: none;
 }
-
+.all-products-main {
+  display: flex;
+}
 .all-products-view {
   display: flex;
+  flex-flow: column;
 }
 
 .filter {
   height: max-content;
   width: 25%;
+}
+.sort-section {
+  display: flex;
+  /* flex-flow: row; */
+  /* justify-content: right; */
+  justify-content: flex-end;
 }

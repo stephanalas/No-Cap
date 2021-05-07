@@ -1,8 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addReview } from '../store/storeComponents/addReview';
+
+import ReactStars from 'react-rating-stars-component';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import { StyledTableCell, StyledTableRow } from './utils/styledTableCell';
 import authentication from './utils/authentication';
-// import './styles/Reviews.css';
+import { addReview } from '../store/storeComponents/addReview';
+import './styles/Reviews.css';
 
 class Reviews extends React.Component {
   constructor() {
@@ -11,34 +30,23 @@ class Reviews extends React.Component {
       stars: 0,
       body: '',
       user: {},
-      // reviews: 0,
+      open: false,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.ratingChanged = this.ratingChanged.bind(this);
   }
 
   async componentDidMount() {
-    // const { stars, body } = this.props.product.reviews;
-    // const reviews = this.props.product.reviews.length;
-    // this.setState({ stars, body, reviews });
     const token = window.localStorage.getItem('token');
     const user = await authentication(token);
     this.setState({ user });
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  // console.log(prevState.product.reviews.length);
-  // console.log(this.state.length);
-  // if (
-  // prevState.product.reviews.length !== this.state.product.reviews.length
-  // ) {
-  // this.forceUpdate();
-  // }
-  // }
-
   onChange(ev) {
-    console.log(this.state.user.id);
-    this.setState({ [ev.target.name]: ev.target.value });
+    this.setState({ body: ev.target.value });
   }
 
   onSubmit(ev) {
@@ -49,62 +57,113 @@ class Reviews extends React.Component {
       this.state.stars,
       this.state.body
     );
-    // const newReviews = this.state.reviews + 1;
-    // this.setState({ reviews: newReviews });
+  }
+
+  handleClickOpen() {
+    this.setState({ open: true });
+  }
+
+  handleClose() {
+    this.setState({ open: false });
+  }
+
+  ratingChanged(newRating) {
+    this.setState({ stars: newRating });
   }
 
   render() {
     const singleProduct = this.props.product;
-    const { stars, body } = this.state;
-    const { onChange, onSubmit } = this;
+    const {
+      onChange,
+      onSubmit,
+      handleClickOpen,
+      handleClose,
+      ratingChanged,
+    } = this;
+
     return singleProduct ? (
-      <form action="submit" onSubmit={onSubmit}>
-        <div>
-          <table>
-            <tbody>
-              <tr>
-                <th>
-                  <input
-                    type="number"
-                    min="0"
-                    max="5"
-                    step="1"
-                    label="star review"
-                    value={stars}
-                    onChange={onChange}
-                    name="stars"
-                  />
-                </th>
-                <td>
-                  <textarea
-                    rows="1"
-                    cols="100"
-                    label="body review"
-                    value={body}
-                    onChange={onChange}
-                    name="body"
-                  />
-                </td>
-                <td>
-                  <button type="submit">Submit</button>
-                </td>
-              </tr>
-              {singleProduct.reviews.map((review) => {
-                return (
-                  <tr key={review.id}>
-                    <th>{review.stars}</th>
-                    <td>
-                      {/* {console.log(review.user)}  */}
-                      {review.body} -{' '}
-                      {review.user ? review.user.firstName : 'Anonymous'}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </form>
+      <div>
+        <Button
+          id="add-a-review"
+          variant="outlined"
+          color="primary"
+          onClick={handleClickOpen}
+        >
+          Add a Review
+        </Button>
+        <Dialog
+          open={this.state.open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">
+            Add a Product Review For: {singleProduct.name}
+          </DialogTitle>
+          <DialogContent id="dialog-box">
+            <ReactStars
+              count={5}
+              onChange={ratingChanged}
+              size={24}
+              isHalf={true}
+              emptyIcon={<i className="far fa-star"></i>}
+              halfIcon={<i className="fa fa-star-half-alt"></i>}
+              fullIcon={<i className="fa fa-star"></i>}
+              activeColor="#ffd700"
+            />
+            <TextField
+              onChange={onChange}
+              id="outlined-multiline-static"
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={onSubmit} color="primary">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <TableContainer id="review-table" component={Paper}>
+          <Table aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Rating</StyledTableCell>
+                <StyledTableCell align="left">Review</StyledTableCell>
+                <StyledTableCell align="right">Reviewer</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {singleProduct.reviews.map((review) => (
+                <StyledTableRow key={review.id}>
+                  <StyledTableCell component="th" scope="row">
+                    <ReactStars
+                      edit={false}
+                      value={review.stars}
+                      count={5}
+                      onChange={this.ratingChanged}
+                      size={14}
+                      isHalf={true}
+                      emptyIcon={<i className="far fa-star"></i>}
+                      halfIcon={<i className="fa fa-star-half-alt"></i>}
+                      fullIcon={<i className="fa fa-star"></i>}
+                      activeColor="#ffd700"
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell align="left">{review.body}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {review.user.firstName}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     ) : (
       'Loading'
     );

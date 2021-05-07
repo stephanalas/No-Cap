@@ -12,6 +12,7 @@ const {
   },
 } = require('../../../../server/db/models/associations');
 
+let token;
 describe('Orders Routes', () => {
   beforeAll(async () => {
     try {
@@ -23,6 +24,7 @@ describe('Orders Routes', () => {
           lastName: 'Shmo',
           email: 'jshmo@aol.com',
           password: 'hello123',
+          role: 'Admin',
         },
         {
           firstName: 'Connie',
@@ -110,6 +112,11 @@ describe('Orders Routes', () => {
           subTotal: 15.0,
         },
       ]);
+      const response = await request.post('/api/login/auth').send({
+        email: 'jshmo@aol.com',
+        password: 'hello123',
+      });
+      token = response.body.token;
     } catch (ex) {
       console.log(ex);
     }
@@ -124,20 +131,23 @@ describe('Orders Routes', () => {
   });
 
   test('GET /api/orders Gets all orders', async (done) => {
-    const response = await request.get('/api/orders');
+    const response = await request.get('/api/orders').set({ authorization: token });
     expect(JSON.parse(response.text).length).toBe(3);
     done();
   });
 
   test('GET /api/orders/:userId Gets all orders from a user', async (done) => {
-    const response = await request.get('/api/orders/2');
+    const response = await request.get('/api/orders/2').set({ authorization: token });
 
     expect(JSON.parse(response.text).length).toBe(2);
     done();
   });
 
   test('PUT /api/orders/:id Updates an order to be fulfilled', async (done) => {
-    const response = await request.put('/api/orders/2').send({ status: 'Fulfilled' });
+    const response = await request
+      .put('/api/orders/2')
+      .send({ status: 'Fulfilled' })
+      .set({ authorization: token });
 
     expect(JSON.parse(response.text).status).toBe('Fulfilled');
     done();

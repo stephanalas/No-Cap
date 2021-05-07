@@ -10,6 +10,7 @@
 }
 .sticky-nav {
   position: sticky;
+  z-index: 20;
   top: 0;
   margin: 0;
   padding: 0;

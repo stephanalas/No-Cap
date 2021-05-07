@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint jsx-quotes: "off" */
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { loadCart } from "../store/storeComponents/loadCart";
-import "./styles/ProductCard.css";
-import InputCounter from "./InputCounter";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { loadCart } from '../store/storeComponents/loadCart';
+import './styles/ProductCard.css';
+import InputCounter from './InputCounter';
 
 class ProductCard extends React.Component {
   constructor(props) {
@@ -33,29 +33,57 @@ class ProductCard extends React.Component {
   render() {
     const { product } = this.props;
     return (
-      <li key={product.id} className="product-card">
-        <img src={product.photo} className="product-card-photo" alt="" />
-        <section className="product-info">
-          <Link to={`/Products/${product.id}`}>
-            <h2>{product.name}</h2>
-          </Link>
-          <p>{product.price}</p>
+      <div className="card">
+        <figure>
+          <img src={product.photo} alt="t-shirt" className="product-photo" />
+        </figure>
+        <section className="details">
+          <div className="min-details">
+            <h1>
+              <Link to={`/Products/${product.id}`}>{product.name}</Link>
+              <span>{product.color}</span>
+            </h1>
+            <h1 className="price">${product.price}</h1>
+          </div>
           <InputCounter
             increment={this.increment}
             decrement={this.decrement}
             quantity={this.state.quantity}
           />
-          <button
-            type="button"
+          <div
+            href="#"
+            className="btn"
             onClick={() =>
               this.addClick(this.props.user.id, product.id, this.state.quantity)
             }
-            // need to find a way to load after adding
           >
-            Add to Cart
-          </button>
+            add to cart
+          </div>
         </section>
-      </li>
+      </div>
+      // <li key={product.id} className="product-card">
+      //   <img src={product.photo} className="product-card-photo" alt="" />
+      //   <section className="product-info">
+      //     <Link to={`/Products/${product.id}`}>
+      //       <h2>{product.name}</h2>
+      //     </Link>
+      //     <p>{product.price}</p>
+      //     <InputCounter
+      //       increment={this.increment}
+      //       decrement={this.decrement}
+      //       quantity={this.state.quantity}
+      //     />
+      //     <button
+      //       type="button"
+      //       onClick={() =>
+      //         this.addClick(this.props.user.id, product.id, this.state.quantity)
+      //       }
+      //       // need to find a way to load after adding
+      //     >
+      //       Add to Cart
+      //     </button>
+      //   </section>
+      // </li>
     );
   }
 }

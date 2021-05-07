@@ -10,7 +10,7 @@ const organizeFilters = (
         key === 'Other-color' ? filters.color.push('Other') : filters.color.push(key);
       } else if (key.includes(',')) {
         filters.priceRange.push(key);
-      } else if (parseInt(key) || key.includes('&')) filters.avgRating.push(key);
+      } else if (parseInt(key)) filters.avgRating.push(key);
       else if (filterOptions[key]) filters.category.push(key);
     }
   }

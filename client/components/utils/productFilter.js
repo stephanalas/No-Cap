@@ -4,14 +4,6 @@ const parseIntPriceRanges = (priceRanges) => {
     return range.split(', ').map((stringNum) => parseInt(stringNum));
   });
 };
-// TURNS STRING INTO INTEGER BUT ALSO LOOKS FOR A '1&Below'
-//
-const parseIntAvgRatings = (avgRatings) => {
-  return avgRatings.map((avgRating) => {
-    if (avgRating.includes('&')) return 1;
-    return parseInt(avgRating);
-  });
-};
 // all filter functions take in the filteredProducts and the respective filters
 const filterByColor = (colors, filteredProducts) => {
   return filteredProducts.filter((product) => {
@@ -77,7 +69,9 @@ export default (products, {
   // converts price ranges from strings to integer in a format of a nested Array [[0, 15], [15,50], [50, null]]
   const priceRanges = parseIntPriceRanges(priceRange);
   // converts avgRating to integers
-  const avgRatingIntegers = parseIntAvgRatings(avgRating);
+  const avgRatings = avgRating.map((rating) => {
+    return parseInt(rating);
+  });
 
   let filteredProducts = products;
 
@@ -89,7 +83,7 @@ export default (products, {
     filteredProducts = filterByPrice(priceRanges, filteredProducts);
   }
   if (avgRatingIntegers.length) {
-    filteredProducts = filterByRating(avgRatingIntegers, filteredProducts);
+    filteredProducts = filterByRating(avgRatings, filteredProducts);
   }
   if (category.length) {
     filteredProducts = filterByCategory(category, filteredProducts);

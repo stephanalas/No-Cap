@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Button, TextField } from '@material-ui/core';
 import './styles/Login.css';
 import { updateUser } from '../store/storeComponents/updateUser';
+import { getUser } from '../store/storeComponents/getUser';
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -18,12 +19,17 @@ class UserProfile extends React.Component {
       password: '',
       address: '',
       role: '',
+      error: '',
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
+    // if (!this.props.user.email) {
+    //   this.props.getUser();
+    // }
+
     const { firstName, lastName, email, address, role, id } = this.props.user;
     this.setState({
       firstName: firstName || '',
@@ -33,7 +39,18 @@ class UserProfile extends React.Component {
       password: '',
       role: role || '',
       id,
+      error: null,
+      success: false,
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.error !== this.props.error) {
+      this.setState({ error: this.props.error.message, success: false });
+    }
+    if (prevProps.email !== this.props.email) {
+      this.setState({ error: null, success: false });
+    }
   }
 
   onChange(ev) {
@@ -45,16 +62,31 @@ class UserProfile extends React.Component {
     this.props.updateUser({
       ...this.state,
     });
-    this.props.history.push('/');
+    setTimeout(() => this.setState({ success: true, error: null }), 1000);
+    // this.props.history.push('/');
   }
 
   render() {
     const { onChange, onSubmit } = this;
-    const { email, firstName, lastName, address, password } = this.state;
+    const {
+      email,
+      firstName,
+      lastName,
+      address,
+      password,
+      success,
+    } = this.state;
+    const { error } = this.props;
+    let message = null;
+    if (error) {
+      message = error.message;
+    }
 
     return (
       <div id='login-container'>
         <h2>Edit Profile</h2>
+        {error.message && <h6>{message}</h6>}
+        {!error.message && success && <h6>Successfully updated</h6>}
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='standard-basic'
@@ -122,6 +154,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateUser: (user) => {
       dispatch(updateUser(user));
+    },
+    getUser: () => {
+      dispatch(getUser());
     },
   };
 };

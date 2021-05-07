@@ -17,10 +17,14 @@ userRouter.get('/auth', requireToken, async (req, res, next) => {
   }
 });
 
-userRouter.get('/', async (req, res, next) => {
+userRouter.get('/', requireToken, async (req, res, next) => {
   try {
-    const users = await User.findAll();
-    res.status(200).send(users);
+    if (req.user.role === 'Admin') {
+      const users = await User.findAll();
+      res.status(200).send(users);
+    } else {
+      res.status(403);
+    }
   } catch (error) {
     next(error);
   }
@@ -46,9 +50,10 @@ userRouter.post('/', async (req, res, next) => {
   }
 });
 
-userRouter.get('/:id', async (req, res, next) => {
+userRouter.get('/:id', requireToken, async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    // const userId = req.params.id;
+    const userId = req.user.id;
     const user = await User.findOne({
       include: [
         {
@@ -78,7 +83,7 @@ userRouter.get('/:id', async (req, res, next) => {
   }
 });
 
-userRouter.put('/:id', async (req, res, next) => {
+userRouter.put('/:id', requireToken, async (req, res, next) => {
   if (!req.body) {
     res.sendStatus(400);
   }
@@ -88,18 +93,24 @@ userRouter.put('/:id', async (req, res, next) => {
   } = req.body;
 
   try {
-    const { id } = req.params;
-    const user = await User.findByPk(id);
-    const updatedUser = await user.update({
-      firstName,
-      lastName,
-      email,
-      role,
-      address,
-      password,
-    });
+    // const { id } = req.params;
+    const { id } = req.user;
+    const checkEmail = await User.findOne({ where: { email } });
+    if (checkEmail && checkEmail.id !== id) {
+      res.status(400).send({ error: 'that email already exists!' });
+    } else {
+      const user = await User.findByPk(id);
+      const updatedUser = await user.update({
+        firstName,
+        lastName,
+        email,
+        role,
+        address,
+        password,
+      });
 
-    res.status(200).send(updatedUser);
+      res.status(200).send({ user: updatedUser });
+    }
   } catch (ex) {
     next(ex);
   }
@@ -117,9 +128,9 @@ userRouter.delete('/:id', requireToken, async (req, res, next) => {
   }
 });
 
-userRouter.get('/:id/cart', async (req, res, next) => {
+userRouter.get('/:id/cart', requireToken, async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
     const user = await User.findByPk(id);
 
     const cart = await user.getCart({
@@ -140,12 +151,12 @@ userRouter.get('/:id/cart', async (req, res, next) => {
   }
 });
 
-userRouter.post('/:id/orders', async (req, res, next) => {
+userRouter.post('/:id/orders', requireToken, async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
 
-    // to revise after authentication
-    const { id } = req.params;
+    // const { id } = req.params;
+    const { id } = req.user;
 
     if (!req.body.total) res.sendStatus(400);
     const { total } = req.body;
@@ -190,9 +201,10 @@ userRouter.post('/:id/orders', async (req, res, next) => {
   }
 });
 
-userRouter.get('/:id/orders', async (req, res, next) => {
+userRouter.get('/:id/orders', requireToken, async (req, res, next) => {
   try {
-    const { id } = req.params;
+    // const { id } = req.params;
+    const { id } = req.user;
     const user = await User.findByPk(id);
 
     res.send(
@@ -326,15 +338,16 @@ userRouter.get('/:id/orders/:orderId', async (req, res, next) => {
   }
 });
 
-userRouter.post('/:userId/products/:productId/reviews', async (req, res, next) => {
+userRouter.post('/:userId/products/:productId/reviews', requireToken, async (req, res, next) => {
   // create a product review from a user
   if (!req.body) res.sendStatus(400);
 
   try {
-    const { userId, productId } = req.params;
+    const { id } = req.user;
+    const { productId } = req.params;
     const { stars, body } = req.body;
     const review = await Review.create({
-      userId,
+      userId: id,
       productId,
       body,
       stars,
@@ -345,10 +358,12 @@ userRouter.post('/:userId/products/:productId/reviews', async (req, res, next) =
   }
 });
 
-userRouter.post('/togglerole', async (req, res, next) => {
+userRouter.post('/togglerole', requireToken, async (req, res, next) => {
   try {
-    const { userId } = req.body;
-    const user = await User.findByPk(userId);
+    // const { userId } = req.body;
+    const { id } = req.user;
+    // const id = userId;
+    const user = await User.findByPk(id);
     const newRole = user.role === 'Admin' ? 'User' : 'Admin';
     const updatedUser = await user.update({
       role: newRole,

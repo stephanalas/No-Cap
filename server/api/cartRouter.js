@@ -1,4 +1,5 @@
 const express = require('express');
+const requireToken = require('../requireToken');
 
 const {
   models: {
@@ -8,7 +9,7 @@ const {
 
 const cartRouter = express.Router();
 
-cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
+cartRouter.put('/:id/removeCartItem', requireToken, async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
 
@@ -16,7 +17,7 @@ cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
     const { lineId } = req.body;
 
     const lineItem = await CartLineItem.findByPk(lineId);
-    const removed = await lineItem.destroy();
+    await lineItem.destroy();
 
     const newCart = await Cart.findOne({
       include: {
@@ -38,12 +39,12 @@ cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
   }
 });
 
-cartRouter.put('/:id/updateQuantity', async (req, res, next) => {
+cartRouter.put('/:id/updateQuantity', requireToken, async (req, res, next) => {
   try {
     if (!req.body) {
       res.sendStatus(400);
     }
-    const { id } = req.params;
+    // const { id } = req.params;
     const { lineId, quantity } = req.body;
     let lineItem = await CartLineItem.findOne({
       include: {

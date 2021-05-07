@@ -3,6 +3,7 @@
 
 import axios from 'axios';
 import faker from 'faker';
+import getToken from '../../components/utils/getToken';
 // action type
 const GET_USER = 'GET_USER';
 // action creator
@@ -14,18 +15,9 @@ const _getUser = (user) => ({
 // thunk
 const getUser = () => async (dispatch) => {
   try {
-    let token = window.localStorage.getItem('token');
-    let authenticatedUser;
-    if (token) {
-      authenticatedUser = await axios.get('/api/login/auth', {
-        headers: {
-          authorization: token,
-        },
-      });
-    }
-
+    let authenticatedUser = await axios.get('/api/login/auth', getToken());
+    console.log('called after getToken: ', authenticatedUser);
     if (authenticatedUser.data === 'JsonWebTokenError') {
-      console.log('received an old JWT');
       const anonUser = {
         email: faker.internet.email(),
         firstName: 'Anonymous',
@@ -33,7 +25,7 @@ const getUser = () => async (dispatch) => {
         password: faker.internet.password(),
       };
       const response = await axios.post('/api/register', anonUser);
-      token = response.data.token;
+      const { token } = response.data;
       window.localStorage.clear();
       window.localStorage.setItem('token', token);
       if (token) {
@@ -42,8 +34,9 @@ const getUser = () => async (dispatch) => {
             authorization: token,
           },
         });
+        console.log('after get new user: ', authenticatedUser);
       }
-      delete authenticatedUser.password;
+      delete authenticatedUser.data.password;
       dispatch(_getUser(authenticatedUser.data));
     } else {
       delete authenticatedUser.data.password;

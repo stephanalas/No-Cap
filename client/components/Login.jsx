@@ -25,13 +25,13 @@ class Login extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // breaks if it receives the same error twice
     if (this.props.error.message !== prevProps.error.message) {
       this.setState({
         loading: false,
         error: this.props.error.message,
         email: '',
         password: '',
+        success: false,
       });
     }
   }
@@ -43,8 +43,11 @@ class Login extends React.Component {
   async onSubmit(ev) {
     try {
       ev.preventDefault();
-      this.setState({ loading: true, success: true });
+      this.setState({ loading: true });
       this.props.loginUser(this.state);
+      setTimeout(() => {
+        this.setState({ loading: false, success: true });
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
@@ -53,13 +56,14 @@ class Login extends React.Component {
   render() {
     const { onChange, onSubmit } = this;
     const { email, password, error, loading, success } = this.state;
+
     if (loading) {
       return <h6>...Logging in</h6>;
     }
     if (!error && success) {
-      console.log('redirecting...');
       return <Redirect to='/' />;
     }
+
     return (
       <div id='login-container'>
         <h2> Login </h2>

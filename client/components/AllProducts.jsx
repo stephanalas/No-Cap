@@ -8,6 +8,7 @@ import productFilter from './utils/productFilter';
 import setFilters from './utils/setFilters';
 import clearCheckboxes from './utils/clearCheckboxes';
 import Filter from './Filter';
+import SortProducts from './SortProducts';
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -16,13 +17,17 @@ class AllProducts extends React.Component {
       products: [],
       filterOptions: {},
       filteredProducts: [],
+      sortOption: '',
     };
     this.onChange = this.onChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.search = this.search.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   componentDidMount() {
+    console.log(this.props);
     this.props.loadProducts();
   }
 
@@ -44,20 +49,22 @@ class AllProducts extends React.Component {
         ...this.state,
         filterOptions: { ...filterOptions, [ev.target.name]: true },
       });
+    } else {
+      const boolean = filterOptions[ev.target.name];
+
+      this.setState({
+        ...this.state,
+        filterOptions: { ...filterOptions, [ev.target.name]: !boolean },
+      });
     }
-    const boolean = filterOptions[ev.target.name];
-
-    this.setState({
-      ...this.state,
-      filterOptions: { ...filterOptions, [ev.target.name]: !boolean },
-    });
   }
-
+  handleSort(ev) {
+    console.dir(ev.target);
+  }
   handleClick(ev) {
     const { filterOptions } = this.state;
     // if the user had checkboxes clicked and then deselects every checkbox and hits apply filters it will set the state of products to all products
     if (Object.values(filterOptions).every((value) => value === false)[0]) {
-      console.log(Object.values(filterOptions));
       this.setState({ ...this.state, products: this.props.products });
     } else {
       // sets the filters, returns an object in this format
@@ -76,6 +83,23 @@ class AllProducts extends React.Component {
     }
   }
 
+  search(input) {
+    if (input.length) {
+      const newProductsList = this.props.products.filter((product) => {
+        const category = product.category.toLowerCase();
+        const color = product.color.toLowerCase();
+        const name = product.name.toLowerCase().split(' ');
+        if (
+          category.indexOf(input) !== -1 ||
+          color.indexOf(input) !== -1 ||
+          name.includes(input)
+        ) {
+          return product;
+        }
+      });
+      this.setState({ ...this.state, filteredProducts: newProductsList });
+    }
+  }
   handleReset() {
     const checkboxes = document.querySelectorAll('.filter-checkbox');
 
@@ -94,22 +118,28 @@ class AllProducts extends React.Component {
     const { onChange, handleClick, handleReset } = this;
     const products = this.state.filteredProducts;
     return (
-      <div className='all-products-view'>
-        {/* We can add sort and filtering options in this component */}
-        <Filter
-          onChange={onChange}
-          handleClick={handleClick}
-          handleReset={handleReset}
-        />
-        <ul className='all-products-ul'>
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              addClick={this.addClick}
-            />
-          ))}
-        </ul>
+      <div className="all-products-view">
+        <div className="sort-section">
+          <SortProducts handleSort={this.handleSort} />
+        </div>
+        <div className="all-products-main">
+          <Filter
+            search={this.search}
+            products={products}
+            onChange={onChange}
+            handleClick={handleClick}
+            handleReset={handleReset}
+          />
+          <ul className="all-products-ul">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                addClick={this.addClick}
+              />
+            ))}
+          </ul>
+        </div>
       </div>
     );
   }
