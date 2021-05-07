@@ -12,6 +12,8 @@ const StyledTableCell = withStyles((theme) => ({
       color: theme.palette.common.white,
       fontFamily: 'monospace',
       fontSize: 20,
+      position: 'sticky',
+      top: 0,
     },
     body: {
       fontSize: 18,

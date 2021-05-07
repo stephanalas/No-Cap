@@ -110,7 +110,7 @@ class Cart extends React.Component {
       <div>
       <TableContainer component={Paper} style={{ height: 600 }} >
          <ToastContainer />
-        <Table aria-label="spanning table" stickyHeader>
+        <Table aria-label="spanning table">
           <TableHead>
             <TableRow>
             <StyledTableCell colSpan={6} align="center">Cart <span className='cart-amt'>{totalAmt}</span></StyledTableCell>
@@ -138,7 +138,7 @@ class Cart extends React.Component {
         </TableContainer>
         <TableContainer>
           <Table>
-        <TableHead stickyHeader>
+        <TableHead>
             <TableRow>
             <StyledTableCell style={{ width: 1200 }} align="right">Total:</StyledTableCell>
               <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
