@@ -1,3 +1,4 @@
+
 import React from "react";
 import "./styles/InputCounter.css";
 import { Button } from '@material-ui/core';
@@ -20,6 +21,8 @@ class InputCounter extends React.Component {
             -
           </Button>
         <input
+          // defaultValue={this.props.quantity}
+          readOnly
           className="inputCounter"
           type="text"
           value={this.props.quantity}

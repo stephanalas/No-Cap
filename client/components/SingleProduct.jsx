@@ -41,9 +41,9 @@ class SingleProduct extends React.Component {
     const singleProduct = this.props.product;
     return singleProduct ? (
       <div>
-        <div className="product-pic-text">
-          <img src={singleProduct.photo} alt="new" />
-          <div className="product-text">
+        <div className='product-pic-text'>
+          <img src={singleProduct.photo} alt='new' />
+          <div className='product-text'>
             <div>Product name: {singleProduct.name}</div>
             <div>Price: {singleProduct.price}</div>
             <div>Stock: {singleProduct.inventory}</div>
@@ -54,7 +54,7 @@ class SingleProduct extends React.Component {
               quantity={this.state.quantity}
             />
             <button
-              type="button"
+              type='button'
               onClick={() =>
                 this.addClick(
                   this.props.user.id,
