@@ -5,7 +5,7 @@ import UserCard from './UserCard';
 import './styles/AllUsers.css';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import {StyledTableCell} from './utils/styledTableCell';
+import { StyledTableCell } from './utils/styledTableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -21,21 +21,23 @@ class AllUsers extends React.Component {
     if (users) {
       return (
         <TableContainer component={Paper}>
-      <Table aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>User</StyledTableCell>
-            <StyledTableCell align="center">Email</StyledTableCell>
-            <StyledTableCell align="center">Admin</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        {users.filter((user)=>(user.role != 'Anonymous')).map((user) => (
-               <UserCard key={user.id} user={user} />
-        ))}    
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <Table aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>User</StyledTableCell>
+                <StyledTableCell align="center">Email</StyledTableCell>
+                <StyledTableCell align="center">Admin</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users
+                .filter((user) => user.role != 'Anonymous')
+                .map((user) => (
+                  <UserCard key={user.id} user={user} />
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       );
     }
     return '...Loading';

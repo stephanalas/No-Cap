@@ -3,6 +3,7 @@
   border: solid 1px black;
   display: flex;
   justify-content: space-evenly;
+  width: 100%;
 }
 .cart-line-item-photo {
   max-width: 10rem;
