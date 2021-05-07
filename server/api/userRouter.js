@@ -17,10 +17,14 @@ userRouter.get('/auth', requireToken, async (req, res, next) => {
   }
 });
 
-userRouter.get('/', async (req, res, next) => {
+userRouter.get('/', requireToken, async (req, res, next) => {
   try {
-    const users = await User.findAll();
-    res.status(200).send(users);
+    if (req.user.role === 'Admin') {
+      const users = await User.findAll();
+      res.status(200).send(users);
+    } else {
+      res.status(403);
+    }
   } catch (error) {
     next(error);
   }

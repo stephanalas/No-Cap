@@ -19,13 +19,11 @@ const deleteUser = (id) => async (dispatch) => {
       const error = new Error('Unauthorized');
       throw error;
     } else {
-      const user = await axios.delete(`/api/users/${id}`, {
+      await axios.delete(`/api/users/${id}`, {
         headers: {
           authorization: token,
         },
       });
-      console.log(user);
-      // window.localStorage.clear();
       dispatch(_deleteUser(id));
     }
   } catch (err) {

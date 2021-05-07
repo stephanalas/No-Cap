@@ -24,18 +24,28 @@ class Login extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    // breaks if it receives the same error twice
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.error.message !== prevProps.error.message) {
       this.setState({
         loading: false,
         error: this.props.error.message,
         email: '',
         password: '',
+        success: false,
       });
+      console.log('error difference in CDU');
     }
+    //   if (this.state.success !== prevState.success) {
+    //     this.setState({
+    //       loading: false,
+    //       error: this.props.error.message,
+    //       email: '',
+    //       password: '',
+    //     });
+    //     console.log('success difference in CDU');
+    //   }
+    // }
   }
-
   onChange(ev) {
     this.setState({ [ev.target.name]: ev.target.value });
   }
@@ -43,8 +53,11 @@ class Login extends React.Component {
   async onSubmit(ev) {
     try {
       ev.preventDefault();
-      this.setState({ loading: true, success: true });
+      this.setState({ loading: true });
       this.props.loginUser(this.state);
+      setTimeout(() => {
+        this.setState({ loading: false, success: true });
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
@@ -53,13 +66,16 @@ class Login extends React.Component {
   render() {
     const { onChange, onSubmit } = this;
     const { email, password, error, loading, success } = this.state;
+    console.log('Error: ', error, 'Success: ', success);
     if (loading) {
+      console.log('loading');
       return <h6>...Logging in</h6>;
     }
     if (!error && success) {
       console.log('redirecting...');
       return <Redirect to='/' />;
     }
+
     return (
       <div id='login-container'>
         <h2> Login </h2>
