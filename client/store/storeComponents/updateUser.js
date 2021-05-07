@@ -13,7 +13,7 @@ const _updateUser = (user) => ({
 
 // thunk
 const updateUser = ({
-  id, firstName, lastName, email,
+  id, firstName, lastName, email, password, address,
 }) => async (dispatch) => {
   try {
     const token = window.localStorage.getItem('token');
@@ -21,26 +21,30 @@ const updateUser = ({
       const error = new Error('Unauthorized');
       throw error;
     } else {
-      const response = await axios.put(`/api/users/${id}`, {
-        firstName,
-        lastName,
-        email,
-        headers: {
-          authorization: token,
-        },
-      });
-      const { newToken } = response.data;
-      window.localStorage.setItem('token', newToken);
-      let authenticatedUser;
-      if (newToken) {
-        authenticatedUser = await axios.get('/api/login/auth', {
+      const user = (
+        await axios.put(`/api/users/${id}`, {
+          firstName,
+          lastName,
+          email,
+          password,
+          address,
           headers: {
-            authorization: newToken,
+            authorization: token,
           },
-        });
-      }
-      delete authenticatedUser.data.password;
-      dispatch(_updateUser(authenticatedUser.data));
+        })
+      ).data;
+
+      const newToken = (
+        await axios.post('/api/login/auth', {
+          email: user.email,
+          password,
+        })
+      ).data.token;
+      window.localStorage.clear();
+      window.localStorage.setItem('token', newToken);
+      delete user.password;
+      console.log(user);
+      dispatch(_updateUser(user));
     }
   } catch (err) {
     console.log(err.response);

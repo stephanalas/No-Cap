@@ -24,7 +24,7 @@ class Logout extends React.Component {
         <Button
           variant='contained'
           type='submit'
-          color='secondary'
+          color='primary'
           style={{ marginTop: '1rem' }}
           onClick={() => this.handleClick()}
         >
@@ -33,7 +33,7 @@ class Logout extends React.Component {
         <Button
           variant='contained'
           type='submit'
-          color='secondary'
+          color='primary'
           style={{ marginTop: '1rem' }}
           onClick={() => this.props.history.push('/Products')}
         >

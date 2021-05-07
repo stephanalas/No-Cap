@@ -8,6 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HamburgerMenu from 'react-hamburger-menu';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/NavBar.css';
+import clickHamburger from './utils/hamburgerClick';
 
 class NavBar extends React.Component {
   constructor() {
@@ -53,6 +54,7 @@ class NavBar extends React.Component {
                 color='black'
                 borderRadius={0}
                 animationDuration={0.5}
+                className='ham'
               />
             </button>
             {/* </BootstrapNavBar.Toggle> */}
@@ -64,7 +66,10 @@ class NavBar extends React.Component {
               }`}
             >
               <Nav className='m-auto' id='nav'>
-                <BootstrapNavBar.Brand href='#/'>
+                <BootstrapNavBar.Brand
+                  href='#/'
+                  onClick={() => clickHamburger()}
+                >
                   <img
                     className='d-inline-block align-top'
                     id='logo'
@@ -74,28 +79,52 @@ class NavBar extends React.Component {
                   />
                 </BootstrapNavBar.Brand>
 
-                <Nav.Link className='nav-link underline' href='#Products'>
+                <Nav.Link
+                  className='nav-link underline'
+                  href='#Products'
+                  onClick={() => clickHamburger()}
+                >
                   Products
                 </Nav.Link>
-                <Nav.Link className='nav-link underline' href='#Contact'>
+                <Nav.Link
+                  className='nav-link underline'
+                  href='#Contact'
+                  onClick={() => clickHamburger()}
+                >
                   Contact Us
                 </Nav.Link>
                 {this.props.user.role &&
                 this.props.user.role !== 'Anonymous' ? (
-                  <Nav.Link className='nav-link underline' href='#Logout'>
+                  <Nav.Link
+                    className='nav-link underline'
+                    href='#Logout'
+                    onClick={() => clickHamburger()}
+                  >
                     Logout
                   </Nav.Link>
                 ) : (
-                  <Nav.Link className='nav-link underline' href='#Login'>
+                  <Nav.Link
+                    className='nav-link underline'
+                    href='#Login'
+                    onClick={() => clickHamburger()}
+                  >
                     Log In
                   </Nav.Link>
                 )}
-                <Nav.Link className='nav-link underline' href='#ShoppingCart'>
+                <Nav.Link
+                  className='nav-link underline'
+                  href='#ShoppingCart'
+                  onClick={() => clickHamburger()}
+                >
                   <ShoppingCartIcon />
                 </Nav.Link>
                 {this.props.user.role &&
                 this.props.user.role !== 'Anonymous' ? (
-                  <Nav.Link className='nav-link underline' href='#MyAccount'>
+                  <Nav.Link
+                    className='nav-link underline'
+                    href='#MyAccount'
+                    onClick={() => clickHamburger()}
+                  >
                     <AccountCircleIcon />
                   </Nav.Link>
                 ) : null}

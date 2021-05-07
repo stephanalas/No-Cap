@@ -4,14 +4,7 @@
   display: flex;
   justify-content: space-evenly;
 }
-
-ul {
-  padding-left: 0;
-}
-
-#cart-image {
-  height: 40%;
-  width: 40%;
+.cart-line-item-photo {
   max-width: 10rem;
   height: 10rem;
 }
@@ -48,13 +41,4 @@ ul {
   flex-direction: row;
   justify-content: flex-end;
   padding-right: 0.8%;
-}
-
-@media (max-width: 845px) {
-  .cart-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  }
 }

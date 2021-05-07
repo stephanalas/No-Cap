@@ -12,6 +12,7 @@ const {
   },
 } = require('../../../../server/db/models/associations');
 
+let adminToken;
 describe('User Routes', () => {
   beforeAll(async () => {
     // await Order.sync({ force: true });
@@ -24,6 +25,7 @@ describe('User Routes', () => {
         lastName: 'Shmo',
         email: 'jshmo@aol.com',
         password: 'hello123',
+        role: 'Admin',
       },
       {
         firstName: 'Connie',
@@ -40,6 +42,13 @@ describe('User Routes', () => {
       color: 'Black',
     });
     await Order.bulkCreate([{ userId: 2 }, { userId: 2 }]);
+
+    const response = await request.post('/api/login/auth').send({
+      email: 'jshmo@aol.com',
+      password: 'hello123',
+    });
+    const { token } = response.body;
+    adminToken = token;
   });
 
   afterAll(async () => {
@@ -47,12 +56,13 @@ describe('User Routes', () => {
   });
 
   test('GET /api/users length', async (done) => {
-    const response = await request.get('/api/users');
+    const response = await request.get('/api/users').set({ authorization: adminToken });
     expect(JSON.parse(response.text).length).toBe(2);
     done();
   });
+
   test('GET /api/users find', async (done) => {
-    let response = await request.get('/api/users');
+    let response = await request.get('/api/users').set({ authorization: adminToken });
     response = JSON.parse(response.text);
     const user = response.filter((item) => item.firstName === 'Joe');
     expect(user[0].firstName).toBe('Joe');

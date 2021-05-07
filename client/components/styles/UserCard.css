@@ -1,7 +1,25 @@
 .user-card {
   border: solid 1px black;
   list-style: none;
-  width: 14rem;
-  height: 20rem;
+  width: 95%;
+  height: 20%;
   margin: 0.3rem 0.3rem;
 }
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+}
+
+.user-info > h3 {
+  flex-basis: calc(25% - 20px);
+}
+
+label{
+  margin-right: 1em;
+  margin-left: 1em;
+}
+

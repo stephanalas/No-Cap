@@ -25,7 +25,9 @@ import UserHomePage from './UserHomePage';
 class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.user.id !== this.props.user.id) {
-      this.props.loadCart(this.props.user.id);
+      if (this.props.user.id) {
+        this.props.loadCart(this.props.user.id);
+      }
     }
   }
 
@@ -43,10 +45,8 @@ class App extends React.Component {
         ) : null}
         {this.props.user.role && this.props.user.role !== 'Anonymous' ? (
           <Route path='/Logout' component={Logout} exact />
-        ) : (
-          <Route path='/login' component={Login} exact />
-        )}
-
+        ) : null}
+        <Route path='/login' component={Login} exact />
         <Route path='/Products' component={AllProducts} exact />
         <Route path='/Products/:id' component={SingleProduct} exact />
         <Route path='/ShoppingCart' component={Cart} exact />
