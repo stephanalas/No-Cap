@@ -25,7 +25,9 @@ import UserHomePage from './UserHomePage';
 class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.user.id !== this.props.user.id) {
-      this.props.loadCart(this.props.user.id);
+      if (this.props.user.id) {
+        this.props.loadCart(this.props.user.id);
+      }
     }
   }
 
