@@ -233,7 +233,7 @@ const syncAndSeed = async () => {
         price: 13.69,
         inventory: 7,
         photo:
-          'https://partycity6.scene7.com/is/image/PartyCity/_pdp_sq_?$_1000x1000_$&$product=PartyCity/278764',
+          'https://cdn.shopify.com/s/files/1/1498/2894/products/woodland-camouflage-fedora-hat-65.jpg?v=1506525029',
         color: 'Green',
         description: 'Green Camouflage printed fedora.',
         rating: 4,

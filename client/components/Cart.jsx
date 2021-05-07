@@ -23,6 +23,7 @@ import Paper from '@material-ui/core/Paper';
 import { StyledTableCell } from './utils/styledTableCell';
 import getToken from './utils/getToken';
 
+
 class Cart extends React.Component {
   constructor() {
     super();
@@ -116,21 +117,22 @@ class Cart extends React.Component {
       <div>
         <TableContainer component={Paper} style={{ height: 600 }}>
           <ToastContainer />
-          <Table aria-label='spanning table'>
+
+          <Table aria-label="spanning table">
             <TableHead>
               <TableRow>
-                <StyledTableCell colSpan={6} align='center'>
-                  Cart <span className='cart-amt'>{totalAmt}</span>
+                <StyledTableCell colSpan={6} align="center">
+                  Cart <span className="cart-amt">{totalAmt}</span>
                 </StyledTableCell>
               </TableRow>
               <TableRow>
-                <StyledTableCell colSpan={2} align='center'>
+                <StyledTableCell colSpan={2} align="center">
                   Product
                 </StyledTableCell>
-                <StyledTableCell align='center'>Price</StyledTableCell>
-                <StyledTableCell align='center'>Quantity</StyledTableCell>
-                <StyledTableCell align='center'>SubTotal</StyledTableCell>
-                <StyledTableCell align='center'>Remove</StyledTableCell>
+                <StyledTableCell align="center">Price</StyledTableCell>
+                <StyledTableCell align="center">Quantity</StyledTableCell>
+                <StyledTableCell align="center">SubTotal</StyledTableCell>
+                <StyledTableCell align="center">Remove</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -149,10 +151,11 @@ class Cart extends React.Component {
           <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell style={{ width: 900 }} align='right'>
+
+                <StyledTableCell style={{ width: 900 }} align="right">
                   Total:
                 </StyledTableCell>
-                <StyledTableCell align='right'>
+                <StyledTableCell align="right">
                   ${cartTotal.toFixed(2)}
                 </StyledTableCell>
               </TableRow>
@@ -160,12 +163,13 @@ class Cart extends React.Component {
           </Table>
         </TableContainer>
         <StripeCheckout
-          stripeKey='pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop'
+
+          stripeKey="pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop"
           token={this.handleToken}
           billingAddress
           shippingAddress
           amount={this.state.cartTotal * 100}
-          name='NoCap Order'
+          name="NoCap Order"
         />
       </div>
     ) : (
