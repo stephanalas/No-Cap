@@ -43,11 +43,11 @@ const getUser = () => async (dispatch) => {
           },
         });
       }
-      console.log(authenticatedUser);
+      // console.log(authenticatedUser);
       delete authenticatedUser.password;
       dispatch(_getUser(authenticatedUser.data));
     } else {
-      console.log(authenticatedUser.data);
+      // console.log(authenticatedUser.data);
       delete authenticatedUser.data.password;
       dispatch(_getUser(authenticatedUser.data));
     }

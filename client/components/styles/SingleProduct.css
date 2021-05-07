@@ -1,7 +1,7 @@
-.product-pic-text {
+.product-box {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   height: 50%;
   max-width: 80%;
   margin-left: auto;
@@ -10,30 +10,74 @@
 #single-product-image {
   height: 500px;
   width: 500px;
-  border: 1px black solid;
 }
-.rating {
-  display: flex;
-}
+
 .product-text {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  font-size: 2rem;
-  width: 60%;
+  font-size: 1.5rem;
+  justify-content: space-between;
+  margin-right: 2rem;
 }
 
 #reviews {
   font-size: 1rem;
   display: flexbox;
   flex-direction: row;
-  justify-content: start;
+  margin-bottom: 3rem;
 }
 
 #product-name {
+  margin-top: 2rem;
   font-size: 2.5rem;
-  width: 60%;
   font-weight: bold;
-  margin-right: auto;
-  margin-left: auto;
+  text-align: end;
+}
+
+#one-product-container {
+  margin-top: 1rem;
+  position: relative;
+}
+
+.card {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  padding: 1rem;
+}
+
+#description {
+  font-size: 1rem;
+  text-align: end;
+}
+
+#add-to-cart {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 950px) {
+  .product-box {
+    flex-direction: column;
+  }
+  #single-product-image {
+    height: 70%;
+    width: 70%;
+    align-self: center;
+  }
+  .product-text {
+    align-items: center;
+    font-size: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #reviews {
+    margin-bottom: 1rem;
+  }
+  #product-name {
+    margin-top: 1rem;
+    font-size: 2rem;
+    text-align: center;
+  }
+  #description {
+    text-align: center;
+  }
 }
