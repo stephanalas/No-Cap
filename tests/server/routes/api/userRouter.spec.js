@@ -98,10 +98,11 @@ describe('User Routes', () => {
     // requires post route to work
     response = await request
       .put('/api/users/1')
-      .send({ firstName: 'NewAdmin' })
+      .send({ firstName: 'NewAdmin', email: 'jshmo@aol.com' })
       .set({ authorization: adminToken });
-    response = JSON.parse(response.text);
-    const { firstName } = response;
+    user = JSON.parse(response.text).user;
+
+    const { firstName } = user;
     expect(firstName).toBe('NewAdmin');
     done();
   });

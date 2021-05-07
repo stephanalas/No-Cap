@@ -78,21 +78,24 @@ class Cart extends React.Component {
     try {
       const { cartTotal } = this.state;
       console.log(getToken(), 'in cart component handle token');
-      const response = await axios.post('/api/orders/checkout', {
-        token,
-        addresses,
-        cartTotal,
-        headers: getToken().headers,
-      });
+      const response = await axios.post(
+        '/api/orders/checkout',
+        {
+          token,
+          addresses,
+          cartTotal,
+        },
+        getToken()
+      );
       const status = response.data;
       if (status === 'success') {
         toast('Your order went through! Check email for details.', {
           type: 'success',
         });
-        this.props.cart.cart_line_items.headers = getToken().headers;
         await axios.post(
           `/api/orders/users/${this.props.user.id}`,
-          this.props.cart.cart_line_items
+          this.props.cart.cart_line_items,
+          getToken()
         );
         this.props.clearCart();
       } else {

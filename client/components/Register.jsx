@@ -91,9 +91,9 @@ class Register extends React.Component {
             Sign up
           </Button>
         </form>
-        <h6>
-          <a href='#/Login'>Already have an account?</a>
-        </h6>
+        <a className='nav-link' href='#/Login'>
+          Already have an account?
+        </a>
       </div>
     );
   }

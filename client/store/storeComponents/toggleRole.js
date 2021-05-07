@@ -15,10 +15,13 @@ const _toggleRole = (user) => ({
 // thunk
 const toggleRole = (id) => async (dispatch) => {
   try {
-    const response = await axios.post('/api/users/togglerole', {
-      userId: id,
-      headers: getToken().headers,
-    });
+    const response = await axios.post(
+      '/api/users/togglerole',
+      {
+        userId: id,
+      },
+      getToken(),
+    );
     dispatch(_toggleRole(response.data));
   } catch (err) {
     console.log(err.response);

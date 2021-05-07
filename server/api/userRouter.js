@@ -83,7 +83,7 @@ userRouter.get('/:id', requireToken, async (req, res, next) => {
   }
 });
 
-userRouter.put('/:id', async (req, res, next) => {
+userRouter.put('/:id', requireToken, async (req, res, next) => {
   if (!req.body) {
     res.sendStatus(400);
   }
@@ -93,19 +93,24 @@ userRouter.put('/:id', async (req, res, next) => {
   } = req.body;
 
   try {
-    const { id } = req.params;
-    // const { id } = req.user;
-    const user = await User.findByPk(id);
-    const updatedUser = await user.update({
-      firstName,
-      lastName,
-      email,
-      role,
-      address,
-      password,
-    });
+    // const { id } = req.params;
+    const { id } = req.user;
+    const checkEmail = await User.findOne({ where: { email } });
+    if (checkEmail && checkEmail.id !== id) {
+      res.status(400).send({ error: 'that email already exists!' });
+    } else {
+      const user = await User.findByPk(id);
+      const updatedUser = await user.update({
+        firstName,
+        lastName,
+        email,
+        role,
+        address,
+        password,
+      });
 
-    res.status(200).send(updatedUser);
+      res.status(200).send({ user: updatedUser });
+    }
   } catch (ex) {
     next(ex);
   }
@@ -353,11 +358,11 @@ userRouter.post('/:userId/products/:productId/reviews', requireToken, async (req
   }
 });
 
-userRouter.post('/togglerole', async (req, res, next) => {
+userRouter.post('/togglerole', requireToken, async (req, res, next) => {
   try {
-    const { userId } = req.body;
-    // const { id } = req.user;
-    const id = userId;
+    // const { userId } = req.body;
+    const { id } = req.user;
+    // const id = userId;
     const user = await User.findByPk(id);
     const newRole = user.role === 'Admin' ? 'User' : 'Admin';
     const updatedUser = await user.update({

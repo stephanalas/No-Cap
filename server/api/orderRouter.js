@@ -61,11 +61,12 @@ orderRouter.get('/:userId', requireToken, async (req, res, next) => {
   }
 });
 
-orderRouter.post('/users/:userId', async (req, res, next) => {
+orderRouter.post('/users/:userId', requireToken, async (req, res, next) => {
   try {
-    // const { id } = req.user;
-    console.log('log in api/orders/users/id', id, req.body);
-    const { userId } = req.params;
+    const { id } = req.user;
+    // console.log('log in api/orders/users/id', id, req.body);
+    // const { userId } = req.params;
+    const userId = id;
     const itemList = req.body;
     const orderTotal = itemList.reduce((acc, curr) => {
       return parseFloat(acc) + parseFloat(curr.subTotal);
@@ -112,7 +113,7 @@ orderRouter.put('/:orderId', requireToken, async (req, res, next) => {
   }
 });
 
-orderRouter.post('/checkout', async (req, res, next) => {
+orderRouter.post('/checkout', requireToken, async (req, res, next) => {
   let status;
   try {
     const { cartTotal, token } = req.body;
@@ -122,7 +123,7 @@ orderRouter.post('/checkout', async (req, res, next) => {
       source: token.id,
     });
 
-    const idempotency_key = v4();
+    const idempotencyKey = v4();
     const charge = await stripe.charges.create(
       {
         amount: cartTotal * 100,
@@ -142,7 +143,7 @@ orderRouter.post('/checkout', async (req, res, next) => {
         },
       },
       {
-        idempotency_key,
+        idempotencyKey,
       },
     );
     // console.log('Charge:', { charge });

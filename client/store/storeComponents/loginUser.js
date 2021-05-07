@@ -6,10 +6,10 @@ import getToken from '../../components/utils/getToken';
 
 // action type
 const LOGIN_USER = 'LOGIN_USER';
-const GET_ERROR = 'GET_ERROR';
+const GET_LOGIN_ERROR = 'GET_LOGIN_ERROR';
 // action creators
 const _loginUser = (user) => ({ type: LOGIN_USER, user });
-const _getError = (error) => ({ type: GET_ERROR, error });
+const _getLoginError = (error) => ({ type: GET_LOGIN_ERROR, error });
 // thunk
 const loginUser = (user) => async (dispatch) => {
   try {
@@ -17,7 +17,7 @@ const loginUser = (user) => async (dispatch) => {
     const { token, error } = response.data;
     let authenticatedUser;
     if (error) {
-      dispatch(_getError(error));
+      dispatch(_getLoginError(error));
     } else if (token) {
       window.localStorage.setItem('token', token);
       authenticatedUser = await axios.get('/api/login/auth', getToken());
@@ -29,4 +29,4 @@ const loginUser = (user) => async (dispatch) => {
   }
 };
 
-export { loginUser, LOGIN_USER, GET_ERROR };
+export { loginUser, LOGIN_USER, GET_LOGIN_ERROR };
