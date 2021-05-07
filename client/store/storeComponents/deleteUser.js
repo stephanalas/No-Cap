@@ -2,6 +2,7 @@
 /* eslint no-console: 'off' */
 
 import axios from 'axios';
+import getToken from '../../components/utils/getToken';
 
 // action type
 const DELETE_USER = 'DELETE_USER';
@@ -14,18 +15,8 @@ const _deleteUser = (id) => ({
 // thunk
 const deleteUser = (id) => async (dispatch) => {
   try {
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-      const error = new Error('Unauthorized');
-      throw error;
-    } else {
-      await axios.delete(`/api/users/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      });
-      dispatch(_deleteUser(id));
-    }
+    await axios.delete(`/api/users/${id}`, getToken());
+    dispatch(_deleteUser(id));
   } catch (err) {
     console.log(err.response);
   }

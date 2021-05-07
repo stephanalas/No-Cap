@@ -14,18 +14,8 @@ const _getUser = (user) => ({
 // thunk
 const getUser = () => async (dispatch) => {
   try {
-    let token = window.localStorage.getItem('token');
-    let authenticatedUser;
-    if (token) {
-      authenticatedUser = await axios.get('/api/login/auth', {
-        headers: {
-          authorization: token,
-        },
-      });
-    }
-
+    let authenticatedUser = await axios.get('/api/login/auth', getToken());
     if (authenticatedUser.data === 'JsonWebTokenError') {
-      console.log('received an old JWT');
       const anonUser = {
         email: faker.internet.email(),
         firstName: 'Anonymous',
@@ -43,7 +33,7 @@ const getUser = () => async (dispatch) => {
           },
         });
       }
-      delete authenticatedUser.password;
+      delete authenticatedUser.data.password;
       dispatch(_getUser(authenticatedUser.data));
     } else {
       delete authenticatedUser.data.password;

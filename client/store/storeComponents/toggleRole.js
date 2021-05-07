@@ -2,7 +2,7 @@
 /* eslint no-console: 'off' */
 
 import axios from 'axios';
-
+import getToken from '../../components/utils/getToken';
 // action type
 const TOGGLE_ROLE = 'TOGGLE_ROLE';
 // action creator
@@ -15,7 +15,10 @@ const _toggleRole = (user) => ({
 // thunk
 const toggleRole = (id) => async (dispatch) => {
   try {
-    const response = await axios.post('/api/users/togglerole', { userId: id });
+    const response = await axios.post('/api/users/togglerole', {
+      userId: id,
+      headers: getToken().headers,
+    });
     dispatch(_toggleRole(response.data));
   } catch (err) {
     console.log(err.response);

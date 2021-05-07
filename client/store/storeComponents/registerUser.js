@@ -2,6 +2,7 @@
 /* eslint no-console: 'off' */
 
 import axios from 'axios';
+import getToken from '../../components/utils/getToken';
 
 // action type
 const REGISTER_USER = 'REGISTER_USER';
@@ -18,14 +19,7 @@ const registerUser = (user) => async (dispatch) => {
     const response = await axios.put('/api/register', user);
     const { token } = response.data;
     window.localStorage.setItem('token', token);
-    let authenticatedUser;
-    if (token) {
-      authenticatedUser = await axios.get('/api/login/auth', {
-        headers: {
-          authorization: token,
-        },
-      });
-    }
+    let authenticatedUser = await axios.get('/api/login/auth', getToken());
     delete authenticatedUser.data.password;
     dispatch(_registerUser(authenticatedUser.data));
   } catch (err) {

@@ -2,6 +2,7 @@
 /* eslint no-console: 'off' */
 
 import axios from 'axios';
+import getToken from '../../components/utils/getToken';
 
 // action type
 const LOGIN_USER = 'LOGIN_USER';
@@ -14,21 +15,15 @@ const loginUser = (user) => async (dispatch) => {
   try {
     const response = await axios.post('/api/login/auth', user);
     const { token, error } = response.data;
+    let authenticatedUser;
     if (error) {
       dispatch(_getError(error));
     } else if (token) {
       window.localStorage.setItem('token', token);
-      let authenticatedUser;
-      if (token) {
-        authenticatedUser = await axios.get('/api/login/auth', {
-          headers: {
-            authorization: token,
-          },
-        });
-      }
-      delete authenticatedUser.data.password;
-      dispatch(_loginUser(authenticatedUser.data));
+      authenticatedUser = await axios.get('/api/login/auth', getToken());
     }
+    delete authenticatedUser.data.password;
+    dispatch(_loginUser(authenticatedUser.data));
   } catch (err) {
     console.log(err.response);
   }
