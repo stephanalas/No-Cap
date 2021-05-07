@@ -101,39 +101,6 @@ class CartLineItem extends React.Component {
            </StyledTableCell>
           </StyledTableRow>
         );
-
-
-        // return (
-        //     <li className="cart-item" key={cartLineItem.id}>
-        //     <img src={cartLineItem.product.photo} />
-        //     <div className="cart-info">
-        //         <h4>
-        //     <Link to={`/Products/${cartLineItem.product.id}`}>
-        //         <h4>{cartLineItem.product.name}</h4>
-        //         <h4>{cartLineItem.id}</h4>
-        //     </Link> 
-        //     </h4>
-        //         <h4>Price: ${cartLineItem.product.price}</h4>
-        //         <h4>
-        //             <InputCounter
-                    
-        //                 increment={this.increment}
-        //                 decrement={this.decrement}
-        //                 quantity={this.state.quantity}
-                        
-        //             />
-        //         </h4>
-        //         <h4>SubTotal: ${this.state.subTotal}</h4>
-        //         <button
-        //         id="delete"
-        //         onClick={() => removeCartItem(cartLineItem.cartId, cartLineItem.id)}
-        //         >
-        //         Remove
-        //         </button>
-        //     </div>
-        //     </li>
-        // );
-
     }
 
 };

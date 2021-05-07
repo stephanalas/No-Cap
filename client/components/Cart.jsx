@@ -20,7 +20,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {StyledTableCell} from './utils/styledTableCell';
-import { TabScrollButton } from '@material-ui/core';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 class Cart extends React.Component {
   constructor() {
@@ -109,7 +109,7 @@ class Cart extends React.Component {
       <div>
       <TableContainer className='cart' component={Paper} style={{ height: 600 }} >
          <ToastContainer />
-        <Table aria-label="spanning table" stickyHeader>
+        <Table aria-label="spanning table" style={{ minWidth: "340px" }}stickyHeader>
           <TableHead>
             <TableRow>
             <StyledTableCell colSpan={6} align="center">Cart <span className='cart-amt'>{totalAmt}</span></StyledTableCell>
@@ -140,7 +140,7 @@ class Cart extends React.Component {
         <TableHead>
             <TableRow>
             <StyledTableCell colSpan={5} align="right">Total:</StyledTableCell>
-              <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
+              <StyledTableCell align="right"><AttachMoneyIcon />{cartTotal.toFixed(2)}</StyledTableCell>
             </TableRow>
             </TableHead>
         </Table>
