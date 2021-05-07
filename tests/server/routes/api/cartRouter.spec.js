@@ -94,8 +94,8 @@ describe('Cart Routes', () => {
         include: {
           model: CartLineItem,
           include: {
-            model: Product
-          }
+            model: Product,
+          },
         },
       },
       where: {
@@ -104,7 +104,7 @@ describe('Cart Routes', () => {
     });
 
     const lineItem = user.cart.cart_line_items[1];
-    let lineID = {
+    const lineID = {
       lineId: lineItem.id,
       quantity: 5,
     };
@@ -112,7 +112,7 @@ describe('Cart Routes', () => {
 
     response = JSON.parse(response.text);
     expect(response.quantity).toBe(5);
-    
+
     done();
   });
 });

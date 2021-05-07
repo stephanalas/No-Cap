@@ -12,7 +12,9 @@ const _updateUser = (user) => ({
 });
 
 // thunk
-const updateUser = ({ id, firstName, lastName, email }) => async (dispatch) => {
+const updateUser = ({
+  id, firstName, lastName, email,
+}) => async (dispatch) => {
   try {
     const token = window.localStorage.getItem('token');
     if (!token) {

@@ -1,6 +1,6 @@
-import React from "react";
-import "./styles/InputCounter.css";
-
+import React from 'react';
+import './styles/InputCounter.css';
+import './styles/ProductCard.css';
 class InputCounter extends React.Component {
   constructor(props) {
     super(props);
@@ -8,11 +8,13 @@ class InputCounter extends React.Component {
 
   render() {
     return (
-      <div className="number">
+      <div className="number input-counter">
         <span className="minus" onClick={this.props.decrement}>
           -
         </span>
         <input
+          // defaultValue={this.props.quantity}
+          readOnly
           className="inputCounter"
           type="text"
           value={this.props.quantity}

@@ -32,14 +32,14 @@ CartLineItem.addHook('beforeUpdate', (cartLineItem) => {
 
 CartLineItem.addHook('afterCreate', async (cartLineItem) => {
   const cart = await Cart.findByPk(cartLineItem.cartId);
-  if(cart){
+  if (cart) {
     cart.save();
   }
 });
 
 CartLineItem.addHook('afterUpdate', async (cartLineItem) => {
   const cart = await Cart.findByPk(cartLineItem.cartId);
-  if(cart){
+  if (cart) {
     cart.save();
   }
 });

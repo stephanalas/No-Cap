@@ -41,19 +41,19 @@ cartRouter.put('/:id/updateQuantity', async (req, res, next) => {
       res.sendStatus(400);
     }
     const { id } = req.params;
-    const {lineId, quantity} = req.body;
+    const { lineId, quantity } = req.body;
     let lineItem = await CartLineItem.findOne({
-      include:{
+      include: {
         model: Product,
       },
       where: {
-        id: lineId
-      }
+        id: lineId,
+      },
     });
     lineItem = await lineItem.update({
-      quantity: quantity,
+      quantity,
     });
-    
+
     res.send(lineItem);
   } catch (ex) {
     next(ex);

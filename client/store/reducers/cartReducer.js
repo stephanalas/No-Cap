@@ -2,7 +2,7 @@ import { LOAD_CART } from '../storeComponents/loadCart';
 import { LOGIN_USER } from '../storeComponents/loginUser';
 import { REMOVE_CART_ITEM } from '../storeComponents/removeCartItem';
 import { UPDATE_CART_ITEM } from '../storeComponents/updateCartItem';
-//import {GET_CART} from '../storeComponents/getCart';
+// import {GET_CART} from '../storeComponents/getCart';
 
 const cartReducer = (state = {}, action) => {
   if (action.type === LOAD_CART) {
