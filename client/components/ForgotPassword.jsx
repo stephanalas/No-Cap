@@ -77,6 +77,7 @@ class ForgotPassword extends React.Component {
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='email'
+            required={true}
             label='email'
             type='email'
             name='email'
@@ -86,7 +87,7 @@ class ForgotPassword extends React.Component {
           <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ marginTop: '1rem' }}
           >
             Reset Password

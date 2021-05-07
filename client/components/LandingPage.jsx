@@ -6,6 +6,7 @@ import CreateAnonUser from './CreateAnonUser';
 const LandingPage = () => {
   return (
     <div id='LandingPage'>
+      <CreateAnonUser />
       <Link to='/products'>
         <section className='carousel' aria-label='Gallery'>
           <ol className='carousel__viewport'>
@@ -24,7 +25,6 @@ const LandingPage = () => {
           </ol>
         </section>
       </Link>
-      <CreateAnonUser />
     </div>
   );
 };

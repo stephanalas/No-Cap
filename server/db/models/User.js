@@ -105,20 +105,20 @@ User.byToken = async (token) => {
 };
 
 User.authenticate = async ({ email, password }) => {
-  const error = Error('Invalid credentials');
-  error.status = 401;
-  if (!email || !password) return error;
+  if (!email) return 'email required';
+  if (!password) return 'password required';
 
   const user = await User.findOne({
     where: {
       email,
     },
   });
+  if (!user) return 'email not found';
   if (user && (await bcrypt.compare(password, user.password))) {
     return jwt.sign({ userId: user.id }, process.env.JWT);
   }
 
-  throw error;
+  return 'invalid password';
 };
 
 module.exports = User;

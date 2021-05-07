@@ -1,6 +1,6 @@
 const express = require('express');
 const stripe = require('stripe')(
-  'sk_test_51ImrllFdJ30zvHzoR1wb9jEeihRFQM0oDO6mak2DaCthEfUxj2UGI76RHQWWsO24pDSF5SODdnN2yiiBhcH3GDFB00BYZ5q0ri'
+  'sk_test_51ImrllFdJ30zvHzoR1wb9jEeihRFQM0oDO6mak2DaCthEfUxj2UGI76RHQWWsO24pDSF5SODdnN2yiiBhcH3GDFB00BYZ5q0ri',
 );
 const { v4 } = require('uuid');
 
@@ -106,7 +106,7 @@ orderRouter.post('/checkout', async (req, res, next) => {
       },
       {
         idempotency_key,
-      }
+      },
     );
     // console.log('Charge:', { charge });
     status = 'success';

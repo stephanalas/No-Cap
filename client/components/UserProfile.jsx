@@ -16,6 +16,7 @@ class UserProfile extends React.Component {
       lastName: '',
       email: '',
       password: '',
+      address: '',
       role: '',
     };
     this.onChange = this.onChange.bind(this);
@@ -23,11 +24,12 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    const { firstName, lastName, email, role, id } = this.props.user;
+    const { firstName, lastName, email, address, role, id } = this.props.user;
     this.setState({
       firstName: firstName || '',
       lastName: lastName || '',
       email: email || '',
+      address: address || '',
       password: '',
       role: role || '',
       id,
@@ -48,7 +50,7 @@ class UserProfile extends React.Component {
 
   render() {
     const { onChange, onSubmit } = this;
-    const { email, firstName, lastName } = this.state;
+    const { email, firstName, lastName, address, password } = this.state;
 
     return (
       <div id='login-container'>
@@ -56,6 +58,7 @@ class UserProfile extends React.Component {
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='standard-basic'
+            required={true}
             label='First name'
             value={firstName}
             onChange={onChange}
@@ -64,6 +67,7 @@ class UserProfile extends React.Component {
           />
           <TextField
             id='standard-basic'
+            required={true}
             label='Last name'
             value={lastName}
             onChange={onChange}
@@ -72,6 +76,7 @@ class UserProfile extends React.Component {
           />
           <TextField
             id='standard-basic'
+            required={true}
             label='Email'
             value={email}
             onChange={onChange}
@@ -79,8 +84,9 @@ class UserProfile extends React.Component {
             type='email'
             autoComplete='email'
           />
-          {/* <TextField
+          <TextField
             id='standard-adornment-password'
+            required={true}
             label='Password'
             value={password}
             onChange={onChange}
@@ -89,19 +95,24 @@ class UserProfile extends React.Component {
             type='password'
             autoComplete='new-password'
             pattern='^[^$]\d+'
-          /> */}
+          />
+          <TextField
+            id='standard-basic'
+            label='Address'
+            value={address}
+            onChange={onChange}
+            name='address'
+            type='text'
+          />
           <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ marginTop: '1rem' }}
           >
             Save
           </Button>
         </form>
-        {/* <h6>
-          <a href='#/Login'>Already have an account?</a>
-        </h6> */}
       </div>
     );
   }
