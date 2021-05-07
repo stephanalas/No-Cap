@@ -1,6 +1,8 @@
-import React from 'react';
-import './styles/InputCounter.css';
-import './styles/ProductCard.css';
+
+import React from "react";
+import "./styles/InputCounter.css";
+import { Button } from '@material-ui/core';
+
 class InputCounter extends React.Component {
   constructor(props) {
     super(props);
@@ -8,10 +10,16 @@ class InputCounter extends React.Component {
 
   render() {
     return (
-      <div className="number input-counter">
-        <span className="minus" onClick={this.props.decrement}>
-          -
-        </span>
+      <div className="number">
+        <Button
+            variant='contained'
+            type='submit'
+            color='primary'
+            style={{ height: '1.5rem' }}
+            onClick={this.props.decrement}
+          >
+            -
+          </Button>
         <input
           // defaultValue={this.props.quantity}
           readOnly
@@ -19,12 +27,19 @@ class InputCounter extends React.Component {
           type="text"
           value={this.props.quantity}
         />
-        <span className="plus" onClick={this.props.increment}>
-          +
-        </span>
+        <Button
+            variant='contained'
+            type='submit'
+            color='primary'
+            style={{ height: '1.5rem'}}
+            onClick={this.props.increment}
+          >
+            +
+          </Button>
       </div>
     );
   }
+  
 }
 
 export default InputCounter;

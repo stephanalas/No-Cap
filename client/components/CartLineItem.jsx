@@ -6,7 +6,10 @@ import { Link } from 'react-router-dom';
 import { loadCart } from '../store/storeComponents/loadCart';
 import { removeCartItem } from '../store/storeComponents/removeCartItem';
 import { updateCartItem } from '../store/storeComponents/updateCartItem';
-import InputCounter from './InputCounter';
+import InputCounter from "./InputCounter";
+import {StyledTableCell, StyledTableRow} from './utils/styledTableCell';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 class CartLineItem extends React.Component {
   constructor() {
@@ -18,58 +21,86 @@ class CartLineItem extends React.Component {
     this.increment = this.increment.bind(this);
     this.decrement = this.decrement.bind(this);
   }
-
-  componentDidMount() {
-    try {
-      //console.log(this.props.cartLineItem.subTotal, 'cartline item subtotal');
-      this.setState({
-        quantity: this.props.cartLineItem.quantity,
-        subTotal: this.props.cartLineItem.subTotal,
-      });
-    } catch (err) {
-      console.log(err);
+    componentDidMount() {
+        try {
+          this.setState({
+            quantity: this.props.cartLineItem.quantity,
+            subTotal: this.props.cartLineItem.subTotal
+          });
+        } catch (err) {
+          console.log(err);
+        }
     }
-  }
+    
+    componentDidUpdate(prevProps, prevState) {
+        const {updateCartItem, cartLineItem} = this.props;
+        
+        if (
+          prevState.quantity !==
+          this.state.quantity
+        ){
+          this.setState({
+            quantity: this.state.quantity,
+            subTotal: parseFloat(this.state.subTotal).toFixed(2)
+          });
+          updateCartItem(cartLineItem.id,this.state.quantity, cartLineItem.cartId, this.props.user.id);
+     
+        }
+      }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { updateCartItem, cartLineItem } = this.props;
-
-    if (prevState.quantity !== this.state.quantity) {
-      this.setState({
-        quantity: this.state.quantity,
-        subTotal: parseFloat(this.state.subTotal).toFixed(2),
-      });
-
-      updateCartItem(
-        cartLineItem.id,
-        this.state.quantity,
-        cartLineItem.cartId,
-        this.props.user.id
-      );
-      //this.props.updateCart();
+      increment() {
+        this.setState({ 
+            quantity: this.state.quantity + 1,
+            subTotal: (this.state.quantity + 1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)
+        });
     }
-  }
+      decrement() {
+        if (this.state.quantity !== 1) {
+            this.setState({ 
+            quantity: this.state.quantity - 1,
+            subTotal: (this.state.quantity -1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)
+        });
 
-  increment() {
-    this.setState({
-      quantity: this.state.quantity + 1,
-      subTotal:
-        (this.state.quantity + 1) *
-        parseFloat(this.props.cartLineItem.unitPrice).toFixed(2),
-    });
-    //this.setState({subTotal: (this.state.quantity + 1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)});
-    //this.props.updateCart();
-    //this.props.loadCart(this.props.user.id);
-  }
-  decrement() {
-    if (this.state.quantity !== 1) {
-      this.setState({
-        quantity: this.state.quantity - 1,
-        subTotal:
-          (this.state.quantity - 1) *
-          parseFloat(this.props.cartLineItem.unitPrice).toFixed(2),
-      });
-      //this.setState({subTotal: (this.state.quantity -1) * parseFloat(this.props.cartLineItem.unitPrice).toFixed(2)});
+        }
+        
+      }
+
+    render(){
+        const {cartLineItem} = this.props;
+        const {removeCartItem, cartTotal} = this.props;
+        return (
+          <StyledTableRow key={cartLineItem.id}>
+            <StyledTableCell component="th" scope="row">
+            <img src={cartLineItem.product.photo} />
+              </StyledTableCell>
+              <StyledTableCell align="justify">
+              <Link to={`/Products/${cartLineItem.product.id}`}>
+               {cartLineItem.product.name}
+             </Link> 
+              </StyledTableCell>
+              <StyledTableCell align="center">
+              ${cartLineItem.product.price}
+           </StyledTableCell>
+           <StyledTableCell align="center">
+           <InputCounter
+                    
+                                    increment={this.increment}
+                                     decrement={this.decrement}
+                                    quantity={this.state.quantity}
+                                    
+                                 />
+           </StyledTableCell>
+           <StyledTableCell align="center">
+           ${this.state.subTotal}
+           </StyledTableCell>
+           <StyledTableCell align="center">
+           <DeleteIcon color="disabled"
+                 onClick={() => removeCartItem(cartLineItem.cartId, cartLineItem.id)}
+                 
+                 />
+           </StyledTableCell>
+          </StyledTableRow>
+        );
     }
     //this.props.updateCart();
     //this.props.loadCart(this.props.user.id);

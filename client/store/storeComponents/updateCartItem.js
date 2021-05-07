@@ -27,11 +27,13 @@ const updateCartItem = (lineID, quantity, cartId, userId) => async (dispatch) =>
     const response = await axios.put(`api/cart/${cartId}/updateQuantity`, lineData);
     // const userCart = response.data;
     const cart = await axios.get(`/api/users/${userId}/cart`);
+    console.log(cart, 'users cart');
     const cartLineItem = response.data;
 
     dispatch(_updateCartItem(cartLineItem, cart.data));
   } catch (err) {
     console.log(err.response);
+    console.log(err);
   }
 };
 

@@ -43,11 +43,3 @@
   padding-right: 0.8%;
 }
 
-@media (max-width: 845px) {
-  .cart-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-}

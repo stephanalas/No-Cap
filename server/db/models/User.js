@@ -86,7 +86,7 @@ User.addHook('afterCreate', async (user) => {
 User.byToken = async (token) => {
   try {
     const { userId } = await jwt.verify(token, process.env.JWT);
-    const user = await User.findOne({
+    const user = await User.findAll({
       where: {
         id: userId,
       },
@@ -94,9 +94,10 @@ User.byToken = async (token) => {
         model: Cart,
       },
     });
-    if (user) {
-      return user;
+    if (user[0]) {
+      return user[0];
     }
+    return 'JsonWebTokenError';
   } catch (ex) {
     console.log(ex.name);
     return ex.name;
@@ -104,20 +105,20 @@ User.byToken = async (token) => {
 };
 
 User.authenticate = async ({ email, password }) => {
-  const error = Error('Invalid credentials');
-  error.status = 401;
-  if (!email || !password) return error;
+  if (!email) return 'email required';
+  if (!password) return 'password required';
 
   const user = await User.findOne({
     where: {
       email,
     },
   });
+  if (!user) return 'email not found';
   if (user && (await bcrypt.compare(password, user.password))) {
     return jwt.sign({ userId: user.id }, process.env.JWT);
   }
 
-  throw error;
+  return 'invalid password';
 };
 
 module.exports = User;

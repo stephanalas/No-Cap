@@ -14,10 +14,11 @@ cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
 
     const { id } = req.params;
     const { lineId } = req.body;
+
     const lineItem = await CartLineItem.findByPk(lineId);
     const removed = await lineItem.destroy();
 
-    const cart = await Cart.findOne({
+    const newCart = await Cart.findOne({
       include: {
         model: CartLineItem,
         include: {
@@ -29,7 +30,9 @@ cartRouter.put('/:id/removeCartItem', async (req, res, next) => {
       },
     });
 
-    res.send(cart);
+    await newCart.save();
+
+    res.send(newCart);
   } catch (ex) {
     next(ex);
   }

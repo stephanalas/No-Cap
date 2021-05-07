@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { loadCart } from '../store/storeComponents/loadCart';
 import { getUser } from '../store/storeComponents/getUser';
 import { getProducts } from '../store/storeComponents/getProducts';
+import Reviews from './Reviews';
 import InputCounter from './InputCounter';
 import './styles/SingleProduct.css';
 
@@ -66,7 +67,8 @@ class SingleProduct extends React.Component {
             </button>
           </div>
         </div>
-        <div className='rating'>Rating: {singleProduct.rating}</div>
+        <div className="rating">Rating: {singleProduct.rating}</div>
+        <Reviews user={this.props.user} product={singleProduct} />
       </div>
     ) : (
       'Loading'
@@ -99,4 +101,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
-// export default SingleProduct;

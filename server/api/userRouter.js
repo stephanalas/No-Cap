@@ -11,16 +11,20 @@ const requireToken = require('../requireToken');
 
 userRouter.get('/auth', requireToken, async (req, res, next) => {
   try {
-    res.send(req.user.role);
+    res.send(req.user);
   } catch (ex) {
     next(ex);
   }
 });
 
-userRouter.get('/', async (req, res, next) => {
+userRouter.get('/', requireToken, async (req, res, next) => {
   try {
-    const users = await User.findAll();
-    res.status(200).send(users);
+    if (req.user.role === 'Admin') {
+      const users = await User.findAll();
+      res.status(200).send(users);
+    } else {
+      res.status(403);
+    }
   } catch (error) {
     next(error);
   }
@@ -84,7 +88,7 @@ userRouter.put('/:id', async (req, res, next) => {
   }
   // will need to update this with appropriate fields
   const {
-    firstName, lastName, email, password, role,
+    firstName, lastName, email, password, address, role,
   } = req.body;
 
   try {
@@ -95,6 +99,7 @@ userRouter.put('/:id', async (req, res, next) => {
       lastName,
       email,
       role,
+      address,
       password,
     });
 
@@ -104,9 +109,10 @@ userRouter.put('/:id', async (req, res, next) => {
   }
 });
 
-userRouter.delete('/:id', async (req, res, next) => {
+userRouter.delete('/:id', requireToken, async (req, res, next) => {
   try {
-    const { id } = req.params;
+    // const { id } = req.params;
+    const { id } = req.user;
     const user = await User.findByPk(id);
     await user.destroy();
     res.sendStatus(204);
@@ -120,16 +126,19 @@ userRouter.get('/:id/cart', async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
 
-    res.send(
-      await user.getCart({
+    const cart = await user.getCart({
+      include: {
+        model: CartLineItem,
         include: {
-          model: CartLineItem,
-          include: {
-            model: Product,
-          },
+          model: Product,
         },
-      }),
-    );
+      },
+    });
+
+    cart.cart_line_items.sort((a, b) => {
+      return a.id - b.id;
+    });
+    res.send(cart);
   } catch (ex) {
     next(ex);
   }

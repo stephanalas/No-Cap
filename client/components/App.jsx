@@ -20,11 +20,14 @@ import Admin from './Admin';
 import Cart from './Cart';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
-import SortProducts from './SortProducts';
+import UserHomePage from './UserHomePage';
+
 class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.user.id !== this.props.user.id) {
-      this.props.loadCart(this.props.user.id);
+      if (this.props.user.id) {
+        this.props.loadCart(this.props.user.id);
+      }
     }
   }
 
@@ -42,16 +45,15 @@ class App extends React.Component {
           <Route path="/Signup" component={Register} exact />
         ) : null}
         {this.props.user.role && this.props.user.role !== 'Anonymous' ? (
-          <Route path="/Logout" component={Logout} exact />
-        ) : (
-          <Route path="/login" component={Login} exact />
-        )}
-
-        <Route path="/Products" component={AllProducts} exact />
-        <Route path="/Products/:id" component={SingleProduct} exact />
-        <Route path="/ShoppingCart" component={Cart} exact />
-        <Route path="/ForgotPassword" component={ForgotPassword} />
-        <Route path="/ResetPassword" component={ResetPassword} />
+          <Route path='/Logout' component={Logout} exact />
+        ) : null}
+        <Route path='/login' component={Login} exact />
+        <Route path='/Products' component={AllProducts} exact />
+        <Route path='/Products/:id' component={SingleProduct} exact />
+        <Route path='/ShoppingCart' component={Cart} exact />
+        <Route path='/ForgotPassword' component={ForgotPassword} />
+        <Route path='/ResetPassword' component={ResetPassword} />
+        <Route path='/MyAccount' component={UserHomePage} />
       </HashRouter>
     );
   }

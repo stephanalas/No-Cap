@@ -122,6 +122,7 @@ class ResetPassword extends React.Component {
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='password'
+            required={true}
             label='password'
             type='password'
             name='password'
@@ -131,7 +132,7 @@ class ResetPassword extends React.Component {
           <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ marginTop: '1rem' }}
             value='Submit'
           >

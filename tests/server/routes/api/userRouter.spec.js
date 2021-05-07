@@ -12,6 +12,7 @@ const {
   },
 } = require('../../../../server/db/models/associations');
 
+let adminToken;
 describe('User Routes', () => {
   beforeAll(async () => {
     // await Order.sync({ force: true });
@@ -24,6 +25,7 @@ describe('User Routes', () => {
         lastName: 'Shmo',
         email: 'jshmo@aol.com',
         password: 'hello123',
+        role: 'Admin',
       },
       {
         firstName: 'Connie',
@@ -40,6 +42,13 @@ describe('User Routes', () => {
       color: 'Black',
     });
     await Order.bulkCreate([{ userId: 2 }, { userId: 2 }]);
+
+    const response = await request.post('/api/login/auth').send({
+      email: 'jshmo@aol.com',
+      password: 'hello123',
+    });
+    const { token } = response.body;
+    adminToken = token;
   });
 
   afterAll(async () => {
@@ -47,12 +56,13 @@ describe('User Routes', () => {
   });
 
   test('GET /api/users length', async (done) => {
-    const response = await request.get('/api/users');
+    const response = await request.get('/api/users').set({ authorization: adminToken });
     expect(JSON.parse(response.text).length).toBe(2);
     done();
   });
+
   test('GET /api/users find', async (done) => {
-    let response = await request.get('/api/users');
+    let response = await request.get('/api/users').set({ authorization: adminToken });
     response = JSON.parse(response.text);
     const user = response.filter((item) => item.firstName === 'Joe');
     expect(user[0].firstName).toBe('Joe');
@@ -109,17 +119,33 @@ describe('User Routes', () => {
     done();
   });
 
-  test('DELETE /api/users/:id deletes a user', async (done) => {
+  // authenticated route
+  test('AUTH DELETE /api/users/:id deletes a user where ID comes from JWT', async (done) => {
     const userData = {
       firstName: 'Michael',
       lastName: 'Jordan',
       email: 'mjordan4@hotmail.com',
       password: 'password',
     };
-    let response = await request.post('/api/users').send(userData);
-    user = JSON.parse(response.text);
-    response = (await request.delete(`/api/users/${user.id}`)).status;
-    expect(response).toEqual(204);
+    let response = (await request.post('/api/users').send(userData)).body;
+
+    response = await request.post('/api/login/auth').send({
+      email: userData.email,
+      password: userData.password,
+    });
+    const { token } = response.body;
+    let authenticatedUser;
+    if (token) {
+      authenticatedUser = (
+        await request.get('/api/login/auth').set({
+          authorization: token,
+        })
+      ).body;
+    }
+    const { id } = authenticatedUser;
+    response = await request.delete(`/api/users/${id}`).set({ authorization: token });
+
+    expect(response.status).toEqual(204);
     done();
   });
 

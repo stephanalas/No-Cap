@@ -32,7 +32,7 @@ class Register extends React.Component {
       ...this.state,
       anonUser: this.props.user.id,
     });
-    this.props.history.push('/Login');
+    this.props.history.push('/Products');
   }
 
   render() {
@@ -45,6 +45,7 @@ class Register extends React.Component {
           <TextField
             id='standard-basic'
             label='First name'
+            required={true}
             value={firstName}
             onChange={onChange}
             name='firstName'
@@ -52,6 +53,7 @@ class Register extends React.Component {
           />
           <TextField
             id='standard-basic'
+            required={true}
             label='Last name'
             value={lastName}
             onChange={onChange}
@@ -60,6 +62,7 @@ class Register extends React.Component {
           />
           <TextField
             id='standard-basic'
+            required={true}
             label='Email'
             value={email}
             onChange={onChange}
@@ -69,6 +72,7 @@ class Register extends React.Component {
           />
           <TextField
             id='standard-adornment-password'
+            required={true}
             label='Password'
             value={password}
             onChange={onChange}
@@ -81,7 +85,7 @@ class Register extends React.Component {
           <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ marginTop: '1rem' }}
           >
             Sign up

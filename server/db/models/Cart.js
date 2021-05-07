@@ -22,6 +22,8 @@ Cart.addHook('beforeSave', async (cart) => {
       cart.total = cartLineItems.reduce((acc, cartLineItem) => {
         return acc + cartLineItem.subTotal * 1;
       }, 0);
+    } else {
+      cart.total = 0;
     }
   } catch (err) {
     console.log(err);

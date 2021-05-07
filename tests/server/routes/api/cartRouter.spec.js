@@ -78,7 +78,6 @@ describe('Cart Routes', () => {
       },
     });
     const lineItem = user.cart.cart_line_items[1];
-    console.log(lineItem);
     let response = await request.put(`/api/cart/${user.cartId}/removeCartItem`).send({ lineId: 1 });
 
     response = JSON.parse(response.text);
