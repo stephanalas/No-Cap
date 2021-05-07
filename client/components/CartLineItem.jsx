@@ -56,6 +56,7 @@ class CartLineItem extends React.Component {
         parseFloat(this.props.cartLineItem.unitPrice).toFixed(2),
     });
   }
+
   decrement() {
     if (this.state.quantity !== 1) {
       this.setState({
@@ -100,6 +101,7 @@ class CartLineItem extends React.Component {
       </StyledTableRow>
     );
   }
+
   render() {
     const { cartLineItem } = this.props;
     const { removeCartItem, cartTotal } = this.props;
@@ -135,6 +137,7 @@ class CartLineItem extends React.Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return state;
 };

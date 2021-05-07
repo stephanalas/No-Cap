@@ -20,7 +20,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {StyledTableCell} from './utils/styledTableCell';
+import { StyledTableCell } from './utils/styledTableCell';
 
 class Cart extends React.Component {
   constructor() {
@@ -105,60 +105,66 @@ class Cart extends React.Component {
     const { cart_line_items } = this.state.cart;
     const { totalAmt, cartTotal } = this.state;
 
-
     return cart_line_items ? (
       <div>
-      <TableContainer component={Paper} style={{ height: 600 }} >
-         <ToastContainer />
-        <Table aria-label="spanning table">
-          <TableHead>
-            <TableRow>
-            <StyledTableCell colSpan={6} align="center">Cart <span className='cart-amt'>{totalAmt}</span></StyledTableCell>
-            </TableRow>
-            <TableRow>
-            <StyledTableCell colSpan={2} align="center">Product</StyledTableCell>
-            <StyledTableCell align="center">Price</StyledTableCell>
-            <StyledTableCell align="center">Quantity</StyledTableCell>
-            <StyledTableCell align="center">SubTotal</StyledTableCell>
-            <StyledTableCell align="center">Remove</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {cart_line_items.map((cartItem) => (
-              <CartLineItem
-                key={cartItem.id}
-                cartLineItem={cartItem}
-                cartTotal={cartTotal}
-              />
-             ))}
-            <TableRow>
-            </TableRow>
+        <TableContainer component={Paper} style={{ height: 600 }}>
+          <ToastContainer />
+          <Table aria-label="spanning table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell colSpan={6} align="center">
+                  Cart <span className="cart-amt">{totalAmt}</span>
+                </StyledTableCell>
+              </TableRow>
+              <TableRow>
+                <StyledTableCell colSpan={2} align="center">
+                  Product
+                </StyledTableCell>
+                <StyledTableCell align="center">Price</StyledTableCell>
+                <StyledTableCell align="center">Quantity</StyledTableCell>
+                <StyledTableCell align="center">SubTotal</StyledTableCell>
+                <StyledTableCell align="center">Remove</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {cart_line_items.map((cartItem) => (
+                <CartLineItem
+                  key={cartItem.id}
+                  cartLineItem={cartItem}
+                  cartTotal={cartTotal}
+                />
+              ))}
+              <TableRow></TableRow>
             </TableBody>
-        </Table>
+          </Table>
         </TableContainer>
         <TableContainer>
           <Table>
-        <TableHead>
-            <TableRow>
-            <StyledTableCell style={{ width: 900 }} align="right">Total:</StyledTableCell>
-              <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
-            </TableRow>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell style={{ width: 900 }} align="right">
+                  Total:
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  ${cartTotal.toFixed(2)}
+                </StyledTableCell>
+              </TableRow>
             </TableHead>
-        </Table>
-      </TableContainer>
-      <StripeCheckout
-             stripeKey='pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop'
-             token={this.handleToken}
-             billingAddress
-             shippingAddress
-             amount={this.state.cartTotal * 100}
-             name='NoCap Order'
-           />
-         </div>
-    )  : (
-         <div>
-           <h2>Loading</h2>
-         </div>
+          </Table>
+        </TableContainer>
+        <StripeCheckout
+          stripeKey="pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop"
+          token={this.handleToken}
+          billingAddress
+          shippingAddress
+          amount={this.state.cartTotal * 100}
+          name="NoCap Order"
+        />
+      </div>
+    ) : (
+      <div>
+        <h2>Loading</h2>
+      </div>
     );
   }
 }

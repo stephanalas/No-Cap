@@ -1,5 +1,14 @@
 #review-table {
   margin-right: auto;
   margin-left: auto;
+  margin-top: 2rem;
   width: 80%;
+}
+
+#add-a-review {
+  margin-top: 2rem;
+}
+
+#outlined-multiline-static:has() {
+  margin: 2rem;
 }
