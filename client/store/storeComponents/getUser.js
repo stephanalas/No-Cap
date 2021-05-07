@@ -3,6 +3,7 @@
 
 import axios from 'axios';
 import faker from 'faker';
+import getToken from '../../components/utils/getToken';
 // action type
 const GET_USER = 'GET_USER';
 // action creator
@@ -15,6 +16,7 @@ const _getUser = (user) => ({
 const getUser = () => async (dispatch) => {
   try {
     let authenticatedUser = await axios.get('/api/login/auth', getToken());
+    console.log('called after getToken: ', authenticatedUser);
     if (authenticatedUser.data === 'JsonWebTokenError') {
       const anonUser = {
         email: faker.internet.email(),
@@ -23,7 +25,7 @@ const getUser = () => async (dispatch) => {
         password: faker.internet.password(),
       };
       const response = await axios.post('/api/register', anonUser);
-      token = response.data.token;
+      const { token } = response.data;
       window.localStorage.clear();
       window.localStorage.setItem('token', token);
       if (token) {
@@ -32,6 +34,7 @@ const getUser = () => async (dispatch) => {
             authorization: token,
           },
         });
+        console.log('after get new user: ', authenticatedUser);
       }
       delete authenticatedUser.data.password;
       dispatch(_getUser(authenticatedUser.data));

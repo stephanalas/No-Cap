@@ -12,6 +12,7 @@ const {
   },
 } = require('../../../../server/db/models/associations');
 
+let token;
 describe('Cart Routes', () => {
   beforeAll(async () => {
     await initDB();
@@ -59,6 +60,11 @@ describe('Cart Routes', () => {
         cartId: 2,
       },
     ]);
+    const response = await request.post('/api/login/auth').send({
+      email: 'csalad@hotmail.com',
+      password: 'password',
+    });
+    token = response.body.token;
   });
 
   afterAll(async () => {
@@ -77,8 +83,11 @@ describe('Cart Routes', () => {
         id: 2,
       },
     });
-    const lineItem = user.cart.cart_line_items[1];
-    let response = await request.put(`/api/cart/${user.cartId}/removeCartItem`).send({ lineId: 1 });
+
+    let response = await request
+      .put(`/api/cart/${user.cartId}/removeCartItem`)
+      .send({ lineId: 1 })
+      .set({ authorization: token });
 
     response = JSON.parse(response.text);
 
@@ -107,7 +116,10 @@ describe('Cart Routes', () => {
       lineId: lineItem.id,
       quantity: 5,
     };
-    let response = await request.put(`/api/cart/${user.cartId}/updateQuantity`).send(lineID);
+    let response = await request
+      .put(`/api/cart/${user.cartId}/updateQuantity`)
+      .send(lineID)
+      .set({ authorization: token });
 
     response = JSON.parse(response.text);
     expect(response.quantity).toBe(5);

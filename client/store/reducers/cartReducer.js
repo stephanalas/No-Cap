@@ -4,7 +4,6 @@ import { REMOVE_CART_ITEM } from '../storeComponents/removeCartItem';
 import { UPDATE_CART_ITEM } from '../storeComponents/updateCartItem';
 import { CLEAR_CART } from '../storeComponents/clearCart';
 
-
 const cartReducer = (state = {}, action) => {
   if (action.type === LOAD_CART) {
     return action.cart;

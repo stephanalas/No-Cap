@@ -5,6 +5,7 @@ module.exports = async (req, res, next) => {
   if (token) {
     try {
       const user = await User.byToken(token);
+      // console.log(user);
       req.user = user;
       next();
     } catch (error) {

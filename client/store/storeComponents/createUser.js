@@ -20,7 +20,7 @@ const createUser = (user) => async (dispatch) => {
     const { token } = response.data;
 
     window.localStorage.setItem('token', token);
-    let authenticatedUser = await axios.get('/api/login/auth', getToken());
+    const authenticatedUser = await axios.get('/api/login/auth', getToken());
     delete authenticatedUser.data.password;
     dispatch(_createUser(authenticatedUser.data));
   } catch (err) {

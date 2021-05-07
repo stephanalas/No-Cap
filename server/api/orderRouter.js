@@ -4,6 +4,8 @@ const stripe = require('stripe')(
 );
 const { v4 } = require('uuid');
 
+const requireToken = require('../requireToken');
+
 const {
   models: {
     Order, CartLineItem, Cart, User,
@@ -13,28 +15,47 @@ const OrderLineItem = require('../db/models/OrderLineItem');
 
 const orderRouter = express.Router();
 
-orderRouter.get('/', async (req, res, next) => {
+orderRouter.get('/', requireToken, async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
 
-    const orders = await Order.findAll({ include: [{ model: OrderLineItem }] });
-    res.status(200).send(orders);
+    const { role } = req.user;
+    if (role === 'Admin') {
+      const orders = await Order.findAll({
+        include: [{ model: OrderLineItem }],
+      });
+      res.status(200).send(orders);
+    } else {
+      res.sendStatus(403);
+    }
   } catch (error) {
     next(error);
   }
 });
 
-// this currently gets an order by a user id (may need to revisit)
-orderRouter.get('/:userId', async (req, res, next) => {
+orderRouter.get('/:userId', requireToken, async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const orders = await Order.findAll({
-      include: [{ model: OrderLineItem }],
-      where: {
-        userId,
-      },
-    });
-    res.status(200).send(orders);
+    const { role } = req.user;
+    if (role === 'Admin') {
+      const { userId } = req.params;
+      const orders = await Order.findAll({
+        include: [{ model: OrderLineItem }],
+        where: {
+          userId,
+        },
+      });
+      res.status(200).send(orders);
+    } else {
+      const { id } = req.user;
+      const userId = id;
+      const orders = await Order.findAll({
+        include: [{ model: OrderLineItem }],
+        where: {
+          userId,
+        },
+      });
+      res.status(200).send(orders);
+    }
   } catch (error) {
     next(error);
   }
@@ -42,12 +63,15 @@ orderRouter.get('/:userId', async (req, res, next) => {
 
 orderRouter.post('/users/:userId', async (req, res, next) => {
   try {
+    // const { id } = req.user;
+    console.log('log in api/orders/users/id', id, req.body);
+    const { userId } = req.params;
     const itemList = req.body;
     const orderTotal = itemList.reduce((acc, curr) => {
       return parseFloat(acc) + parseFloat(curr.subTotal);
     }, 0);
     const newOrder = await Order.create({
-      userId: req.params.userId,
+      userId,
       total: orderTotal,
     });
     itemList.map(async (item) => {
@@ -59,7 +83,7 @@ orderRouter.post('/users/:userId', async (req, res, next) => {
       });
     });
     await CartLineItem.destroy({ where: {} });
-    const user = await User.findOne({ where: { id: req.params.userId } });
+    const user = await User.findOne({ where: { id: userId } });
     const userCart = await Cart.findOne({ where: { id: user.cartId } });
     userCart.total = 0;
     await userCart.save();
@@ -70,14 +94,19 @@ orderRouter.post('/users/:userId', async (req, res, next) => {
 });
 
 // this allows an admin to update order.status to fulfilled
-orderRouter.put('/:orderId', async (req, res, next) => {
+orderRouter.put('/:orderId', requireToken, async (req, res, next) => {
   try {
     if (!req.body) res.sendStatus(400);
-    const { status } = req.body;
-    const { orderId } = req.params;
-    const order = await Order.findByPk(orderId);
-    order.update({ status });
-    res.status(200).send(order);
+    const { role } = req.user;
+    if (role === 'Admin') {
+      const { status } = req.body;
+      const { orderId } = req.params;
+      const order = await Order.findByPk(orderId);
+      order.update({ status });
+      res.status(200).send(order);
+    } else {
+      res.sendStatus(403);
+    }
   } catch (error) {
     next(error);
   }

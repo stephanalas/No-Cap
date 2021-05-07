@@ -1,12 +1,12 @@
 const express = require('express');
-
+const requireToken = require('../requireToken');
 const {
   models: { Review },
 } = require('../db/models/associations');
 
 const reviewRouter = express.Router();
 
-reviewRouter.get('/:reviewId', async (req, res, next) => {
+reviewRouter.get('/:reviewId', requireToken, async (req, res, next) => {
   // get a product review by id
   try {
     const { reviewId } = req.params;
@@ -19,12 +19,12 @@ reviewRouter.get('/:reviewId', async (req, res, next) => {
   }
 });
 
-reviewRouter.post('/', async (req, res, next) => {
+reviewRouter.post('/', requireToken, async (req, res, next) => {
   // create new review
   try {
-    const {
-      productId, userId, stars, body,
-    } = req.body;
+    const { id } = req.user;
+    const userId = id;
+    const { productId, stars, body } = req.body;
     const review = await Review.create({
       productId,
       userId,
@@ -38,7 +38,7 @@ reviewRouter.post('/', async (req, res, next) => {
   }
 });
 
-reviewRouter.put('/:reviewId', async (req, res, next) => {
+reviewRouter.put('/:reviewId', requireToken, async (req, res, next) => {
   // update a product review by id
   if (!req.body) res.sendStatus(400);
 
@@ -56,7 +56,7 @@ reviewRouter.put('/:reviewId', async (req, res, next) => {
   }
 });
 
-reviewRouter.delete('/:reviewId', async (req, res, next) => {
+reviewRouter.delete('/:reviewId', requireToken, async (req, res, next) => {
   // delete a product review by id
   try {
     const { reviewId } = req.params;
