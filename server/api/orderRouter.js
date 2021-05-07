@@ -5,7 +5,7 @@ const stripe = require('stripe')(
 const { v4 } = require('uuid');
 
 const {
-  models: { Order, CartLineItem, Cart },
+  models: { Order, CartLineItem, Cart, User },
 } = require('../db/models/associations');
 const OrderLineItem = require('../db/models/OrderLineItem');
 
@@ -57,10 +57,10 @@ orderRouter.post('/users/:userId', async (req, res, next) => {
       });
     });
     await CartLineItem.destroy({ where: {} });
-    let userCart = await Cart.findOne({ where: { id: req.params.userId } });
+    let user = await User.findOne({ where: { id: req.params.userId } });
+    let userCart = await Cart.findOne({ where: { id: user.cartId } });
     userCart.total = 0;
     await userCart.save();
-    console.log(userCart);
     res.status(200).send();
   } catch (error) {
     next(error);
