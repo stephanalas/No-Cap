@@ -34,15 +34,14 @@ class App extends React.Component {
   render() {
     return (
       <HashRouter>
-        <Route path="/test" component={SortProducts} exact />
         <Route component={NavBar} />
-        <Route path="/" component={LandingPage} exact />
+        <Route path='/' component={LandingPage} exact />
         {this.props.user.role && this.props.user.role === 'Admin' ? (
-          <Route path="/Admin" component={Admin} exact />
+          <Route path='/Admin' component={Admin} exact />
         ) : null}
-        <Route path="/test" component={Filter} exact />
+        <Route path='/test' component={Filter} exact />
         {this.props.user.role && this.props.user.role === 'Anonymous' ? (
-          <Route path="/Signup" component={Register} exact />
+          <Route path='/Signup' component={Register} exact />
         ) : null}
         {this.props.user.role && this.props.user.role !== 'Anonymous' ? (
           <Route path='/Logout' component={Logout} exact />
