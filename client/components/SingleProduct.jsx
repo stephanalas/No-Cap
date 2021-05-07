@@ -60,7 +60,7 @@ class SingleProduct extends React.Component {
     const singleProduct = this.props.product;
     return singleProduct && this.state.rating !== -1 ? (
       <div id="one-product-container">
-        <div className="product-box card">
+        <div className="product-box myCard">
           <img
             id="single-product-image"
             src={singleProduct.photo}

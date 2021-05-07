@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, TextField } from '@material-ui/core';
 import { Nav } from 'react-bootstrap';
+import { Redirect } from 'react-router';
 import './styles/Login.css';
 
 import { loginUser } from '../store/storeComponents/loginUser';
@@ -15,9 +16,24 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      error: '',
+      loading: false,
+      success: false,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.error.message !== prevProps.error.message) {
+      this.setState({
+        loading: false,
+        error: this.props.error.message,
+        email: '',
+        password: '',
+        success: false,
+      });
+    }
   }
 
   onChange(ev) {
@@ -27,8 +43,11 @@ class Login extends React.Component {
   async onSubmit(ev) {
     try {
       ev.preventDefault();
+      this.setState({ loading: true });
       this.props.loginUser(this.state);
-      this.props.history.push('/Products');
+      setTimeout(() => {
+        this.setState({ loading: false, success: true });
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
@@ -36,13 +55,23 @@ class Login extends React.Component {
 
   render() {
     const { onChange, onSubmit } = this;
-    const { email, password } = this.state;
+    const { email, password, error, loading, success } = this.state;
+
+    if (loading) {
+      return <h6>...Logging in</h6>;
+    }
+    if (!error && success) {
+      return <Redirect to='/' />;
+    }
+
     return (
       <div id='login-container'>
         <h2> Login </h2>
+        {error && <h6>{error}</h6>}
         <form onSubmit={onSubmit} autoComplete='off'>
           <TextField
             id='standard-basic'
+            required={true}
             label='Email'
             value={email}
             onChange={onChange}
@@ -52,6 +81,7 @@ class Login extends React.Component {
           />
           <TextField
             id='standard-adornment-password'
+            required={true}
             label='Password'
             value={password}
             onChange={onChange}
@@ -63,7 +93,7 @@ class Login extends React.Component {
           <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ marginTop: '1rem' }}
           >
             Login
@@ -86,4 +116,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

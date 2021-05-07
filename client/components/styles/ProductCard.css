@@ -9,3 +9,164 @@
   height: 10rem;
   width: 10rem;
 }
+/* @import url('https://fonts.googleapis.com/css?family=Ubuntu'); */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* body {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  justify-content: center;
+  font-family: 'Ubuntu', sans-serif;
+} */
+
+h1 {
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+h1 > a {
+  color: #000;
+}
+.card {
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  height: 30rem;
+  overflow: hidden;
+  width: 30rem;
+  margin: 2rem;
+  position: relative;
+}
+
+.card > figure {
+  width: 90%;
+  margin: 100px auto 0 auto;
+}
+
+/* .card > figure > img {
+  width: 500rem;
+} */
+
+.product-photo {
+  height: 12rem;
+  width: 15rem;
+}
+.details {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  position: absolute;
+  top: 85%;
+  transition: box-shadow 0.3s ease-in-out, top 0.3s ease-in-out;
+}
+
+.card:hover .details {
+  /* controls transition when you hover over details */
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
+  top: 50%;
+}
+div.input-counter {
+  margin-bottom: 40px;
+}
+
+.details > .min-details,
+.details > .options,
+.details > .options > .options-size,
+.details > .options > .options-colors {
+  margin-bottom: 20px;
+}
+
+.details > .min-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details > .min-details > h1 > span {
+  color: #7b7b7b;
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.details > .options h1 {
+  margin-bottom: 5px;
+}
+
+.details > .options ul {
+  list-style-type: none;
+  display: flex;
+}
+
+.details > .options ul li {
+  border-radius: 50%;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  margin-right: 5px;
+  text-align: center;
+  width: 30px;
+}
+
+.options-size > ul > li {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.options-size > ul > li:hover {
+  background-color: #192a56;
+}
+
+.options-colors > ul > li {
+  border: none;
+}
+
+.options-colors > ul > li:nth-child(1) {
+  background-color: rgb(221, 221, 53);
+}
+
+.options-colors > ul > li:nth-child(2) {
+  background-color: #000;
+}
+
+.options-colors > ul > li:nth-child(3) {
+  background-color: #fb0000;
+}
+
+.options-colors > ul > li:nth-child(4) {
+  background-color: #ff69b4;
+}
+
+.options-colors > ul > li:nth-child(5) {
+  background-color: #192a56;
+}
+
+.btn {
+  background-color: #f50057;
+  border-radius: 5px;
+  color: #fff;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: capitalize;
+  width: 100%;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.btn:hover {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+div.card > div.number {
+  margin-bottom: 10px;
+}

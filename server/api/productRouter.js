@@ -1,12 +1,12 @@
 const express = require('express');
-
+const requireToken = require('../requireToken');
 const {
   models: { Product, Review, User },
 } = require('../db/models/associations');
 
 const productRouter = express.Router();
 
-productRouter.get('/', async (req, res, next) => {
+productRouter.get('/', requireToken, async (req, res, next) => {
   try {
     const products = await Product.findAll({
       include: {
@@ -23,18 +23,23 @@ productRouter.get('/', async (req, res, next) => {
   }
 });
 
-productRouter.post('/', async (req, res, next) => {
+productRouter.post('/', requireToken, async (req, res, next) => {
   try {
-    const { name, price } = req.body;
-    if (!req.body) res.sendStatus(400);
-    const newProduct = await Product.create({ name, price });
-    res.status(201).send(newProduct);
+    const { role } = req.user;
+    if (role === 'Admin') {
+      const { name, price } = req.body;
+      if (!req.body) res.sendStatus(400);
+      const newProduct = await Product.create({ name, price });
+      res.status(201).send(newProduct);
+    } else {
+      res.sendStatus(403);
+    }
   } catch (error) {
     next(error);
   }
 });
 
-productRouter.get('/:id', async (req, res, next) => {
+productRouter.get('/:id', requireToken, async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await Product.findOne({
@@ -54,32 +59,41 @@ productRouter.get('/:id', async (req, res, next) => {
   }
 });
 
-productRouter.put('/:id', async (req, res, next) => {
+productRouter.put('/:id', requireToken, async (req, res, next) => {
   if (!req.body) {
     res.sendStatus(400);
   }
-  // will need to update this with appropriate fields
-  const { name, price } = req.body;
+  const { role } = req.user;
+  if (role === 'Admin') {
+    const { name, price } = req.body;
 
-  try {
-    const { id } = req.params;
-    const product = await Product.findByPk(id);
-    const updatedProduct = await product.update({ name, price });
+    try {
+      const { id } = req.params;
+      const product = await Product.findByPk(id);
+      const updatedProduct = await product.update({ name, price });
 
-    res.status(200).send(updatedProduct);
-  } catch (ex) {
-    next(ex);
+      res.status(200).send(updatedProduct);
+    } catch (ex) {
+      next(ex);
+    }
+  } else {
+    res.sendStatus(403);
   }
 });
 
-productRouter.delete('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const product = await Product.findByPk(id);
-    await product.destroy();
-    res.sendStatus(204);
-  } catch (ex) {
-    next(ex);
+productRouter.delete('/:id', requireToken, async (req, res, next) => {
+  const { role } = req.user;
+  if (role === 'Admin') {
+    try {
+      const { id } = req.params;
+      const product = await Product.findByPk(id);
+      await product.destroy();
+      res.sendStatus(204);
+    } catch (ex) {
+      next(ex);
+    }
+  } else {
+    res.sendStatus(403);
   }
 });
 

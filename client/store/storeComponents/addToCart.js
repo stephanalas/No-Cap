@@ -1,6 +1,7 @@
 /* eslint no-underscore-dangle: 'off' */
 /* eslint no-console: 'off' */
 import axios from 'axios';
+import getToken from '../../components/utils/getToken';
 // action types
 const ADD_TO_CART = 'ADD_TO_CART';
 // action creator
@@ -14,6 +15,7 @@ const addToCart = (productId, userID) => async (dispatch) => {
     console.log('entered thunk');
     let response = await axios.get(`api/products/${productId}`);
     const productToAdd = response.data;
+    productToAdd.headers = getToken().headers;
     response = await axios.put(`/api/users/${userID}/Cart`, productToAdd);
   } catch (err) {
     console.log(err.response);

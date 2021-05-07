@@ -12,6 +12,7 @@ const {
   },
 } = require('../../../../server/db/models/associations');
 
+let token;
 describe('Review Routes', () => {
   beforeAll(async () => {
     await initDB();
@@ -44,6 +45,11 @@ describe('Review Routes', () => {
       stars: 5,
       body: 'What a great hat!',
     });
+    const response = await request.post('/api/login/auth').send({
+      email: 'jshmo@aol.com',
+      password: 'hello123',
+    });
+    token = response.body.token;
   });
 
   afterAll(async () => {
@@ -54,7 +60,7 @@ describe('Review Routes', () => {
     const body = 'What a great hat!';
     const stars = 5;
     const id = 1;
-    const response = await request.get(`/api/reviews/${id}`);
+    const response = await request.get(`/api/reviews/${id}`).set({ authorization: token });
     const data = JSON.parse(response.text);
 
     expect(data.stars).toBe(stars);
@@ -69,12 +75,14 @@ describe('Review Routes', () => {
     const body = 'What a terrible hat!';
     const stars = 0;
     const id = 1;
-    const response = await request.put(`/api/reviews/${id}`).send({
-      body,
-      stars,
-      userId: 1,
-      productId: 1,
-    });
+    const response = await request
+      .put(`/api/reviews/${id}`)
+      .send({
+        body,
+        stars,
+        productId: 1,
+      })
+      .set({ authorization: token });
     const data = JSON.parse(response.text);
 
     expect(data.stars).toBe(stars);
@@ -84,7 +92,11 @@ describe('Review Routes', () => {
 
   test('DELETE /api/reviews/:id', async (done) => {
     const id = 1;
-    const response = (await request.delete(`/api/reviews/${id}`)).status;
+    const response = (
+      await request.delete(`/api/reviews/${id}`).set({
+        authorization: token,
+      })
+    ).status;
     expect(response).toBe(204);
 
     done();

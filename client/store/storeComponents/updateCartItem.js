@@ -2,6 +2,7 @@
 /* eslint no-console: 'off' */
 
 import axios from 'axios';
+import getToken from '../../components/utils/getToken';
 
 // action types
 const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
@@ -23,11 +24,11 @@ const updateCartItem = (lineID, quantity, cartId, userId) => async (dispatch) =>
     const lineData = {
       lineId: lineID,
       quantity,
+      headers: getToken().headers,
     };
-    console.log(lineID, 'cart line id to change');
     const response = await axios.put(`api/cart/${cartId}/updateQuantity`, lineData);
     // const userCart = response.data;
-    const cart = await axios.get(`/api/users/${userId}/cart`);
+    const cart = await axios.get(`/api/users/${userId}/cart`, getToken());
     console.log(cart, 'users cart');
     const cartLineItem = response.data;
 

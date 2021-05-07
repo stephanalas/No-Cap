@@ -2,6 +2,7 @@
 /* eslint no-console: 'off' */
 
 import axios from 'axios';
+import getToken from '../../components/utils/getToken';
 
 // action type
 const GET_USERS = 'GET_USERS';
@@ -14,12 +15,10 @@ const _getUsers = (users) => ({
 // thunk
 const getUsers = () => async (dispatch) => {
   try {
-    const response = await axios.get('/api/users');
-    const users = response.data;
-    dispatch(_getUsers(users));
-  } catch (err) {
-    console.log('failed in getUsers thunk');
-    console.log(err.response);
+    const users = await axios.get('/api/users', getToken());
+    dispatch(_getUsers(users.data));
+  } catch (error) {
+    console.error('error in getUsers thunk!');
   }
 };
 

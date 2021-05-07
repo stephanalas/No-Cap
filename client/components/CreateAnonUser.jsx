@@ -20,6 +20,7 @@ class CreateAnonUser extends React.Component {
       this.props.createUser(anonUser);
     } else if (token) {
       this.props.getUser();
+      console.log('get user called in creatanonuser');
     }
   }
 
