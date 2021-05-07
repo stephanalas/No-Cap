@@ -140,7 +140,7 @@ class Cart extends React.Component {
           <Table>
         <TableHead>
             <TableRow>
-            <StyledTableCell style={{ width: 900 }} align="right">Total:</StyledTableCell>
+            <StyledTableCell style={{ width: '80%' }} align="right">Total:</StyledTableCell>
               <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
             </TableRow>
             </TableHead>

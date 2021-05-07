@@ -69,16 +69,14 @@ class CartLineItem extends React.Component {
         const {cartLineItem} = this.props;
         const {removeCartItem, cartTotal} = this.props;
         return (
-          <StyledTableRow key={cartLineItem.id}>
-            <StyledTableCell component="th" scope="row">
-            <img src={cartLineItem.product.photo} />
-              </StyledTableCell>
-              <StyledTableCell align="justify">
-              <Link to={`/Products/${cartLineItem.product.id}`}>
-               {cartLineItem.product.name}
-             </Link> 
-              </StyledTableCell>
-              <StyledTableCell align="center">
+          <StyledTableRow key={cartLineItem.id} >
+            <StyledTableCell colSpan={2} component="th" scope="row">
+              <img className = "cart-product-img"  src={cartLineItem.product.photo} />
+                <Link to={`/Products/${cartLineItem.product.id}`}>
+                {cartLineItem.product.name}
+              </Link> 
+            </StyledTableCell>
+            <StyledTableCell align="center">
               ${cartLineItem.product.price}
            </StyledTableCell>
            <StyledTableCell align="center">
