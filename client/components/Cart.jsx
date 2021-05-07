@@ -13,12 +13,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { removeCartItem } from '../store/storeComponents/removeCartItem';
 import { updateCartItem } from '../store/storeComponents/updateCartItem';
 import { getUser } from '../store/storeComponents/getUser';
+import { clearCart } from '../store/storeComponents/clearCart';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {StyledTableCell} from './utils/styledTableCell';
@@ -91,6 +90,7 @@ class Cart extends React.Component {
           `/api/orders/users/${this.props.user.id}`,
           this.props.cart.cart_line_items
         );
+        this.props.clearCart();
       } else {
         toast('There was an error placing your order. Please try again.', {
           type: 'error',
@@ -215,6 +215,7 @@ const mapDispatchToProps = (dispatch) => {
     updateCartItem: (cartLineId, quantity, cartId, userId) =>
       dispatch(updateCartItem(cartLineId, quantity, cartId, userId)),
     getUser: () => dispatch(getUser()),
+    clearCart: () => dispatch(clearCart()),
   };
 };
 
