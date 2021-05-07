@@ -1,5 +1,5 @@
-import React from "react";
-import "./styles/InputCounter.css";
+import React from 'react';
+import './styles/InputCounter.css';
 
 class InputCounter extends React.Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class InputCounter extends React.Component {
         <input
           className="inputCounter"
           type="text"
+          readOnly
           value={this.props.quantity}
         />
         <span className="plus" onClick={this.props.increment}>
