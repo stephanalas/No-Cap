@@ -21,6 +21,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { StyledTableCell } from './utils/styledTableCell';
+import getToken from './utils/getToken';
+
 
 class Cart extends React.Component {
   constructor() {
@@ -76,11 +78,16 @@ class Cart extends React.Component {
   async handleToken(token, addresses) {
     try {
       const { cartTotal } = this.state;
-      const response = await axios.post('/api/orders/checkout', {
-        token,
-        addresses,
-        cartTotal,
-      });
+      console.log(getToken(), 'in cart component handle token');
+      const response = await axios.post(
+        '/api/orders/checkout',
+        {
+          token,
+          addresses,
+          cartTotal,
+        },
+        getToken()
+      );
       const status = response.data;
       if (status === 'success') {
         toast('Your order went through! Check email for details.', {
@@ -88,7 +95,8 @@ class Cart extends React.Component {
         });
         await axios.post(
           `/api/orders/users/${this.props.user.id}`,
-          this.props.cart.cart_line_items
+          this.props.cart.cart_line_items,
+          getToken()
         );
         this.props.clearCart();
       } else {
@@ -109,6 +117,7 @@ class Cart extends React.Component {
       <div>
         <TableContainer component={Paper} style={{ height: 600 }}>
           <ToastContainer />
+
           <Table aria-label="spanning table">
             <TableHead>
               <TableRow>
@@ -142,6 +151,7 @@ class Cart extends React.Component {
           <Table>
             <TableHead>
               <TableRow>
+
                 <StyledTableCell style={{ width: 900 }} align="right">
                   Total:
                 </StyledTableCell>
@@ -153,6 +163,7 @@ class Cart extends React.Component {
           </Table>
         </TableContainer>
         <StripeCheckout
+
           stripeKey="pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop"
           token={this.handleToken}
           billingAddress

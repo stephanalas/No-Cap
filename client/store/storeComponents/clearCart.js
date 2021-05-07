@@ -5,7 +5,6 @@ const _clearCart = () => {
 };
 
 const clearCart = () => {
-  console.log('clear cart thunk');
   return async (dispatch) => {
     dispatch(_clearCart());
   };

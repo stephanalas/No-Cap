@@ -44,15 +44,15 @@ class App extends React.Component {
           <Route path='/Signup' component={Register} exact />
         ) : null}
         {this.props.user.role && this.props.user.role !== 'Anonymous' ? (
-          <Route path='/Logout' component={Logout} exact />
+          <Route path="/Logout" component={Logout} exact />
         ) : null}
-        <Route path='/login' component={Login} exact />
-        <Route path='/Products' component={AllProducts} exact />
-        <Route path='/Products/:id' component={SingleProduct} exact />
-        <Route path='/ShoppingCart' component={Cart} exact />
-        <Route path='/ForgotPassword' component={ForgotPassword} />
-        <Route path='/ResetPassword' component={ResetPassword} />
-        <Route path='/MyAccount' component={UserHomePage} />
+        <Route path="/login" component={Login} exact />
+        <Route path="/Products" component={AllProducts} exact />
+        <Route path="/Products/:id" component={SingleProduct} exact />
+        <Route path="/ShoppingCart" component={Cart} exact />
+        <Route path="/ForgotPassword" component={ForgotPassword} />
+        <Route path="/ResetPassword" component={ResetPassword} />
+        <Route path="/MyAccount" component={UserHomePage} />
       </HashRouter>
     );
   }

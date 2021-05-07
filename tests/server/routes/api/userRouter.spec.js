@@ -41,7 +41,7 @@ describe('User Routes', () => {
       inventory: 20,
       color: 'Black',
     });
-    await Order.bulkCreate([{ userId: 2 }, { userId: 2 }]);
+    await Order.bulkCreate([{ userId: 1 }, { userId: 1 }]);
 
     const response = await request.post('/api/login/auth').send({
       email: 'jshmo@aol.com',
@@ -69,13 +69,13 @@ describe('User Routes', () => {
     done();
   });
   test('GET /api/users/:id find', async (done) => {
-    let response = await request.get('/api/users/2');
+    let response = await request.get('/api/users/2').set({ authorization: adminToken });
     response = JSON.parse(response.text);
-    expect(response.firstName).toBe('Connie');
+    expect(response.firstName).toBe('Joe');
     done();
   });
   test('GET /api/users/:id order find', async (done) => {
-    let response = await request.get('/api/users/2');
+    let response = await request.get('/api/users/1').set({ authorization: adminToken });
     response = JSON.parse(response.text);
     expect(response.orders.length).toBe(2);
     done();
@@ -96,31 +96,19 @@ describe('User Routes', () => {
 
   test('PUT /api/users/:id updates a user with id', async (done) => {
     // requires post route to work
-    const userData = {
-      firstName: 'Michael',
-      lastName: 'Jordan',
-      email: 'mjordan2@hotmail.com',
-      password: 'password',
-    };
-    let response = await request.post('/api/users').send(userData);
-    const user = JSON.parse(response.text);
-    const newFirstName = 'Mike';
-    const newEmail = 'mjordan3@hotmail.com';
-    userData.firstName = newFirstName;
-    userData.email = newEmail;
-    userData.role = 'Admin';
+    response = await request
+      .put('/api/users/1')
+      .send({ firstName: 'NewAdmin', email: 'jshmo@aol.com' })
+      .set({ authorization: adminToken });
+    user = JSON.parse(response.text).user;
 
-    response = await request.put(`/api/users/${user.id}`).send(userData);
-    response = JSON.parse(response.text);
-    const { firstName, email, role } = response;
-    expect(firstName).toBe(userData.firstName);
-    expect(email).toBe(userData.email);
-    expect(role).toBe(userData.role);
+    const { firstName } = user;
+    expect(firstName).toBe('NewAdmin');
     done();
   });
 
   // authenticated route
-  test('AUTH DELETE /api/users/:id deletes a user where ID comes from JWT', async (done) => {
+  test('DELETE /api/users/:id deletes a user where ID comes from JWT', async (done) => {
     const userData = {
       firstName: 'Michael',
       lastName: 'Jordan',
@@ -166,7 +154,10 @@ describe('User Routes', () => {
       quantity: 4,
     });
 
-    let response = await request.post(`/api/users/${user.id}/orders`).send({ total: 57.5 });
+    let response = await request
+      .post(`/api/users/${user.id}/orders`)
+      .send({ total: 57.5 })
+      .set({ authorization: adminToken });
     response = JSON.parse(response.text);
 
     expect(response.orderLineItems.length).toBe(2);
@@ -174,13 +165,6 @@ describe('User Routes', () => {
   });
 
   test('GET /api/users/:id/orders gets all of a users order', async (done) => {
-    const user = await User.create({
-      firstName: 'Steve',
-      lastName: 'Rogers',
-      email: 'TheCaptain@aol.com',
-      password: 'america',
-    });
-
     await Product.create({
       name: 'other hat',
       category: 'Fez',
@@ -190,11 +174,11 @@ describe('User Routes', () => {
     });
     await Order.bulkCreate([
       {
-        userId: user.id,
+        userId: 1,
         total: 19.95,
       },
       {
-        userId: user.id,
+        userId: 1,
         total: 99.75,
       },
     ]);
@@ -221,11 +205,11 @@ describe('User Routes', () => {
       subTotal: 20.0,
     });
 
-    let response = await request.get(`/api/users/${user.id}/orders`);
+    let response = await request.get('/api/users/1/orders').set({ authorization: adminToken });
     response = JSON.parse(response.text);
 
     // console.log(response);
-    expect(response.length).toBe(2);
+    expect(response.length).toBe(5);
     done();
   });
 
@@ -290,7 +274,9 @@ describe('User Routes', () => {
     const user = await User.findByPk(1);
     const cart = await user.getCart();
 
-    const response = await request.get(`/api/users/${user.id}/cart`);
+    const response = await request
+      .get(`/api/users/${user.id}/cart`)
+      .set({ authorization: adminToken });
     const data = JSON.parse(response.text);
     expect(data.id).toBe(cart.id);
     done();
@@ -305,10 +291,10 @@ describe('User Routes', () => {
       .post(`/api/users/${user.id}/products/${product.id}/reviews`)
       .send({
         productId: product.id,
-        userId: user.id,
         stars,
         body,
-      });
+      })
+      .set({ authorization: adminToken });
     const data = JSON.parse(response.text);
     expect(data.stars).toBe(5);
     expect(data.body).toBe(body);

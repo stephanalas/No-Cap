@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const { DataTypes } = require('sequelize');
 const { db } = require('../index');
 const Cart = require('./Cart');
-const CartLineItem = require('./associations');
 
 const User = db.define('user', {
   id: {
