@@ -43,8 +43,4 @@ text-align: left;
   padding-right: .8%;
 }
 
- @media (max-width: 845px) {
-  .cart, tr, td, tbody, thead {
-    font-size: 14px;
-}
- }
+ 

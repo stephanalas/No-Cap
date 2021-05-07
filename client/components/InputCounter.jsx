@@ -13,7 +13,7 @@ class InputCounter extends React.Component {
         <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ height: '1.5rem' }}
             onClick={this.props.decrement}
           >
@@ -27,7 +27,7 @@ class InputCounter extends React.Component {
         <Button
             variant='contained'
             type='submit'
-            color='secondary'
+            color='primary'
             style={{ height: '1.5rem'}}
             onClick={this.props.increment}
           >
