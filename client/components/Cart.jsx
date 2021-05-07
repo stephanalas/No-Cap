@@ -15,12 +15,13 @@ import { updateCartItem } from '../store/storeComponents/updateCartItem';
 import { getUser } from '../store/storeComponents/getUser';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
+import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {StyledTableCell} from './utils/styledTableCell';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 class Cart extends React.Component {
   constructor() {
@@ -107,9 +108,9 @@ class Cart extends React.Component {
 
     return cart_line_items ? (
       <div>
-      <TableContainer className='cart' component={Paper} style={{ height: 600 }} >
+      <TableContainer component={Paper} style={{ height: 600 }} >
          <ToastContainer />
-        <Table aria-label="spanning table" style={{ minWidth: "340px" }}stickyHeader>
+        <Table aria-label="spanning table" stickyHeader>
           <TableHead>
             <TableRow>
             <StyledTableCell colSpan={6} align="center">Cart <span className='cart-amt'>{totalAmt}</span></StyledTableCell>
@@ -131,10 +132,18 @@ class Cart extends React.Component {
               />
              ))}
             <TableRow>
-              <StyledTableCell align="right" colSpan={5}>Total:</StyledTableCell>
-              <StyledTableCell align="right" colSpan={1}><AttachMoneyIcon />{cartTotal.toFixed(2)}</StyledTableCell>
             </TableRow>
-        </TableBody>
+            </TableBody>
+        </Table>
+        </TableContainer>
+        <TableContainer>
+          <Table>
+        <TableHead stickyHeader>
+            <TableRow>
+            <StyledTableCell style={{ width: 1200 }} align="right">Total:</StyledTableCell>
+              <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
+            </TableRow>
+            </TableHead>
         </Table>
       </TableContainer>
       <StripeCheckout
@@ -151,6 +160,43 @@ class Cart extends React.Component {
            <h2>Loading</h2>
          </div>
     );
+
+    // return cart_line_items ? (
+    //   <div>
+    //     <div>
+    //       <h3>
+    //         Cart <span className='cart-amt'>{totalAmt}</span>
+    //       </h3>
+    //     </div>
+    //     <ToastContainer />
+    //     <div id='cart-list'>
+    //       <ul className='cart-container1'>
+    //         {cart_line_items.map((cartItem) => (
+    //           <CartLineItem
+    //             key={cartItem.id}
+    //             cartLineItem={cartItem}
+    //             cartTotal={cartTotal}
+    //           />
+    //         ))}
+    //       </ul>
+    //     </div>
+    //     <div className='checkout'>
+    //       <h3>Total: ${cartTotal.toFixed(2)}</h3>
+    //     </div>
+    //     <StripeCheckout
+    //       stripeKey='pk_test_51ImrllFdJ30zvHzoB68wryuf9eFrZxnuVWhUaUW0eFCvTMB0MQFZIqpZG7h3E6la7LCbjV85MN95VUotf1eQEEVW00XYb4Fuop'
+    //       token={this.handleToken}
+    //       billingAddress
+    //       shippingAddress
+    //       amount={this.state.cartTotal * 100}
+    //       name='NoCap Order'
+    //     />
+    //   </div>
+    // ) : (
+    //   <div>
+    //     <h2>Loading</h2>
+    //   </div>
+    // );
   }
 }
 
