@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-
+import { connect, useSelector } from 'react-redux';
 import PersonIcon from '@material-ui/icons/Person';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -10,11 +9,12 @@ import './styles/UserHomePage.css';
 import DeleteUser from './DeleteUser';
 import UserProfile from './UserProfile';
 import Admin from './Admin';
+import PastOrders from './PastOrders';
 
 export default () => {
   const [selected, setSelected] = useState('Edit Profile');
   const userRole = useSelector((state) => state.user.role);
-
+  const userID = useSelector((state) => state.user.id);
   const [isAdmin] = useState(userRole === 'Admin' ? true : false);
 
   function getSelected(ev) {
@@ -29,6 +29,9 @@ export default () => {
       }
     }
     return null;
+  }
+  function test() {
+    console.log('hello this is the test function');
   }
   return (
     <div id='user-dashboard-container'>
@@ -49,7 +52,10 @@ export default () => {
         </div>
         <div
           className='link-box'
-          onClick={(ev) => setSelected(getSelected(ev))}
+          onClick={(ev) => {
+            test();
+            setSelected(getSelected(ev));
+          }}
         >
           <DeleteForeverIcon />
           <h6>Delete My Account</h6>
@@ -65,7 +71,7 @@ export default () => {
       <div id='user-dashboard-content-container'>
         {selected === 'Delete My Account' ? <DeleteUser /> : null}
         {selected === 'Edit Profile' ? <UserProfile /> : null}
-        {selected === 'View Orders' ? <h3>View my orders</h3> : null}
+        {selected === 'View Orders' ? <PastOrders /> : null}
         {selected === 'Admin' ? <Admin /> : null}
       </div>
     </div>
