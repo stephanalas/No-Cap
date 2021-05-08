@@ -1,5 +1,6 @@
 import axios from 'axios';
 import getToken from '../../components/utils/getToken';
+
 const GET_USER_ORDERS = 'GET_USER_ORDERS';
 
 const _getUserOrder = (orders) => {

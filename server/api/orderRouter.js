@@ -1,13 +1,15 @@
 const express = require('express');
 const stripe = require('stripe')(
-  'sk_test_51ImrllFdJ30zvHzoR1wb9jEeihRFQM0oDO6mak2DaCthEfUxj2UGI76RHQWWsO24pDSF5SODdnN2yiiBhcH3GDFB00BYZ5q0ri'
+  'sk_test_51ImrllFdJ30zvHzoR1wb9jEeihRFQM0oDO6mak2DaCthEfUxj2UGI76RHQWWsO24pDSF5SODdnN2yiiBhcH3GDFB00BYZ5q0ri',
 );
 const { v4 } = require('uuid');
 
 const requireToken = require('../requireToken');
 
 const {
-  models: { Order, CartLineItem, Cart, User },
+  models: {
+    Order, CartLineItem, Cart, User,
+  },
 } = require('../db/models/associations');
 const OrderLineItem = require('../db/models/OrderLineItem');
 
@@ -146,7 +148,7 @@ orderRouter.post('/checkout', requireToken, async (req, res, next) => {
       },
       {
         idempotencyKey,
-      }
+      },
     );
     // console.log('Charge:', { charge });
     status = 'success';
