@@ -15,10 +15,13 @@ const _removeCartItem = (cart) => ({
 // thunk
 const removeCartItem = (cartId, lineId) => async (dispatch) => {
   try {
-    const response = await axios.put(`/api/cart/${cartId}/removeCartItem`, {
-      lineId,
-      headers: getToken().headers,
-    });
+    const response = await axios.put(
+      `/api/cart/${cartId}/removeCartItem`,
+      {
+        lineId,
+      },
+      getToken(),
+    );
     const updatedCart = response.data;
     dispatch(_removeCartItem(updatedCart));
   } catch (err) {
