@@ -5,6 +5,7 @@ import usersReducer from './usersReducer';
 import cartReducer from './cartReducer';
 import reviewReducer from './reviewReducer';
 import errorReducer from './errorReducer';
+import orderReducer from './orderReducer';
 
 const megaReducer = combineReducers({
   user: userReducer,
@@ -13,6 +14,7 @@ const megaReducer = combineReducers({
   cart: cartReducer,
   reviews: reviewReducer,
   error: errorReducer,
+  orders: orderReducer,
 });
 
 export default megaReducer;
