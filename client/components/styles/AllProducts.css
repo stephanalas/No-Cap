@@ -31,3 +31,13 @@ body * {
   /* justify-content: right; */
   justify-content: flex-end;
 }
+@media (max-width: 525px) {
+  .all-products-view {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+  .all-products-main {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+}

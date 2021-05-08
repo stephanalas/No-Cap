@@ -8,9 +8,20 @@ body {
   /* background-color: #f0f0f0; */
 }
 
+#panel1bh-content > div {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: right;
+  align-items: flex-start;
+  text-align: left;
+}
 nav .nav-wrapper form,
 nav .nav-wrapper form .input-field {
   height: 100%;
+}
+
+.collapsible-filter-menu {
+  width: 100%;
 }
 
 .collapsible {
@@ -23,10 +34,9 @@ nav .nav-wrapper form .input-field {
 }
 
 .collapsible-header {
-  background-color: dodgerblue;
+  background-color: #3f51b5;
   color: #fff;
 }
-
 .filter-container ul {
   padding: 1rem 2rem;
 }
@@ -37,7 +47,7 @@ nav .nav-wrapper form .input-field {
 }
 
 .search-title-filter {
-  background-color: dodgerblue;
+  background-color: #3f51b5;
 
   color: #fff;
 }
@@ -80,4 +90,7 @@ div.input-field > label {
 }
 .icon {
   /* background: url('../../../server/public/searchIcon.png'); */
+}
+
+@media (max-width: 525px) {
 }

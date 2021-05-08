@@ -3,6 +3,7 @@ span {
 }
 .number {
   margin: 2px;
+  margin-bottom: 1rem;
 }
 .minus,
 .plus {

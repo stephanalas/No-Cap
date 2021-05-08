@@ -1,15 +1,23 @@
 import React from 'react';
 import './styles/SortProducts.css';
+import { Select, InputLabel } from '@material-ui/core';
 
 const SortProducts = (props) => {
   return (
-    <select class="box">
-      <i class="fas fa-arrow-up"></i>
-      <option>Price</option>
-      <option>Tea</option>
-      <option>Juice</option>
-      <option selected>Most Revelvant</option>
-    </select>
+    <Select
+      className="box"
+      // placeholder="sort by..."
+      onChange={props.handleSort}
+      defaultValue="default"
+    >
+      <option value="lowest-price">Lowest Price</option>
+      <option value="highest-price">Highest Price</option>
+      {/* <option value="most-reviewed">Most Reviewed</option>
+      <option value="higest-rating">Higest Rating</option> */}
+      <option value="default" disabled>
+        Sort by...
+      </option>
+    </Select>
   );
 };
 
