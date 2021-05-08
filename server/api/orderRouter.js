@@ -65,15 +65,18 @@ orderRouter.post('/users/:userId', requireToken, async (req, res, next) => {
     // console.log('log in api/orders/users/id', id, req.body);
     // const { userId } = req.params;
     const userId = id;
-    const itemList = req.body;
-    const orderTotal = itemList.reduce((acc, curr) => {
+    const { items } = req.body;
+    const { user } = req.body;
+    const orderTotal = items.reduce((acc, curr) => {
       return parseFloat(acc) + parseFloat(curr.subTotal);
     }, 0);
     const newOrder = await Order.create({
       userId,
       total: orderTotal,
+      firstName: user.firstName,
+      lastName: user.lastName,
     });
-    itemList.map(async (item) => {
+    items.map(async (item) => {
       console.log(item.product.photo);
       console.log(item.product.name);
       await OrderLineItem.create({
@@ -86,8 +89,8 @@ orderRouter.post('/users/:userId', requireToken, async (req, res, next) => {
       });
     });
     await CartLineItem.destroy({ where: {} });
-    const user = await User.findOne({ where: { id: userId } });
-    const userCart = await Cart.findOne({ where: { id: user.cartId } });
+    const userFound = await User.findOne({ where: { id: userId } });
+    const userCart = await Cart.findOne({ where: { id: userFound.cartId } });
     userCart.total = 0;
     await userCart.save();
     res.status(200).send();
@@ -128,7 +131,7 @@ orderRouter.post('/checkout', requireToken, async (req, res, next) => {
     const idempotencyKey = v4();
     const charge = await stripe.charges.create(
       {
-        amount: cartTotal * 100,
+        amount: Math.floor(cartTotal * 100),
         currency: 'usd',
         customer: customer.id,
         receipt_email: token.email,
