@@ -149,11 +149,16 @@ class Cart extends React.Component {
         </TableContainer>
         <TableContainer>
           <Table>
-        <TableHead>
-            <TableRow>
-            <StyledTableCell style={{ width: '80%' }} align="right">Total:</StyledTableCell>
-              <StyledTableCell align="right">${cartTotal.toFixed(2)}</StyledTableCell>
-            </TableRow>
+            <TableHead>
+              <TableRow>
+
+                <StyledTableCell style={{ width: 900 }} align="right">
+                  Total:
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  ${cartTotal.toFixed(2)}
+                </StyledTableCell>
+              </TableRow>
             </TableHead>
           </Table>
         </TableContainer>

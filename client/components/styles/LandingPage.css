@@ -106,7 +106,7 @@ li {
 .carousel__slide {
   position: relative;
   flex: 0 0 100%;
-  width: 80%;
+  width: 100%;
   background-color: white;
   counter-increment: item;
 }
@@ -230,20 +230,7 @@ li {
 
 @media (min-width: 800px) {
   .carousel {
-    position: fixed;
-    width: 1200px;
+    width: 800px;
     height: 800px;
-    top: 10%;
-    left:15%;
-  }
-}
-
-@media (max-width: 800px) {
-  .carousel {
-    position: absolute;
-    width: 70%;
-    height: 800px;
-    top: 10%;
-    left:15%;
   }
 }

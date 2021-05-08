@@ -6,9 +6,8 @@
   width: 100%;
 }
 .cart-line-item-photo {
-  width: 5rem;
-  height: 5rem;
-  margin-right: 1rem;
+  width: 8rem;
+  height: 8rem;
 }
 .cart-info {
   display: flex;

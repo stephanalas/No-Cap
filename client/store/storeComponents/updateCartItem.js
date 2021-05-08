@@ -24,9 +24,8 @@ const updateCartItem = (lineID, quantity, cartId, userId) => async (dispatch) =>
     const lineData = {
       lineId: lineID,
       quantity,
-      headers: getToken().headers,
     };
-    const response = await axios.put(`api/cart/${cartId}/updateQuantity`, lineData);
+    const response = await axios.put(`api/cart/${cartId}/updateQuantity`, lineData, getToken());
     // const userCart = response.data;
     const cart = await axios.get(`/api/users/${userId}/cart`, getToken());
     console.log(cart, 'users cart');
