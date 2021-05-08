@@ -26,9 +26,9 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    // if (!this.props.user.email) {
-    //   this.props.getUser();
-    // }
+    if (!this.props.user.id) {
+      this.props.getUser();
+    }
 
     const { firstName, lastName, email, address, role, id } = this.props.user;
     this.setState({
