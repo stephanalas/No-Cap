@@ -17,10 +17,9 @@ const addReview = (productId, userId, stars, body) => async (dispatch) => {
       userId,
       stars,
       body,
-      headers: getToken().headers,
     };
 
-    let newReview = await axios.post('api/reviews', payload);
+    let newReview = await axios.post('api/reviews', payload, getToken());
     newReview = newReview.data;
     dispatch(_addReview(newReview));
     window.location.reload();
