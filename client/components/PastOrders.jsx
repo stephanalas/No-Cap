@@ -12,7 +12,6 @@ class PastOrders extends React.Component {
 
   render() {
     const orders = this.props.orders;
-    console.log(orders);
     if (orders.length !== 0) {
       return orders.map((order) => {
         return <OrderCard key={order.id} order={order} />;

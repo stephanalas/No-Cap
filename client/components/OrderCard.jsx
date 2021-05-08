@@ -10,6 +10,15 @@ import { StyledTableCell } from './utils/styledTableCell';
 class OrderCard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      fulfilled: false,
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState((prevState) => ({ fulfilled: !prevState.fulfilled }));
+    console.log(this.state);
   }
 
   render() {
@@ -20,7 +29,27 @@ class OrderCard extends React.Component {
           <Table>
             <TableHead>
               Current Order Status:{this.props.order.status}
+              {this.props.role === 'Admin' ? (
+                <button
+                  type='button'
+                  onClick={() => {
+                    this.handleClick();
+                  }}
+                >
+                  Change Status
+                </button>
+              ) : (
+                ''
+              )}
             </TableHead>
+            {this.props.role === 'Admin' ? (
+              <TableHead>
+                Customer Name: {this.props.order.firstName}{' '}
+                {this.props.order.lastName}
+              </TableHead>
+            ) : (
+              ''
+            )}
             <TableHead>
               Items Ordered:{this.props.order.order_line_items.length}
             </TableHead>
@@ -31,8 +60,8 @@ class OrderCard extends React.Component {
                     <img
                       src={item.photo}
                       alt={item.name}
-                      width='500'
-                      height='500'
+                      width='100rem'
+                      height='100rem'
                     />
                   </StyledTableCell>
                   <StyledTableCell>Product Name:{item.name}</StyledTableCell>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './styles/Admin.css';
 import AllUsers from './AllUsers';
+import AllOrders from './AllOrders';
 import authentication from './utils/authentication';
 
 class Admin extends Component {
@@ -29,16 +30,16 @@ class Admin extends Component {
     const { role } = this.state;
     return role === 'Admin' ? (
       <div>
-        <div className="multi-button">
-          <button type="button" onClick={() => this.changeDisplay('users')}>
+        <div className='multi-button'>
+          <button type='button' onClick={() => this.changeDisplay('users')}>
             All Users
           </button>
-          <button type="button" onClick={() => this.changeDisplay('orders')}>
+          <button type='button' onClick={() => this.changeDisplay('orders')}>
             All Orders
           </button>
         </div>
         <div>
-          {this.state.display === 'users' ? <AllUsers /> : <li>Potato</li>}
+          {this.state.display === 'users' ? <AllUsers /> : <AllOrders />}
         </div>
       </div>
     ) : (

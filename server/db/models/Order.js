@@ -12,6 +12,12 @@ const Order = db.define('order', {
     allowNull: false,
     defaultValue: 'Processing',
   },
+  firstName: {
+    type: Sequelize.STRING,
+  },
+  lastName: {
+    type: Sequelize.STRING,
+  },
 });
 
 module.exports = Order;
