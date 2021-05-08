@@ -9,6 +9,7 @@ import setFilters from './utils/setFilters';
 import clearCheckboxes from './utils/clearCheckboxes';
 import Filter from './Filter';
 import SortProducts from './SortProducts';
+import { InputLabel } from '@material-ui/core';
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class AllProducts extends React.Component {
       products: [],
       filterOptions: {},
       filteredProducts: [],
-      sortOption: '',
+      sortMethod: '',
     };
     this.onChange = this.onChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -33,7 +34,6 @@ class AllProducts extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.products.length) {
-      this.props.getUser();
       this.setState({
         ...this.state,
         filteredProducts: this.props.products,
@@ -59,7 +59,42 @@ class AllProducts extends React.Component {
     }
   }
   handleSort(ev) {
-    console.dir(ev.target);
+    const sortMethod = ev.target.value;
+
+    const { filteredProducts } = this.state;
+    console.log(sortMethod);
+    this.setState({ ...this.state, sortMethod });
+    console.log('state sortMethod', this.state.sortMethod);
+    let sortedProducts;
+    if (sortMethod.indexOf('price')) {
+      if (sortMethod.startsWith('l'))
+        // ascending order
+        sortedProducts = filteredProducts.sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+      // descending order
+      else
+        sortedProducts = filteredProducts.sort(
+          (a, b) => parseFloat(b.price) - parseFloat(a.price)
+        );
+    }
+    // else {
+    //   console.log('you');
+    //   if (sortMethod.indexOf('most-reviewed')) {
+    //     sortedProducts = filteredProducts.sort((a, b) => {
+    //       console.log('yo');
+    //       a.reviews.length - b.reviews.length;
+    //     });
+    //   } else if (sortMethod.indexOf('rating')) {
+    //     sortedProducts = filteredProducts.sort((a, b) => a.rating - b.rating);
+    //   } else {
+    //     sortedProducts = filteredProducts;
+    //   }
+    // }
+    this.setState({
+      ...this.state,
+      filteredProducts: sortedProducts,
+    });
   }
   handleClick(ev) {
     const { filterOptions } = this.state;
@@ -84,8 +119,11 @@ class AllProducts extends React.Component {
   }
 
   search(input) {
-    if (input.length) {
-      const newProductsList = this.props.products.filter((product) => {
+    if (!input.length) {
+      console.log(this.props.products, 'called from search, no input length');
+      this.setState({ ...this.state, filteredProducts: this.props.products });
+    } else {
+      const newProductsList = this.state.filteredProducts.filter((product) => {
         const category = product.category.toLowerCase();
         const color = product.color.toLowerCase();
         const name = product.name.toLowerCase().split(' ');
@@ -119,9 +157,7 @@ class AllProducts extends React.Component {
     const products = this.state.filteredProducts;
     return (
       <div className="all-products-view">
-        <div className="sort-section">
-          <SortProducts handleSort={this.handleSort} />
-        </div>
+        <SortProducts handleSort={this.handleSort} />
         <div className="all-products-main">
           <Filter
             search={this.search}

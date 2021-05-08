@@ -68,7 +68,7 @@ h1 > a {
 .card:hover .details {
   /* controls transition when you hover over details */
   box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
-  top: 50%;
+  top: 60%;
 }
 div.input-counter {
   margin-bottom: 40px;

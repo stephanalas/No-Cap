@@ -82,7 +82,7 @@ export default (products, {
   if (priceRanges.length) {
     filteredProducts = filterByPrice(priceRanges, filteredProducts);
   }
-  if (avgRatingIntegers.length) {
+  if (avgRating.length) {
     filteredProducts = filterByRating(avgRatings, filteredProducts);
   }
   if (category.length) {
