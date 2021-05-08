@@ -11,24 +11,30 @@ class OrderCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fulfilled: false,
+      fulfilled: this.props.order.status,
     };
     this.handleClick = this.handleClick.bind(this);
   }
+  componentDidUpdate(prevProps, prevState) {}
 
   handleClick() {
-    this.setState((prevState) => ({ fulfilled: !prevState.fulfilled }));
-    console.log(this.state);
+    if (this.state.fulfilled === 'Processing') {
+      this.setState({ fulfilled: 'Fulfilled' });
+    } else if (this.state.fulfilled === 'Fulfilled') {
+      this.setState({ fulfilled: 'Processing' });
+    }
+    console.log(this.state.fulfilled);
   }
 
   render() {
     console.log('in render', this.props);
+    let fulfilledStatus = this.state.fulfilled;
     return (
       <div>
         <TableContainer>
           <Table>
             <TableHead>
-              Current Order Status:{this.props.order.status}
+              Current Order Status:{fulfilledStatus}
               {this.props.role === 'Admin' ? (
                 <button
                   type='button'
