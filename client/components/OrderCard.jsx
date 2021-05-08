@@ -14,8 +14,8 @@ class OrderCard extends React.Component {
         <div>Items Ordered:{this.props.order.order_line_items.length}</div>
         {this.props.order.order_line_items.map((item) => {
           return (
-            <div>
-              <img src={item.photo} />
+            <div key={item.name}>
+              <img src={item.photo} alt={item.name} width='500' height='500' />
               <div>Product Name:{item.name}</div>
               <div>Product Unit Price:{item.unitPrice}</div>
               <div>Quantity Ordered:{item.quantity}</div>
