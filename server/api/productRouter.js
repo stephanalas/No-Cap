@@ -3,7 +3,7 @@ const requireToken = require('../requireToken');
 const {
   models: { Product, Review, User },
 } = require('../db/models/associations');
-
+const { db } = require('../db');
 const productRouter = express.Router();
 
 productRouter.get('/', requireToken, async (req, res, next) => {
@@ -96,5 +96,30 @@ productRouter.delete('/:id', requireToken, async (req, res, next) => {
     res.sendStatus(403);
   }
 });
+productRouter.post('/sorted', async (req, res, next) => {
+  try {
+    const { sortBy } = req.body;
+    const index = sortBy.indexOf('-');
+    let column = sortBy.slice(index + 1);
+    const sort = sortBy.slice(0, index);
+    let products;
+    if (column !== 'reviewed') {
+      if (sort === 'highest') {
+        products = await Product.findAll({
+          order: [['price', 'DESC']],
+        });
+        return res.send(products);
+      } else {
+        products = await Product.findAll({
+          order: [['price', 'ASC']],
+        });
+        return res.send(products);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+productRouter.get('/filtered', (req, res, next) => {});
 
 module.exports = productRouter;

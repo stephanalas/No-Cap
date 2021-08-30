@@ -10,13 +10,19 @@ import clearCheckboxes from './utils/clearCheckboxes';
 import Filter from './Filter';
 import SortProducts from './SortProducts';
 import { InputLabel } from '@material-ui/core';
+import axios from 'axios';
 
 class AllProducts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       products: [],
-      filterOptions: {},
+      filterOptions: {
+        category: [],
+        color: [],
+        rating: [],
+        range: [],
+      },
       filteredProducts: [],
       sortMethod: '',
     };
@@ -41,80 +47,78 @@ class AllProducts extends React.Component {
       });
     }
   }
+  // handles filter component checkboxes
   onChange(ev) {
-    const { filterOptions } = this.state;
-    // sets filter option, if filterOptions[ev.target.name] exist then just toggles the value for that key
-    if (!filterOptions[ev.target.name]) {
+    const index = ev.target.name.indexOf('-');
+    const optionCategory = ev.target.name.slice(0, index);
+    let option = ev.target.name.slice(index + 1);
+    const filterOptions = this.state.filterOptions;
+    console.log(filterOptions);
+    const getPriceRange = (targetName) => {
+      return targetName
+        .slice(index + 1)
+        .split(', ')
+        .map((int) => {
+          console.log(int);
+          if (isNaN(parseInt(int))) return null;
+          else return parseInt(int);
+        });
+    };
+
+    if (option.includes(',')) option = getPriceRange(ev.target.name);
+
+    // toggled on
+    if (ev.target.checked) {
+      // if the index is found then we aren't dealing with price range options
+
+      filterOptions[optionCategory].push(option);
       this.setState({
-        ...this.state,
-        filterOptions: { ...filterOptions, [ev.target.name]: true },
+        filterOptions,
       });
     } else {
-      const boolean = filterOptions[ev.target.name];
-
-      this.setState({
-        ...this.state,
-        filterOptions: { ...filterOptions, [ev.target.name]: !boolean },
-      });
+      // toggled off
+      if (optionCategory === 'range') {
+        const updatedRange = filterOptions[optionCategory].filter(
+          (val) => val[0] !== option[0] && val[1] !== option[1]
+        );
+        this.setState({
+          filterOptions: {
+            ...filterOptions,
+            range: updatedRange,
+          },
+        });
+      } else {
+        const updatedFilterOptions = filterOptions[optionCategory].filter(
+          (opt) => opt !== option
+        );
+        this.setState({
+          filterOptions: {
+            ...filterOptions,
+            [optionCategory]: updatedFilterOptions,
+          },
+        });
+      }
     }
   }
-  handleSort(ev) {
-    const sortMethod = ev.target.value;
-
-    const { filteredProducts } = this.state;
-    console.log(sortMethod);
-    this.setState({ ...this.state, sortMethod });
-    console.log('state sortMethod', this.state.sortMethod);
-    let sortedProducts;
-    if (sortMethod.indexOf('price')) {
-      if (sortMethod.startsWith('l'))
-        // ascending order
-        sortedProducts = filteredProducts.sort(
-          (a, b) => parseFloat(a.price) - parseFloat(b.price)
-        );
-      // descending order
-      else
-        sortedProducts = filteredProducts.sort(
-          (a, b) => parseFloat(b.price) - parseFloat(a.price)
-        );
+  async handleSort(ev) {
+    try {
+      if (ev.target.value !== 'default') {
+        console.log(ev.target.value);
+        const response = await axios.post('/api/products/sorted', {
+          sortBy: ev.target.value,
+        });
+        this.setState({ filteredProducts: response.data });
+      }
+    } catch (error) {
+      console.log(error);
     }
-    // else {
-    //   console.log('you');
-    //   if (sortMethod.indexOf('most-reviewed')) {
-    //     sortedProducts = filteredProducts.sort((a, b) => {
-    //       console.log('yo');
-    //       a.reviews.length - b.reviews.length;
-    //     });
-    //   } else if (sortMethod.indexOf('rating')) {
-    //     sortedProducts = filteredProducts.sort((a, b) => a.rating - b.rating);
-    //   } else {
-    //     sortedProducts = filteredProducts;
-    //   }
-    // }
-    this.setState({
-      ...this.state,
-      filteredProducts: sortedProducts,
-    });
   }
-  handleClick(ev) {
-    const { filterOptions } = this.state;
-    // if the user had checkboxes clicked and then deselects every checkbox and hits apply filters it will set the state of products to all products
-    if (Object.values(filterOptions).every((value) => value === false)[0]) {
-      this.setState({ ...this.state, products: this.props.products });
-    } else {
-      // sets the filters, returns an object in this format
-      // {
-      //  color: [...aBunchOfColors],
-      //  category: [...AlotOfCategories],
-      //  priceRange: [...PriceRanges]
-      //  avgRating: [...AvgRating]
-      // }             VVVVVVVV
-      const filters = setFilters(filterOptions);
-
-      // filters the products based on whats in the filters object
-      const filteredProducts = productFilter(this.props.products, filters);
-
-      this.setState({ ...this.state, filteredProducts });
+  async handleClick(ev) {
+    try {
+      const filterOptions = this.state.filterOptions;
+      await axios.get('/api/products/filtered');
+    } catch (error) {
+      console.log(error);
     }
   }
 

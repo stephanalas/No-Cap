@@ -47,7 +47,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Beanie"
+                name="category-Beanie"
                 className="filter-checkbox filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -57,7 +57,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Beret"
+                name="category-Beret"
                 className="filter-checkbox  filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -67,7 +67,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Baseball Hat"
+                name="category-Baseball Hat"
                 className="filter-checkbox filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -77,7 +77,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Fedora"
+                name="category-Fedora"
                 className="filter-checkbox filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -87,7 +87,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Cowboy Hat"
+                name="category-Cowboy Hat"
                 className="filter-checkbox filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -97,7 +97,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Fez"
+                name="category-Fez"
                 className="filter-checkbox filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -107,7 +107,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Top Hat"
+                name="category-Top Hat"
                 className="filter-checkbox filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -117,7 +117,7 @@ class Filter extends React.Component {
             <Typography>
               <input
                 type="checkbox"
-                name="Other"
+                name="category-Other"
                 className="filter-checkbox filled-in"
                 defaultChecked={false}
                 onChange={onChange}
@@ -145,7 +145,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="Black"
+                name="color-Black"
               />{' '}
               Black
             </Typography>
@@ -155,7 +155,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="Brown"
+                name="color-Brown"
               />{' '}
               Brown
             </Typography>
@@ -165,7 +165,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="Red"
+                name="color-Red"
               />{' '}
               Red
             </Typography>
@@ -175,7 +175,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="Green"
+                name="color-Green"
               />{' '}
               Green
             </Typography>
@@ -185,7 +185,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="Blue"
+                name="color-Blue"
               />{' '}
               Blue
             </Typography>
@@ -195,7 +195,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="Other-color"
+                name="color-Other"
               />{' '}
               Other
             </Typography>
@@ -221,7 +221,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="0, 15"
+                name="range-0, 15"
               />{' '}
               Under $15
             </Typography>
@@ -232,7 +232,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="15, 50"
+                name="range-15, 50"
               />{' '}
               $15 to $50
             </Typography>
@@ -243,7 +243,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="50, null"
+                name="range-50, null"
               />{' '}
               $50 & Above
             </Typography>
@@ -269,7 +269,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="5"
+                name="rating-5"
               />{' '}
               5 Stars & Above
             </Typography>
@@ -280,7 +280,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="4"
+                name="rating-4"
               />{' '}
               4 Stars & Above
             </Typography>
@@ -291,7 +291,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="3"
+                name="rating-3"
               />{' '}
               3 Stars & Above
             </Typography>
@@ -302,7 +302,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="2"
+                name="rating-2"
               />{' '}
               2 Stars & Above
             </Typography>
@@ -313,7 +313,7 @@ class Filter extends React.Component {
                 type="checkbox"
                 defaultChecked={false}
                 onChange={onChange}
-                name="1"
+                name="rating-1"
               />{' '}
               1 Star & Above
             </Typography>
