@@ -58,12 +58,23 @@ const Product = db.define('product', {
     allowNull: false,
     defaultValue: 0,
   },
+  reviewCount: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
 });
 
 Product.addHook('beforeCreate', async (hat) => {
   try {
     if (!hat.photo) {
-      const url = path.join(__dirname, '..', '..', '..', 'public', 'defaulthat.jpeg');
+      const url = path.join(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        'public',
+        'defaulthat.jpeg'
+      );
       hat.photo = url;
     }
   } catch (err) {
@@ -74,9 +85,10 @@ Product.addHook('beforeCreate', async (hat) => {
 Product.addHook('beforeSave', async (hat) => {
   try {
     const reviews = await hat.getReviews();
-    const avgRating = reviews.reduce((accum, review) => {
-      return accum + review.stars;
-    }, 0) / reviews.length;
+    const avgRating =
+      reviews.reduce((accum, review) => {
+        return accum + review.stars;
+      }, 0) / reviews.length;
     if (avgRating) {
       hat.rating = avgRating;
     }

@@ -15,7 +15,7 @@ const SortProducts = (props) => {
       {/* <option value="most-reviewed">Most Reviewed</option>
       <option value="higest-rating">Higest Rating</option> */}
       <option value="higest-rating">Highest Rating</option>
-      <option value="mosted-reviewed">Most Reviewed</option>
+      <option value="most-reviewed">Most Reviewed</option>
       <option value="default" disabled>
         Sort by...
       </option>

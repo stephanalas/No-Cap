@@ -22,7 +22,10 @@ const Review = db.define('review', {
 
 Review.addHook('afterCreate', async (review) => {
   const product = await Product.findByPk(review.productId);
-  if (product) product.save();
+  if (product) {
+    product.increment('reviewCount', { by: 1 });
+    product.save();
+  }
 });
 
 module.exports = Review;

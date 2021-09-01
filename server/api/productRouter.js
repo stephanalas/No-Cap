@@ -3,7 +3,6 @@ const requireToken = require('../requireToken');
 const {
   models: { Product, Review, User },
 } = require('../db/models/associations');
-const { db } = require('../db');
 const productRouter = express.Router();
 
 productRouter.get('/', requireToken, async (req, res, next) => {
@@ -103,19 +102,24 @@ productRouter.post('/sorted', async (req, res, next) => {
     let column = sortBy.slice(index + 1);
     const sort = sortBy.slice(0, index);
     let products;
-    if (column !== 'reviewed') {
-      if (sort === 'highest') {
-        products = await Product.findAll({
-          order: [['price', 'DESC']],
-        });
-        return res.send(products);
-      } else {
-        products = await Product.findAll({
-          order: [['price', 'ASC']],
-        });
-        return res.send(products);
-      }
+    let order;
+    console.log(column);
+    console.log(sort);
+    if (sort === 'highest' && column === 'rating') {
+      order = [['rating', 'DESC']];
+    } else if (sort === 'highest' && column === 'price') {
+      order = [['price', 'DESC']];
+    } else if (sort === 'lowest' && column === 'price') {
+      order = [['price', 'ASC']];
+    } else if (sort === 'most') {
+      order = [['reviewCount', 'DESC']];
     }
+    res.send(
+      await Product.findAll({
+        order,
+        include: [Review],
+      })
+    );
   } catch (error) {
     console.log(error);
   }
