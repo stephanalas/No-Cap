@@ -4,12 +4,9 @@ import { getProducts } from '../store/storeComponents/getProducts';
 import { getUser } from '../store/storeComponents/getUser';
 import ProductCard from './ProductCard';
 import './styles/AllProducts.css';
-import productFilter from './utils/productFilter';
-import setFilters from './utils/setFilters';
 import clearCheckboxes from './utils/clearCheckboxes';
 import Filter from './Filter';
 import SortProducts from './SortProducts';
-import { InputLabel } from '@material-ui/core';
 import axios from 'axios';
 
 class AllProducts extends React.Component {
@@ -53,7 +50,6 @@ class AllProducts extends React.Component {
     const optionCategory = ev.target.name.slice(0, index);
     let option = ev.target.name.slice(index + 1);
     const filterOptions = this.state.filterOptions;
-    console.log(filterOptions);
     const getPriceRange = (targetName) => {
       return targetName
         .slice(index + 1)
@@ -116,7 +112,10 @@ class AllProducts extends React.Component {
   async handleClick(ev) {
     try {
       const filterOptions = this.state.filterOptions;
-      await axios.get('/api/products/filtered');
+      const response = await axios.post('/api/products/filtered', {
+        filterOptions,
+      });
+      this.setState({ filteredProducts: response.data });
     } catch (error) {
       console.log(error);
     }

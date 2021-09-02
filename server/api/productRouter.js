@@ -3,6 +3,7 @@ const requireToken = require('../requireToken');
 const {
   models: { Product, Review, User },
 } = require('../db/models/associations');
+const { Op } = require('sequelize');
 const productRouter = express.Router();
 
 productRouter.get('/', requireToken, async (req, res, next) => {
@@ -122,8 +123,38 @@ productRouter.post('/sorted', async (req, res, next) => {
     );
   } catch (error) {
     console.log(error);
+    next(error);
   }
 });
-productRouter.get('/filtered', (req, res, next) => {});
+productRouter.post('/filtered', async (req, res, next) => {
+  try {
+    const { filterOptions } = req.body;
+    console.log(req.body);
+    const queryParams = {};
+    for (const key in filterOptions) {
+      if (filterOptions[key].length) {
+        if (key === 'category' || key === 'color') {
+          queryParams[key] = {
+            [Op.in]: filterOptions[key],
+          };
+        } else if (key === 'rating') {
+          queryParams[key] = {
+            [Op.gte]: Math.min(...filterOptions[key]),
+          };
+        }
+      }
+
+      // the columns would represent the keys in the object. using Op check to see if attribute is in array or less than or equal to rating. must be a conditional
+    }
+    console.log(queryParams);
+    const products = await Product.findAll({
+      where: queryParams,
+    });
+    console.log(products);
+    res.send(products);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = productRouter;
